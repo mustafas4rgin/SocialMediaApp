@@ -1,6 +1,6 @@
 namespace SocialApp.Domain.Entities;
 
-public class PostBrutal : EntityBase
+public sealed class PostBrutal : EntityBase
 {
     public string File { get; set; } = string.Empty;
     public int PostId { get; set; }

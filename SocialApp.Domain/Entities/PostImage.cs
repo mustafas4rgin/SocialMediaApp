@@ -1,6 +1,6 @@
 namespace SocialApp.Domain.Entities;
 
-public class PostImage : EntityBase
+public sealed class PostImage : EntityBase
 {
     public string File { get; set; } = string.Empty;
     public int PostId { get; set; }

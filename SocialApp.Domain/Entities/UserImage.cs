@@ -1,6 +1,6 @@
 namespace SocialApp.Domain.Entities;
 
-public class UserImage : EntityBase
+public sealed class UserImage : EntityBase
 {
     public int UserId { get; set; }
     public string File { get; set; } = string.Empty;

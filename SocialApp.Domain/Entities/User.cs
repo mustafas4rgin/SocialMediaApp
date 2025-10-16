@@ -10,8 +10,10 @@ public class User : EntityBase
     public byte[] PasswordSalt { get; set; } = null!;
     //Navigation properties
     public Role Role { get; set; } = null!;
+    public ICollection<Comment> Comments { get; set; } = null!;
     public ICollection<UserImage> UserImages { get; set; } = null!;
     public ICollection<Post>? Posts { get; set; }
     public ICollection<Follow> Followers { get; set; } = null!;
     public ICollection<Follow> Followings { get; set; } = null!;
+    public ICollection<Like>? Likes { get; set; }
 }
