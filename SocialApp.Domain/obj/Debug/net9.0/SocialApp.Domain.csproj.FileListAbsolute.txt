@@ -1,0 +1,12 @@
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\bin\Debug\net9.0\SocialApp.Domain.deps.json
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\bin\Debug\net9.0\SocialApp.Domain.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\bin\Debug\net9.0\SocialApp.Domain.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.AssemblyInfoInputs.cache
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.AssemblyInfo.cs
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.sourcelink.json
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\refint\SocialApp.Domain.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\SocialApp.Domain.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Domain\obj\Debug\net9.0\ref\SocialApp.Domain.dll
