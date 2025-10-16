@@ -20,12 +20,12 @@ public sealed class FollowConfiguration : BaseEntityConfiguration<Follow>
 
         builder.HasOne(f => f.Follower)
          .WithMany(u => u.Followings)
-         .HasForeignKey(f => f.FollowingId)
+         .HasForeignKey(f => f.FollowerId)
          .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(f => f.Following)
          .WithMany(u => u.Followers)
-         .HasForeignKey(f => f.FollowerId)
+         .HasForeignKey(f => f.FollowingId)
          .OnDelete(DeleteBehavior.Restrict);
     }
 }
