@@ -1,0 +1,12 @@
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.deps.json
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.AssemblyInfoInputs.cache
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.AssemblyInfo.cs
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.csproj.CoreCompileInputs.cache
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.sourcelink.json
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\refint\SocialAPp.Application.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\ref\SocialAPp.Application.dll
