@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2NM/PtjwXoI=",
+  "dgSpecHash": "jpRbZYsinIo=",
   "success": true,
   "projectFilePath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.API\\SocialApp.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Gaming\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
+    "C:\\Users\\Gaming\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.0.0\\fluentvalidation.dependencyinjectionextensions.12.0.0.nupkg.sha512",
     "C:\\Users\\Gaming\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.10\\microsoft.aspnetcore.openapi.9.0.10.nupkg.sha512",
     "C:\\Users\\Gaming\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.10\\microsoft.entityframeworkcore.9.0.10.nupkg.sha512",
     "C:\\Users\\Gaming\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.10\\microsoft.entityframeworkcore.abstractions.9.0.10.nupkg.sha512",

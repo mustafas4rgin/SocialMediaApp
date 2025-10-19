@@ -1,3 +1,4 @@
+using SocialApp.Application.Registrations;
 using SocialApp.Data.Registrations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddBusinessService();
 
 var app = builder.Build();
 

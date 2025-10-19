@@ -3,9 +3,9 @@ using SocialApp.Domain.DTOs.Create;
 
 namespace SocialApp.Application.Validators.DTO.Create;
 
-public class CreatePostImageValidator : AbstractValidator<CreatePostImageDTO>
+public class CreatePostImageDTOValidator : AbstractValidator<CreatePostImageDTO>
 {
-    public CreatePostImageValidator()
+    public CreatePostImageDTOValidator()
     {
         RuleFor(cpi => cpi.PostId)
             .NotNull()
