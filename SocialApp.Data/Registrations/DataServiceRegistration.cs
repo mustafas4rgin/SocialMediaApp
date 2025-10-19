@@ -16,7 +16,7 @@ public static class DataServiceRegistration
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
 
-        services.AddTransient<IGenericRepository,GenericRepository>();
+        RepositoryRegistrationProvider.RegisterRepositories(services);
 
         return services;
     }
