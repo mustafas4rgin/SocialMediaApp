@@ -30,20 +30,5 @@ public sealed class UserValidator : AbstractValidator<User>
         RuleFor(x => x.PasswordSalt)
             .NotNull().WithMessage("Password salt cannot be null.")
             .Must(s => s.Length > 0).WithMessage("Password salt cannot be empty.");
-
-        RuleFor(x => x.Role)
-            .NotNull().WithMessage("User role cannot be null.");
-
-        RuleFor(x => x.Comments)
-            .NotNull().WithMessage("Comments collection cannot be null.");
-
-        RuleFor(x => x.UserImages)
-            .NotNull().WithMessage("User images collection cannot be null.");
-
-        RuleFor(x => x.Followers)
-            .NotNull().WithMessage("Followers collection cannot be null.");
-
-        RuleFor(x => x.Followings)
-            .NotNull().WithMessage("Followings collection cannot be null.");
     }
 }
