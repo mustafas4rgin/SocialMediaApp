@@ -333,6 +333,7 @@
         "dependencies": {
           "FluentValidation": "12.0.0",
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
+          "Microsoft.EntityFrameworkCore": "9.0.10",
           "SocialApp.Domain": "1.0.0"
         },
         "compile": {
@@ -866,19 +867,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gaming\\.nuget\\packages\\": {}
+    "/Users/s4rgin/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.API\\SocialApp.API.csproj",
+      "projectUniqueName": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/SocialApp.API.csproj",
       "projectName": "SocialApp.API",
-      "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.API\\SocialApp.API.csproj",
-      "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.API\\obj\\",
+      "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/SocialApp.API.csproj",
+      "packagesPath": "/Users/s4rgin/.nuget/packages/",
+      "outputPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/s4rgin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -890,11 +891,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Application\\SocialAPp.Application.csproj": {
-              "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Application\\SocialAPp.Application.csproj"
+            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj": {
+              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj"
             },
-            "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Data\\SocialApp.Data.csproj": {
-              "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Data\\SocialApp.Data.csproj"
+            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj": {
+              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj"
             }
           }
         }
@@ -909,7 +910,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -939,7 +940,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
