@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj": {}
+    "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj": {}
   },
   "projects": {
-    "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj": {
+    "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj",
         "projectName": "SocialApp.Domain",
-        "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj",
-        "packagesPath": "/Users/s4rgin/.nuget/packages/",
-        "outputPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/obj/",
+        "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj",
+        "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/s4rgin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using SocialApp.Application.Providers.Service;
 
 namespace SocialApp.Application.Registrations;
 
@@ -8,6 +10,8 @@ public static class BusinessServiceRegistration
     {
         services.ValidatorAssembler();
 
+        ServiceRegistrationProvider.RegisterServices(services);
+        
         return services;
     }
 }

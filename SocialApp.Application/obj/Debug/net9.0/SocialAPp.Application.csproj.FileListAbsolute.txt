@@ -1,6 +1,9 @@
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.deps.json
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.dll
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialAPp.Application.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialApp.Domain.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\bin\Debug\net9.0\SocialApp.Domain.pdb
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.csproj.AssemblyReference.cache
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.AssemblyInfoInputs.cache
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.AssemblyInfo.cs
@@ -10,3 +13,4 @@ C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\refint\SocialAPp.Application.dll
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAPp.Application.pdb
 C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\ref\SocialAPp.Application.dll
+C:\Users\Gaming\Desktop\Projects\SocialMediaApp\SocialApp.Application\obj\Debug\net9.0\SocialAp.561BBA0B.Up2Date

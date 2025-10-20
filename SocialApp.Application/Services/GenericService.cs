@@ -35,63 +35,68 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
     }
     public async Task<IServiceResult> AddAsync(T entity)
+{
+    try
     {
-        try
-        {
-            var validationResult = await _validator.ValidateAsync(entity);
+        var validationResult = await _validator.ValidateAsync(entity);
 
-            if (validationResult.Errors != null)
-                return new ErrorResult(string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage)));
+        if (!validationResult.IsValid)
+            return new ErrorResult(string.Join(" | ",
+                validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
+        await _repository.AddAsync(entity);
+        await _repository.SaveChangesAsync();
 
-            return new SuccessResult("Entity added successfully.");
-        }
-        catch (Exception ex)
-        {
-            return new ErrorResult(ex.Message);
-        }
+        return new SuccessResult("Entity added successfully.");
     }
-    public async Task<IServiceResult> UpdateAsync(T entity)
+    catch (Exception ex)
     {
-        try
-        {
-            var validationResult = await _validator.ValidateAsync(entity);
-
-            if (validationResult.Errors != null)
-                return new ErrorResult(string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage)));
-
-            await _repository.UpdateAsync(entity);
-            await _repository.SaveChangesAsync();
-
-            return new SuccessResult("Entity updated successfully.");
-
-        }
-        catch (Exception ex)
-        {
-            return new ErrorResult(ex.Message);
-        }
+        return new ErrorResult(ex.Message);
     }
-    public async Task<IServiceResult> DeleteAsync(T entity)
+}
+
+public async Task<IServiceResult> UpdateAsync(T entity)
+{
+    try
     {
-        try
-        {
-            var validationResult = await _validator.ValidateAsync(entity);
+        var validationResult = await _validator.ValidateAsync(entity);
 
-            if (validationResult.Errors != null)
-                return new ErrorResult(string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage)));
+        if (!validationResult.IsValid)
+            return new ErrorResult(string.Join(" | ",
+                validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            _repository.Delete(entity);
-            await _repository.SaveChangesAsync();
+        await _repository.UpdateAsync(entity);
+        await _repository.SaveChangesAsync();
 
-            return new SuccessResult("Entity deleted successfully.");
-        }
-        catch (Exception ex)
-        {
-            return new ErrorResult(ex.Message);
-        }
+        return new SuccessResult("Entity updated successfully.");
     }
+    catch (Exception ex)
+    {
+        return new ErrorResult(ex.Message);
+    }
+}
+
+public async Task<IServiceResult> DeleteAsync(T entity)
+{
+    try
+    {
+        var validationResult = await _validator.ValidateAsync(entity);
+
+        if (!validationResult.IsValid) 
+            return new ErrorResult(string.Join(" | ",
+                validationResult.Errors.Select(e => e.ErrorMessage)));
+
+        _repository.Delete(entity);
+        await _repository.SaveChangesAsync();
+
+        return new SuccessResult("Entity deleted successfully.");
+    }
+    catch (Exception ex)
+    {
+        return new ErrorResult(ex.Message);
+    }
+}
+
     public async Task<IServiceResultWithData<T>> GetByIdAsync(int id)
     {
         try

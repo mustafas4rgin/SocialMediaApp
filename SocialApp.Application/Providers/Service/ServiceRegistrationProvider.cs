@@ -4,7 +4,7 @@ using SocialApp.Application.Services;
 
 namespace SocialApp.Application.Providers.Service;
 
-public class ServiceRegistrationProbider
+public class ServiceRegistrationProvider
 {
     public static void RegisterServices(IServiceCollection services)
     {
