@@ -8,6 +8,7 @@ using SocialApp.Application.Validators.DTO.Update;
 using SocialApp.Domain.DTOs.Create;
 using SocialApp.Domain.DTOs.Update;
 using SocialApp.Domain.Entities;
+using SocialApp.Domain.Parameters;
 
 namespace SocialApp.API.Controllers
 {
@@ -18,18 +19,50 @@ namespace SocialApp.API.Controllers
         private readonly IValidator<CreateRoleDTO> _createRoleValidator;
         private readonly IValidator<UpdateRoleDTO> _updateRoleValidator;
         private readonly IMapper _mapper;
-        private readonly IGenericService<Role> _genericService;
+        private readonly IRoleService _roleService;
         public RoleController(
         IValidator<CreateRoleDTO> createRoleValidator,
         IValidator<UpdateRoleDTO> updateRoleValidator,
         IMapper mapper,
-        IGenericService<Role> genericService
-        ) : base(createRoleValidator, updateRoleValidator, genericService, mapper)
+        IRoleService roleService
+        ) : base(createRoleValidator, updateRoleValidator, roleService, mapper)
         {
             _createRoleValidator = createRoleValidator;
             _updateRoleValidator = updateRoleValidator;
             _mapper = mapper;
-            _genericService = genericService;
+            _roleService = roleService;
+        }
+        [HttpGet("with-includes")]
+        public async Task<IActionResult> GetAllWithIncludesAsync([FromQuery] QueryParameters param, CancellationToken ct)
+        {
+            var result = await _roleService.GetRolesWithIncludesAsync(param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var roles = result.Data;
+
+            var dto = _mapper.Map<IEnumerable<RoleDTO>>(roles);
+
+            return Ok(dto);
+        }
+        [HttpGet("{id:int}/with-includes")]
+        public async Task<IActionResult> GetByIdWithIncludesAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct)
+        {
+            var result = await _roleService.GetRoleByIdWithIncludesAsync(id, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var role = result.Data;
+
+            var dto = _mapper.Map<RoleDTO>(role);
+
+            return Ok(dto);
         }
     }
 }

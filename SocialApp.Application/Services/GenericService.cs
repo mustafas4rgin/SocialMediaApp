@@ -17,7 +17,25 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         _validator = validator;
         _repository = repository;
     }
-    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync()
+    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllActiveAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            var activeEntities = await _repository.GetAllActive()
+                                    .ToListAsync();
+
+            if (!activeEntities.Any())
+                return new ErrorResultWithData<IEnumerable<T>>("There is no active data.");
+
+            return new SuccessResultWithData<IEnumerable<T>>("Active data found.", activeEntities);
+        }
+        catch (Exception ex)
+        {
+            //log
+            return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
+        }
+    }
+    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default)
     {
         try
         {
@@ -34,70 +52,118 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
         }
     }
-    public async Task<IServiceResult> AddAsync(T entity)
-{
-    try
+    public async Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default)
     {
-        var validationResult = await _validator.ValidateAsync(entity);
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(entity);
 
-        if (!validationResult.IsValid)
-            return new ErrorResult(string.Join(" | ",
-                validationResult.Errors.Select(e => e.ErrorMessage)));
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
 
-        await _repository.AddAsync(entity);
-        await _repository.SaveChangesAsync();
+            await _repository.AddAsync(entity);
+            await _repository.SaveChangesAsync();
 
-        return new SuccessResult("Entity added successfully.");
+            return new SuccessResult("Entity added successfully.");
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResult(ex.Message);
+        }
     }
-    catch (Exception ex)
+
+    public async Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default)
     {
-        return new ErrorResult(ex.Message);
-    }
-}
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(entity);
 
-public async Task<IServiceResult> UpdateAsync(T entity)
-{
-    try
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
+
+            await _repository.UpdateAsync(entity);
+            await _repository.SaveChangesAsync();
+
+            return new SuccessResult("Entity updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResult(ex.Message);
+        }
+    }
+    public async Task<IServiceResult> SoftDeleteAsync(T entity, CancellationToken ct = default)
     {
-        var validationResult = await _validator.ValidateAsync(entity);
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(entity);
 
-        if (!validationResult.IsValid)
-            return new ErrorResult(string.Join(" | ",
-                validationResult.Errors.Select(e => e.ErrorMessage)));
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
 
-        await _repository.UpdateAsync(entity);
-        await _repository.SaveChangesAsync();
+            _repository.SoftDelete(entity);
+            await _repository.SaveChangesAsync();
 
-        return new SuccessResult("Entity updated successfully.");
+            return new SuccessResult("Entity deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            //log
+            return new ErrorResult(ex.Message);
+        }
     }
-    catch (Exception ex)
+    public async Task<IServiceResult> DeleteAsync(T entity, CancellationToken ct = default)
     {
-        return new ErrorResult(ex.Message);
-    }
-}
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(entity);
 
-public async Task<IServiceResult> DeleteAsync(T entity)
-{
-    try
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
+
+            if (entity.IsDeleted)
+                return new ErrorResult("Entity already deleted.");
+                
+            _repository.Delete(entity);
+            await _repository.SaveChangesAsync();
+
+            return new SuccessResult("Entity deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            return new ErrorResult(ex.Message);
+        }
+    }
+
+    public async Task<IServiceResult> RestoreAsync(T entity, CancellationToken ct = default)
     {
-        var validationResult = await _validator.ValidateAsync(entity);
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(entity);
 
-        if (!validationResult.IsValid) 
-            return new ErrorResult(string.Join(" | ",
-                validationResult.Errors.Select(e => e.ErrorMessage)));
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
 
-        _repository.Delete(entity);
-        await _repository.SaveChangesAsync();
+            if (!entity.IsDeleted)
+                return new ErrorResult("Entity is not currently deleted.");
 
-        return new SuccessResult("Entity deleted successfully.");
+            _repository.Restore(entity);
+            await _repository.SaveChangesAsync();
+
+            return new SuccessResult("Entity restoerd successfully.");
+        }
+        catch(Exception ex)
+        {
+            //log
+            return new ErrorResult(ex.Message);
+        }
     }
-    catch (Exception ex)
-    {
-        return new ErrorResult(ex.Message);
-    }
-}
 
-    public async Task<IServiceResultWithData<T>> GetByIdAsync(int id)
+    public async Task<IServiceResultWithData<T>> GetByIdAsync(int id, CancellationToken ct = default)
     {
         try
         {
@@ -110,6 +176,23 @@ public async Task<IServiceResult> DeleteAsync(T entity)
         }
         catch (Exception ex)
         {
+            return new ErrorResultWithData<T>(ex.Message);
+        }
+    }
+    public async Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default)
+    {
+        try
+        {
+            var entity = await _repository.GetActiveByIdAsync(id);
+
+            if (entity is null)
+                return new ErrorResultWithData<T>($"There is no active entity with ID : {id}");
+
+            return new SuccessResultWithData<T>("Active entity found.", entity);
+        }
+        catch (Exception ex)
+        {
+            //log
             return new ErrorResultWithData<T>(ex.Message);
         }
     }

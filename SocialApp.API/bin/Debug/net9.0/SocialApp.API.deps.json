@@ -421,7 +421,7 @@
         },
         "runtime": {
           "SocialApp.Application.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -435,7 +435,7 @@
         },
         "runtime": {
           "SocialApp.Data.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -443,7 +443,7 @@
       "SocialApp.Domain/1.0.0": {
         "runtime": {
           "SocialApp.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }

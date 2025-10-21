@@ -33,9 +33,9 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync(CancellationToken ct)
         {
-            var result = await _service.GetAllAsync();
+            var result = await _service.GetAllAsync(ct);
 
             var errorResponse = HandleServiceResult(result);
 
@@ -49,7 +49,7 @@ namespace SocialApp.API.Controllers
             return Ok(dtoList);
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromBody] TCreateDto dto)
+        public async Task<IActionResult> AddAsync([FromBody] TCreateDto dto, CancellationToken ct)
         {
             var validationResult = await _createValidator.ValidateAsync(dto);
 
@@ -58,7 +58,7 @@ namespace SocialApp.API.Controllers
 
             var entity = _mapper.Map<T>(dto);
 
-            var addingResult = await _service.AddAsync(entity);
+            var addingResult = await _service.AddAsync(entity, ct);
 
             var errorResponse = HandleServiceResult(addingResult);
 
@@ -67,10 +67,10 @@ namespace SocialApp.API.Controllers
 
             return Ok(addingResult.Message);
         }
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        [HttpGet("{id:int}/getbyid")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id, CancellationToken ct)
         {
-            var result = await _service.GetByIdAsync(id);
+            var result = await _service.GetByIdAsync(id, ct);
 
             var errorResponse = HandleServiceResult(result);
 
@@ -83,10 +83,10 @@ namespace SocialApp.API.Controllers
 
             return Ok(dto);
         }
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] TUpdateDto dto)
+        [HttpPut("{id:int}/update")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] TUpdateDto dto, CancellationToken ct)
         {
-            var existingEntityResponse = await _service.GetByIdAsync(id);
+            var existingEntityResponse = await _service.GetByIdAsync(id, ct);
 
             var existingEntityErrorResponse = HandleServiceResult(existingEntityResponse);
 
@@ -102,7 +102,7 @@ namespace SocialApp.API.Controllers
 
             _mapper.Map(dto, existingEntity);
 
-            var updateEntityResult = await _service.UpdateAsync(existingEntity);
+            var updateEntityResult = await _service.UpdateAsync(existingEntity, ct);
 
             var updateEntityErrorResult = HandleServiceResult(updateEntityResult);
 
@@ -111,10 +111,10 @@ namespace SocialApp.API.Controllers
 
             return Ok(updateEntityResult.Message);
         }
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]int id)
+        [HttpDelete("{id:int}/delete")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id, CancellationToken ct)
         {
-            var existingEntityResult = await _service.GetByIdAsync(id);
+            var existingEntityResult = await _service.GetByIdAsync(id, ct);
 
             var existingEntityErrorResult = HandleServiceResult(existingEntityResult);
 
@@ -131,6 +131,48 @@ namespace SocialApp.API.Controllers
                 return deleteErrorResult;
 
             return Ok(deleteResult.Message);
+        }
+        [HttpPut("{id:int}/restore")]
+        public async Task<IActionResult> RestoreAsync([FromRoute] int id, CancellationToken ct)
+        {
+            var deletedEntityResult = await _service.GetByIdAsync(id, ct);
+
+            var deletedEntityErrorResult = HandleServiceResult(deletedEntityResult);
+
+            if (deletedEntityErrorResult != null)
+                return deletedEntityErrorResult;
+
+            var entity = deletedEntityResult.Data;
+
+            var entityRestoreResult = await _service.RestoreAsync(entity, ct);
+
+            var entityRestoreErrorResult = HandleServiceResult(entityRestoreResult);
+
+            if (entityRestoreErrorResult != null)
+                return entityRestoreErrorResult;
+
+            return Ok(entityRestoreResult.Message);
+        }
+        [HttpDelete("{id:int}/soft-delete")]
+        public async Task<IActionResult> SoftDeleteAsync([FromRoute]int id, CancellationToken ct)
+        {
+            var existingEntityResult = await _service.GetActiveByIdAsync(id, ct);
+
+            var existingEntityErrorResult = HandleServiceResult(existingEntityResult);
+
+            if (existingEntityErrorResult != null)
+                return existingEntityErrorResult;
+
+            var entity = existingEntityResult.Data;
+
+            var entitySoftDeleteResult = await _service.SoftDeleteAsync(entity, ct);
+
+            var entitySoftDeleteErrorResult = HandleServiceResult(entitySoftDeleteResult);
+
+            if (entitySoftDeleteErrorResult != null)
+                return entitySoftDeleteErrorResult;
+
+            return Ok(entitySoftDeleteResult.Message);
         }
     }
 }

@@ -11,6 +11,7 @@ public class RepositoryRegistrationProvider
         var servicesToRegister = new (Type Interface, Type Implementation)[]
         {
             (typeof(IGenericRepository<>),typeof(GenericRepository<>)),
+            (typeof(IRoleRepository),typeof(RoleRepository))
         };
         foreach (var service in servicesToRegister)
         {

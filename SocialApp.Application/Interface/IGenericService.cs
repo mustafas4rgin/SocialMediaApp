@@ -6,9 +6,13 @@ namespace SocialApp.Application.Interfaces;
 public interface IGenericService<T> 
 where T : EntityBase
 {
-    Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync();
-    Task<IServiceResult> AddAsync(T entity);
-    Task<IServiceResultWithData<T>> GetByIdAsync(int id);
-    Task<IServiceResult> UpdateAsync(T entity);
-    Task<IServiceResult> DeleteAsync(T entity);
+    Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default);
+    Task<IServiceResultWithData<IEnumerable<T>>> GetAllActiveAsync(CancellationToken ct = default);
+    Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResultWithData<T>> GetByIdAsync(int id, CancellationToken ct = default);
+    Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default);
+    Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResult> DeleteAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResult> SoftDeleteAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResult> RestoreAsync(T entity, CancellationToken ct = default);
 }

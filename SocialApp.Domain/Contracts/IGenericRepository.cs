@@ -5,7 +5,9 @@ namespace SocialApp.Domain.Contracts;
 public interface IGenericRepository<T>  where T : EntityBase
 {
     IQueryable<T> GetAll();
+    IQueryable<T> GetAllActive();
     Task<T?> GetByIdAsync(int id);
+    Task<T?> GetActiveByIdAsync(int id);
     Task<T?> UpdateAsync(T Entity);
     Task<T?> AddAsync(T entity);
     void Delete(T entity);

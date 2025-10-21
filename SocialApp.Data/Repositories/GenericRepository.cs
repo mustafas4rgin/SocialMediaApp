@@ -1,4 +1,5 @@
 using System.Data.Common;
+using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
@@ -12,46 +13,32 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     {
         _context = context;
     }
-    public IQueryable<T> GetAll()
-    {
-        return _context.Set<T>();
-    }
+    public IQueryable<T> GetAll() => _context.Set<T>().AsNoTracking();
+    public IQueryable<T> GetAllActive()
+        => _context.Set<T>().AsNoTracking().Where(e => !e.IsDeleted);
+    public async Task<T?> GetActiveByIdAsync(int id)
+    => await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+
     public async Task<T?> GetByIdAsync(int id)
-    {
-        var entity = await _context.Set<T>().FindAsync(id);
-
-        if (entity is null)
-            return null;
-
-        return entity;
-    }
+        => await _context.Set<T>().FindAsync(id);
     public async Task<T?> AddAsync(T entity)
     {
+        if (entity is null) return null;
         entity.Id = default;
-
-        if (entity is null)
-            return null;
-
-        await _context.Set<T>().AddAsync(entity);
         entity.CreatedAt = DateTime.UtcNow;
-
+        await _context.Set<T>().AddAsync(entity);
         return entity;
     }
     public async Task<T?> UpdateAsync(T entity)
     {
-        if (entity.Id == default)
-            return null;
+        if (entity is null || entity.Id == default) return null;
 
         var dbEntity = await _context.Set<T>().FindAsync(entity.Id);
+        if (dbEntity is null) return null;
 
-        if (dbEntity is null)
-            return null;
-
-        entity.UpdatedAt = DateTime.UtcNow;
-
-        _context.Update(entity);
-
-        return entity;
+        _context.Entry(dbEntity).CurrentValues.SetValues(entity);
+        dbEntity.UpdatedAt = DateTime.UtcNow;
+        return dbEntity;
     }
     public void Delete(T entity)
     {
@@ -62,19 +49,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     }
     public void SoftDelete(T entity)
     {
-        if (entity is null)
-            return;
-
+        if (entity is null) return;
         entity.IsDeleted = true;
-        _context.Update(entity);
+        entity.UpdatedAt = DateTime.UtcNow;
+
+        _context.Attach(entity);
+        _context.Entry(entity).Property(x => x.IsDeleted).IsModified = true;
+        _context.Entry(entity).Property(x => x.UpdatedAt).IsModified = true;
     }
     public void Restore(T entity)
     {
-        if (entity is null)
-            return;
-
+        if (entity is null) return;
         entity.IsDeleted = false;
-        _context.Update(entity);
+        entity.UpdatedAt = DateTime.UtcNow;
+
+        _context.Attach(entity);
+        _context.Entry(entity).Property(x => x.IsDeleted).IsModified = true;
+        _context.Entry(entity).Property(x => x.UpdatedAt).IsModified = true;
     }
     public async Task SaveChangesAsync()
     {

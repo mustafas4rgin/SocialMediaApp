@@ -1,0 +1,76 @@
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using SocialApp.Application.Helpers;
+using SocialApp.Application.Interfaces;
+using SocialApp.Domain.Contracts;
+using SocialApp.Domain.Entities;
+using SocialApp.Domain.Parameters;
+using SocialApp.Domain.Results.Error;
+using SocialApp.Domain.Results.Success;
+
+namespace SocialApp.Application.Services;
+
+public class RoleService : GenericService<Role>, IRoleService
+{
+    private readonly IValidator<Role> _validator;
+    private readonly IRoleRepository _roleRepository;
+    public RoleService(
+    IValidator<Role> validator,
+    IRoleRepository roleRepository
+    ) : base(validator, roleRepository)
+    {
+        _validator = validator;
+        _roleRepository = roleRepository;
+    }
+    public async Task<IServiceResultWithData<IEnumerable<Role>>> GetRolesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var query = _roleRepository.GetAllActive();
+
+            if (!string.IsNullOrEmpty(param.Include))
+                query = QueryHelper.ApplyIncludesForRole(query, param.Include);
+
+            if (!string.IsNullOrEmpty(param.Search))
+            {
+                var s = param.Search.ToLowerInvariant();
+                query = query.Where(r => r.Name.ToLower().Contains(s));
+            }
+
+            var roles = await query.ToListAsync();
+
+            if (!roles.Any())
+                return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.");
+
+            return new SuccessResultWithData<IEnumerable<Role>>("Roles found.", roles);
+        }
+        catch (Exception ex)
+        {
+            //log
+            return new ErrorResultWithData<IEnumerable<Role>>(ex.Message);
+        }
+    }
+    public async Task<IServiceResultWithData<Role>> GetRoleByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var query = _roleRepository.GetAllActive();
+
+            if (!string.IsNullOrEmpty(param.Include))
+                query = QueryHelper.ApplyIncludesForRole(query, param.Include);
+
+            var role = await query.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (role is null)
+                return new ErrorResultWithData<Role>($"There is no role with ID : {id}");
+
+            return new SuccessResultWithData<Role>("Role found", role);
+        }
+        catch (Exception ex)
+        {
+            //log
+            return new ErrorResultWithData<Role>(ex.Message);
+        }
+    }
+}
