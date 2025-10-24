@@ -61,3 +61,4 @@ SocialApp.Domain.DTOs.Create.CreateCommentDTO -> SocialApp.Domain.Entities.Comme
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
 2025-10-24 09:57:27.701 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Comment/Add - 500 null text/plain; charset=utf-8 43.0337ms
+2025-10-24 10:08:36.244 +03:00 [INF] Application is shutting down...
