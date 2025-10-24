@@ -137,3 +137,5 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.genruntimeconfig.cache
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/ref/SocialApp.API.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Environment.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Thread.dll

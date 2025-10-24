@@ -1,6 +1,6 @@
 using AutoMapper;
-using SocialApp.API.DTOs.List;
 using SocialApp.Domain.DTOs.Create;
+using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.DTOs.Update;
 using SocialApp.Domain.Entities;
 

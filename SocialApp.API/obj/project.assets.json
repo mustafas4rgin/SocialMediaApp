@@ -709,7 +709,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "SocialAPp.Application/1.0.0": {
+      "SocialApp.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
@@ -725,10 +725,10 @@
           "SocialApp.Domain": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/SocialAPp.Application.dll": {}
+          "bin/placeholder/SocialApp.Application.dll": {}
         },
         "runtime": {
-          "bin/placeholder/SocialAPp.Application.dll": {}
+          "bin/placeholder/SocialApp.Application.dll": {}
         }
       },
       "SocialApp.Data/1.0.0": {
@@ -1979,10 +1979,10 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "SocialAPp.Application/1.0.0": {
+    "SocialApp.Application/1.0.0": {
       "type": "project",
-      "path": "../SocialApp.Application/SocialAPp.Application.csproj",
-      "msbuildProject": "../SocialApp.Application/SocialAPp.Application.csproj"
+      "path": "../SocialApp.Application/SocialApp.Application.csproj",
+      "msbuildProject": "../SocialApp.Application/SocialApp.Application.csproj"
     },
     "SocialApp.Data/1.0.0": {
       "type": "project",
@@ -2001,7 +2001,7 @@
       "Microsoft.AspNetCore.OpenApi >= 9.0.10",
       "Serilog.AspNetCore >= 9.0.0",
       "Serilog.Sinks.File >= 7.0.0",
-      "SocialAPp.Application >= 1.0.0",
+      "SocialApp.Application >= 1.0.0",
       "SocialApp.Data >= 1.0.0",
       "Swashbuckle.AspNetCore >= 9.0.6"
     ]
@@ -2031,8 +2031,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj": {
-              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj"
+            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj": {
+              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj"
             },
             "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj": {
               "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj"

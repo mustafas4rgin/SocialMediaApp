@@ -1,4 +1,4 @@
-namespace SocialApp.API.DTOs.List;
+namespace SocialApp.Domain.DTOs.List;
 
 public class RoleDTO
 {

@@ -17,6 +17,8 @@ public static class QueryHelper
             switch (inc)
             {
                 case "users": query.Include(r => r.Users); break;
+                case "all": query
+                                .Include(r => r.Users);break;
             }
         }
 

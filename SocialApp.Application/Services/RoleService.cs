@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
@@ -23,6 +24,7 @@ public class RoleService : GenericService<Role>, IRoleService
     ILogger<RoleService> logger
     ) : base(validator, roleRepository, logger)
     {
+        _logger = logger;
         _validator = validator;
         _roleRepository = roleRepository;
     }
