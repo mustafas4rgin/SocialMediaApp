@@ -10,6 +10,8 @@ public static class BusinessServiceRegistration
     {
         services.ValidatorAssembler();
 
+        LoggerServiceRegistration.SeriLogConfiguration();
+
         ServiceRegistrationProvider.RegisterServices(services);
         
         return services;

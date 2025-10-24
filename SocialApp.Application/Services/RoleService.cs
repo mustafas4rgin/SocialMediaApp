@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Logging;
 using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
@@ -15,10 +16,12 @@ public class RoleService : GenericService<Role>, IRoleService
 {
     private readonly IValidator<Role> _validator;
     private readonly IRoleRepository _roleRepository;
+    private readonly ILogger<RoleService> _logger;
     public RoleService(
     IValidator<Role> validator,
-    IRoleRepository roleRepository
-    ) : base(validator, roleRepository)
+    IRoleRepository roleRepository,
+    ILogger<RoleService> logger
+    ) : base(validator, roleRepository, logger)
     {
         _validator = validator;
         _roleRepository = roleRepository;
@@ -47,7 +50,7 @@ public class RoleService : GenericService<Role>, IRoleService
         }
         catch (Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<IEnumerable<Role>>(ex.Message);
         }
     }
@@ -69,7 +72,7 @@ public class RoleService : GenericService<Role>, IRoleService
         }
         catch (Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<Role>(ex.Message);
         }
     }

@@ -1,3 +1,4 @@
+using Serilog;
 using SocialApp.Application.Registrations;
 using SocialApp.Data.Registrations;
 
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddBusinessService();

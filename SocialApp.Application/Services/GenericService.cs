@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
@@ -11,9 +12,11 @@ namespace SocialApp.Application.Services;
 public class GenericService<T> : IGenericService<T> where T : EntityBase
 {
     private readonly IValidator<T> _validator;
+    private readonly ILogger<GenericService<T>> _logger;
     private readonly IGenericRepository<T> _repository;
-    public GenericService(IValidator<T> validator, IGenericRepository<T> repository)
+    public GenericService(IValidator<T> validator, IGenericRepository<T> repository, ILogger<GenericService<T>> logger)
     {
+        _logger = logger;
         _validator = validator;
         _repository = repository;
     }
@@ -31,7 +34,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
         }
     }
@@ -49,10 +52,11 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
         }
     }
-    public async Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default)
+    public virtual async Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default)
     {
         try
         {
@@ -62,13 +66,14 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            await _repository.AddAsync(entity);
+            await _repository.AddAsync(entity, ct);
             await _repository.SaveChangesAsync();
 
             return new SuccessResult("Entity added successfully.");
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
             return new ErrorResult(ex.Message);
         }
     }
@@ -90,6 +95,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
             return new ErrorResult(ex.Message);
         }
     }
@@ -110,7 +116,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResult(ex.Message);
         }
     }
@@ -126,7 +132,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
 
             if (entity.IsDeleted)
                 return new ErrorResult("Entity already deleted.");
-                
+
             _repository.Delete(entity);
             await _repository.SaveChangesAsync();
 
@@ -134,6 +140,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
             return new ErrorResult(ex.Message);
         }
     }
@@ -158,7 +165,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch(Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResult(ex.Message);
         }
     }
@@ -176,6 +183,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<T>(ex.Message);
         }
     }
@@ -192,7 +200,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            //log
+            _logger.LogError(ex, ex.Message);
             return new ErrorResultWithData<T>(ex.Message);
         }
     }

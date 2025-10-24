@@ -21,7 +21,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
 
     public async Task<T?> GetByIdAsync(int id)
         => await _context.Set<T>().FindAsync(id);
-    public async Task<T?> AddAsync(T entity)
+    public async Task<T?> AddAsync(T entity, CancellationToken ct = default)
     {
         if (entity is null) return null;
         entity.Id = default;
