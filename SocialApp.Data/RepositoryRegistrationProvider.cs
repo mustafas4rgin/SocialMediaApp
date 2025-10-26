@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SocialApp.Data.Repositories;
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.DTOs;
 
 namespace SocialApp.Data;
 
@@ -16,7 +17,9 @@ public class RepositoryRegistrationProvider
             (typeof(ICommentRepository),typeof(CommentRepository)),
             (typeof(ICommentResponseRepository),typeof(CommentResponseRepository)),
             (typeof(ILikeRepository),typeof(LikeRepository)),
-            (typeof(IPostRepository), typeof(PostRepository))
+            (typeof(IPostRepository), typeof(PostRepository)),
+            (typeof(IPostBrutalRepository), typeof(PostBrutalRepository)),
+            (typeof(IPostImageRepository),typeof(PostImageRepository))
         };
         foreach (var service in servicesToRegister)
         {
