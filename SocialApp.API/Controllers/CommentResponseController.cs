@@ -9,7 +9,7 @@ using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.DTOs.Update;
 using SocialApp.Domain.Entities;
 
-namespace MyApp.Namespace
+namespace SocialApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
