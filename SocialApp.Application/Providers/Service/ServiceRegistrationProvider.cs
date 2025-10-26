@@ -16,7 +16,9 @@ public class ServiceRegistrationProvider
             (typeof(IRoleService),typeof(RoleService)),
             (typeof(IFollowService),typeof(FollowService)),
             (typeof(ICommentResponseService), typeof(CommentResponseService)),
-            (typeof(ILikeService), typeof(LikeService))
+            (typeof(ILikeService), typeof(LikeService)),
+            (typeof(IPostBrutalService), typeof(PostBrutalService)),
+            (typeof(IPostImageService), typeof(PostImageService))
         };
 
         foreach (var service in servicesToRegister)
