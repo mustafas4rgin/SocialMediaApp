@@ -15,7 +15,8 @@ public class RepositoryRegistrationProvider
             (typeof(IFollowRepository),typeof(FollowRepository)),
             (typeof(ICommentRepository),typeof(CommentRepository)),
             (typeof(ICommentResponseRepository),typeof(CommentResponseRepository)),
-            (typeof(ILikeRepository),typeof(LikeRepository))
+            (typeof(ILikeRepository),typeof(LikeRepository)),
+            (typeof(IPostRepository), typeof(PostRepository))
         };
         foreach (var service in servicesToRegister)
         {
