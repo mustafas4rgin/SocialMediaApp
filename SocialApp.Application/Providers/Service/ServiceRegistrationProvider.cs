@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SocialApp.Application.Interfaces;
+using SocialApp.Application.Registrations;
 using SocialApp.Application.Services;
 using SocialApp.Application.Services.CommentResponseService;
 
@@ -14,7 +15,8 @@ public class ServiceRegistrationProvider
             (typeof(IGenericService<>),typeof(GenericService<>)),
             (typeof(IRoleService),typeof(RoleService)),
             (typeof(IFollowService),typeof(FollowService)),
-            (typeof(ICommentResponseService), typeof(CommentResponseService))
+            (typeof(ICommentResponseService), typeof(CommentResponseService)),
+            (typeof(ILikeService), typeof(LikeService))
         };
 
         foreach (var service in servicesToRegister)
