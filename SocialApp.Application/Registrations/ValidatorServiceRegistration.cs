@@ -15,6 +15,15 @@ public static class ValidatorServiceRegistration
 
         return services;
     }
+    public static IServiceCollection AddAuthDtoValidators(this IServiceCollection services)
+    {
+        var authValidatorAssemblies = AuthDTOValidatorAssemblyProvider.GetValidatorAssemblies();
+
+        foreach (var assemblyType in authValidatorAssemblies)
+            services.AddValidatorsFromAssemblyContaining(assemblyType);
+
+        return services;
+    }
     public static IServiceCollection AddUpdateDtoValidators(this IServiceCollection services)
     {
         var updateDtoValidatorAssemblies = UpdateDTOValidatorAssemblyProvider.GetValidatorAssemblies();

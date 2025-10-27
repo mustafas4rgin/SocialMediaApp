@@ -1,0 +1,303 @@
+2025-10-27 17:49:00.059 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 17:49:00.078 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 17:49:00.078 +03:00 [INF] Hosting environment: Development
+2025-10-27 17:49:00.078 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 17:49:07.344 +03:00 [INF] Application is shutting down...
+2025-10-27 17:51:39.596 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 17:51:39.616 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 17:51:39.616 +03:00 [INF] Hosting environment: Development
+2025-10-27 17:51:39.616 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 17:51:59.679 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/ - null null
+2025-10-27 17:51:59.822 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 17:51:59.958 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/ - 404 0 null 297.5167ms
+2025-10-27 17:51:59.969 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/, Response status code: 404
+2025-10-27 17:52:01.812 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/apple-touch-icon-precomposed.png - null null
+2025-10-27 17:52:01.849 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/apple-touch-icon-precomposed.png - 404 0 null 40.355ms
+2025-10-27 17:52:01.849 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/apple-touch-icon-precomposed.png, Response status code: 404
+2025-10-27 17:52:01.952 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/apple-touch-icon.png - null null
+2025-10-27 17:52:01.958 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/apple-touch-icon.png - 404 0 null 5.5349ms
+2025-10-27 17:52:01.958 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/apple-touch-icon.png, Response status code: 404
+2025-10-27 17:52:04.423 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/index.html - null null
+2025-10-27 17:52:04.478 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/index.html - 200 null text/html;charset=utf-8 56.0155ms
+2025-10-27 17:52:04.489 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/index.css - null null
+2025-10-27 17:52:04.494 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/swagger-ui-bundle.js - null null
+2025-10-27 17:52:04.494 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/swagger-ui-standalone-preset.js - null null
+2025-10-27 17:52:04.494 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/index.js - null null
+2025-10-27 17:52:04.495 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/index.js - 200 null application/javascript;charset=utf-8 0.597ms
+2025-10-27 17:52:04.497 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/index.css - 200 152 text/css 8.1167ms
+2025-10-27 17:52:04.502 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/swagger-ui-standalone-preset.js - 200 77352 text/javascript 8.0943ms
+2025-10-27 17:52:04.502 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/swagger-ui-bundle.js - 200 424767 text/javascript 8.3503ms
+2025-10-27 17:52:04.651 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 17:52:04.722 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 70.8284ms
+2025-10-27 17:52:05.741 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 17:52:05.747 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 6.08ms
+2025-10-27 17:52:13.805 +03:00 [INF] Application is shutting down...
+2025-10-27 17:55:40.736 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 17:55:40.758 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 17:55:40.758 +03:00 [INF] Hosting environment: Development
+2025-10-27 17:55:40.758 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 17:55:43.672 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 17:55:43.703 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 17:55:43.794 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 122.3429ms
+2025-10-27 17:56:11.506 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 141
+2025-10-27 17:56:11.519 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:56:11.538 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 17:56:11.705 +03:00 [ERR] Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UserValidator.<>c.<.ctor>b__0_5(Byte[] h) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Validators/Entity/UserValidator.cs:line 28
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass27_0`2.<Must>b__0(T _, TProperty val) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 420
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass28_0`2.<Must>b__0(T x, TProperty val, ValidationContext`1 _) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 436
+   at FluentValidation.Validators.PredicateValidator`2.IsValid(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Validators/PredicateValidator.cs:line 35
+   at FluentValidation.Internal.RuleComponent`2.InvokePropertyValidator(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 92
+   at FluentValidation.Internal.RuleComponent`2.ValidateAsync(ValidationContext`1 context, TProperty value, CancellationToken cancellation) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 76
+   at FluentValidation.Internal.PropertyRule`2.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/Internal/PropertyRule.cs:line 122
+   at FluentValidation.AbstractValidator`1.ValidateInternalAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 164
+   at FluentValidation.AbstractValidator`1.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 137
+   at SocialApp.Application.Services.GenericService`1.AddAsync(T entity, CancellationToken ct) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Services/GenericService.cs:line 63
+2025-10-27 17:56:11.714 +03:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 17:56:11.719 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 178.6085ms
+2025-10-27 17:56:11.719 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:56:11.720 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 214.8691ms
+2025-10-27 17:56:31.950 +03:00 [INF] Application is shutting down...
+2025-10-27 17:57:58.240 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 17:57:58.259 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 17:57:58.260 +03:00 [INF] Hosting environment: Development
+2025-10-27 17:57:58.260 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 17:58:00.272 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 17:58:00.286 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 17:58:00.362 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 92.0491ms
+2025-10-27 17:58:11.001 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Role/GetAll - null null
+2025-10-27 17:58:11.007 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.RoleController.GetAllAsync (SocialApp.API)'
+2025-10-27 17:58:11.018 +03:00 [INF] Route matched with {action = "GetAll", controller = "Role"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(System.Threading.CancellationToken) on controller SocialApp.API.Controllers.RoleController (SocialApp.API).
+2025-10-27 17:58:14.243 +03:00 [INF] Executed DbCommand (289ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT r."Id", r."CreatedAt", r."IsDeleted", r."Name", r."UpdatedAt"
+FROM "Roles" AS r
+2025-10-27 17:58:14.291 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.List.RoleDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-27 17:58:14.296 +03:00 [INF] Executed action SocialApp.API.Controllers.RoleController.GetAllAsync (SocialApp.API) in 3276.0903ms
+2025-10-27 17:58:14.296 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.RoleController.GetAllAsync (SocialApp.API)'
+2025-10-27 17:58:14.299 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Role/GetAll - 200 null application/json; charset=utf-8 3298.1478ms
+2025-10-27 17:58:51.405 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 156
+2025-10-27 17:58:51.409 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:51.414 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 17:58:51.453 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.Linq.Enumerable+ListSelectIterator`2[[FluentValidation.Results.ValidationFailure, FluentValidation, Version=12.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0],[<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], SocialApp.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-27 17:58:51.456 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 41.9278ms
+2025-10-27 17:58:51.456 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:51.456 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 51.2524ms
+2025-10-27 17:58:56.071 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 156
+2025-10-27 17:58:56.073 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:56.073 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 17:58:56.085 +03:00 [ERR] Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UserValidator.<>c.<.ctor>b__0_5(Byte[] h) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Validators/Entity/UserValidator.cs:line 28
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass27_0`2.<Must>b__0(T _, TProperty val) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 420
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass28_0`2.<Must>b__0(T x, TProperty val, ValidationContext`1 _) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 436
+   at FluentValidation.Validators.PredicateValidator`2.IsValid(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Validators/PredicateValidator.cs:line 35
+   at FluentValidation.Internal.RuleComponent`2.InvokePropertyValidator(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 92
+   at FluentValidation.Internal.RuleComponent`2.ValidateAsync(ValidationContext`1 context, TProperty value, CancellationToken cancellation) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 76
+   at FluentValidation.Internal.PropertyRule`2.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/Internal/PropertyRule.cs:line 122
+   at FluentValidation.AbstractValidator`1.ValidateInternalAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 164
+   at FluentValidation.AbstractValidator`1.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 137
+   at SocialApp.Application.Services.GenericService`1.AddAsync(T entity, CancellationToken ct) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Services/GenericService.cs:line 63
+2025-10-27 17:58:56.100 +03:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 17:58:56.101 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 27.3915ms
+2025-10-27 17:58:56.101 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:56.101 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 29.9838ms
+2025-10-27 17:58:59.948 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 156
+2025-10-27 17:58:59.948 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:59.949 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 17:58:59.954 +03:00 [ERR] Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UserValidator.<>c.<.ctor>b__0_5(Byte[] h) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Validators/Entity/UserValidator.cs:line 28
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass27_0`2.<Must>b__0(T _, TProperty val) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 420
+   at FluentValidation.DefaultValidatorExtensions.<>c__DisplayClass28_0`2.<Must>b__0(T x, TProperty val, ValidationContext`1 _) in /_/src/FluentValidation/DefaultValidatorExtensions.cs:line 436
+   at FluentValidation.Validators.PredicateValidator`2.IsValid(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Validators/PredicateValidator.cs:line 35
+   at FluentValidation.Internal.RuleComponent`2.InvokePropertyValidator(ValidationContext`1 context, TProperty value) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 92
+   at FluentValidation.Internal.RuleComponent`2.ValidateAsync(ValidationContext`1 context, TProperty value, CancellationToken cancellation) in /_/src/FluentValidation/Internal/RuleComponent.cs:line 76
+   at FluentValidation.Internal.PropertyRule`2.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/Internal/PropertyRule.cs:line 122
+   at FluentValidation.AbstractValidator`1.ValidateInternalAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 164
+   at FluentValidation.AbstractValidator`1.ValidateAsync(ValidationContext`1 context, CancellationToken cancellation) in /_/src/FluentValidation/AbstractValidator.cs:line 137
+   at SocialApp.Application.Services.GenericService`1.AddAsync(T entity, CancellationToken ct) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Services/GenericService.cs:line 63
+2025-10-27 17:58:59.956 +03:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 17:58:59.956 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 7.0262ms
+2025-10-27 17:58:59.956 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 17:58:59.956 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 8.2399ms
+2025-10-27 18:00:02.696 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 148
+2025-10-27 18:00:02.698 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:00:02.698 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 18:00:02.703 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.Linq.Enumerable+ListSelectIterator`2[[FluentValidation.Results.ValidationFailure, FluentValidation, Version=12.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0],[<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], SocialApp.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-27 18:00:02.703 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 5.0102ms
+2025-10-27 18:00:02.704 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:00:02.704 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 8.4347ms
+2025-10-27 18:03:11.685 +03:00 [INF] Application is shutting down...
+2025-10-27 18:03:17.261 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 18:03:17.280 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 18:03:17.280 +03:00 [INF] Hosting environment: Development
+2025-10-27 18:03:17.280 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 18:03:22.378 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 148
+2025-10-27 18:03:22.394 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 18:03:22.405 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:03:22.416 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 18:03:22.528 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.Linq.Enumerable+ListSelectIterator`2[[FluentValidation.Results.ValidationFailure, FluentValidation, Version=12.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0],[<>f__AnonymousType1`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], SocialApp.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-27 18:03:22.532 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 114.6253ms
+2025-10-27 18:03:22.537 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:03:22.538 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 400 null application/json; charset=utf-8 160.3148ms
+2025-10-27 18:03:28.071 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/User/Add - application/json 156
+2025-10-27 18:03:28.075 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:03:28.075 +03:00 [INF] Route matched with {action = "Add", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddAsync(SocialApp.Domain.DTOs.Create.CreateUserDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 18:03:31.079 +03:00 [INF] Executed DbCommand (387ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?' (DbType = Boolean), @p4='?', @p5='?' (DbType = Binary), @p6='?' (DbType = Binary), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Users" ("CreatedAt", "Email", "FirstName", "IsDeleted", "LastName", "PasswordHash", "PasswordSalt", "RoleId", "UpdatedAt", "UserName")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "Id";
+2025-10-27 18:03:31.110 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-10-27 18:03:31.110 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API) in 3034.0427ms
+2025-10-27 18:03:31.110 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.AddAsync (SocialApp.API)'
+2025-10-27 18:03:31.113 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/User/Add - 200 null text/plain; charset=utf-8 3041.62ms
+2025-10-27 18:03:44.239 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/GetAll - null null
+2025-10-27 18:03:44.242 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-10-27 18:03:44.245 +03:00 [INF] Route matched with {action = "GetAll", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-10-27 18:03:44.684 +03:00 [INF] Executed DbCommand (344ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+2025-10-27 18:03:44.691 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-27 18:03:44.693 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API) in 448.2657ms
+2025-10-27 18:03:44.694 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-10-27 18:03:44.694 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/GetAll - 200 null application/json; charset=utf-8 454.8047ms
+2025-10-27 18:04:14.840 +03:00 [INF] Application is shutting down...
+2025-10-27 18:04:18.606 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 18:04:18.624 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 18:04:18.624 +03:00 [INF] Hosting environment: Development
+2025-10-27 18:04:18.624 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 18:04:30.037 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 18:04:30.053 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 18:04:30.141 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 105.2003ms
+2025-10-27 18:04:34.305 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 47
+2025-10-27 18:04:34.315 +03:00 [INF] Executing endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:04:34.334 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller MyApp.Namespace.AuthController (SocialApp.API).
+2025-10-27 18:04:34.336 +03:00 [INF] Executed action MyApp.Namespace.AuthController.LoginAsync (SocialApp.API) in 0.6511ms
+2025-10-27 18:04:34.336 +03:00 [INF] Executed endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:04:34.336 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'SocialApp.Application.Services.AuthService' while attempting to activate 'MyApp.Namespace.AuthController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-27 18:04:34.344 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 500 null text/plain; charset=utf-8 39.5743ms
+2025-10-27 18:05:14.656 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 18:05:14.696 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 41.2088ms
+2025-10-27 18:05:22.096 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 47
+2025-10-27 18:05:22.099 +03:00 [INF] Executing endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:05:22.099 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller MyApp.Namespace.AuthController (SocialApp.API).
+2025-10-27 18:05:22.100 +03:00 [INF] Executed action MyApp.Namespace.AuthController.LoginAsync (SocialApp.API) in 0.3789ms
+2025-10-27 18:05:22.100 +03:00 [INF] Executed endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:05:22.100 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'SocialApp.Application.Services.AuthService' while attempting to activate 'MyApp.Namespace.AuthController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-27 18:05:22.102 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 500 null text/plain; charset=utf-8 5.6747ms
+2025-10-27 18:06:07.143 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 18:06:07.163 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 18:06:07.163 +03:00 [INF] Hosting environment: Development
+2025-10-27 18:06:07.163 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 18:06:10.957 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - null null
+2025-10-27 18:06:10.993 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 18:06:11.081 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 126.3347ms
+2025-10-27 18:06:14.832 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 47
+2025-10-27 18:06:14.845 +03:00 [INF] Executing endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:06:14.868 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller MyApp.Namespace.AuthController (SocialApp.API).
+2025-10-27 18:06:14.872 +03:00 [INF] Executed action MyApp.Namespace.AuthController.LoginAsync (SocialApp.API) in 1.7487ms
+2025-10-27 18:06:14.873 +03:00 [INF] Executed endpoint 'MyApp.Namespace.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:06:14.873 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'SocialApp.Application.Services.AuthService' while attempting to activate 'MyApp.Namespace.AuthController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-27 18:06:14.885 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 500 null text/plain; charset=utf-8 53.3206ms
+2025-10-27 18:07:52.492 +03:00 [INF] Application is shutting down...
+2025-10-27 18:07:56.117 +03:00 [INF] Now listening on: http://localhost:5084
+2025-10-27 18:07:56.136 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-27 18:07:56.136 +03:00 [INF] Hosting environment: Development
+2025-10-27 18:07:56.136 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-10-27 18:08:04.166 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 47
+2025-10-27 18:08:04.183 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-10-27 18:08:04.192 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:04.207 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-10-27 18:08:04.269 +03:00 [INF] Executing NotFoundObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 18:08:04.272 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API) in 64.0759ms
+2025-10-27 18:08:04.277 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:04.278 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 404 null application/json; charset=utf-8 114.2694ms
+2025-10-27 18:08:15.009 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 64
+2025-10-27 18:08:15.012 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:15.013 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-10-27 18:08:15.023 +03:00 [INF] Executing NotFoundObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 18:08:15.024 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API) in 11.0703ms
+2025-10-27 18:08:15.024 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:15.024 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 404 null application/json; charset=utf-8 16.1846ms
+2025-10-27 18:08:20.217 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 70
+2025-10-27 18:08:20.221 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:20.221 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-10-27 18:08:24.023 +03:00 [INF] Executed DbCommand (410ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", r."Id", r."CreatedAt", r."IsDeleted", r."Name", r."UpdatedAt"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Email" = @__email_0
+LIMIT 1
+2025-10-27 18:08:24.077 +03:00 [INF] Executing NotFoundObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-27 18:08:24.078 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API) in 3856.3723ms
+2025-10-27 18:08:24.078 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:24.080 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 404 null application/json; charset=utf-8 3862.6449ms
+2025-10-27 18:08:29.110 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 66
+2025-10-27 18:08:29.111 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:29.111 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-10-27 18:08:29.563 +03:00 [INF] Executed DbCommand (409ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", r."Id", r."CreatedAt", r."IsDeleted", r."Name", r."UpdatedAt"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Email" = @__email_0
+LIMIT 1
+2025-10-27 18:08:30.074 +03:00 [INF] Executed DbCommand (423ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = DateTime), @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime), @p9='?' (DbType = DateTime), @p10='?' (DbType = Boolean), @p11='?' (DbType = Boolean), @p12='?' (DbType = Boolean), @p13='?', @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "AccessTokens" ("CreatedAt", "ExpiresAt", "IsDeleted", "IsRevoked", "RefreshToken", "Token", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "Id";
+INSERT INTO "RefreshTokens" ("CreatedAt", "ExpiresAt", "IsDeleted", "IsRevoked", "IsUsed", "Token", "UpdatedAt", "UserId")
+VALUES (@p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)
+RETURNING "Id";
+2025-10-27 18:08:30.602 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.DTOs.Auth.TokenResponseDTO'.
+2025-10-27 18:08:30.608 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API) in 1496.6265ms
+2025-10-27 18:08:30.608 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-10-27 18:08:30.608 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 200 null application/json; charset=utf-8 1498.5545ms

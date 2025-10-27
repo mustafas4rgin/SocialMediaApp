@@ -12,6 +12,8 @@ public static class ValidatorServiceAssembler
         services.AddCreateDtoValidators();
 
         services.AddUpdateDtoValidators();
+
+        services.AddAuthDtoValidators();
         
         return services;
     }

@@ -20,7 +20,8 @@ public class ServiceRegistrationProvider
             (typeof(IPostBrutalService), typeof(PostBrutalService)),
             (typeof(IPostImageService), typeof(PostImageService)),
             (typeof(IUserService), typeof(UserService)),
-            (typeof(IUserImageService),typeof(UserImageService))
+            (typeof(IUserImageService),typeof(UserImageService)),
+            (typeof(IAuthService), typeof(AuthService))
         };
 
         foreach (var service in servicesToRegister)

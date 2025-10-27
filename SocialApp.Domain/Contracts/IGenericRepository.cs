@@ -4,14 +4,16 @@ namespace SocialApp.Domain.Contracts;
 
 public interface IGenericRepository<T>  where T : EntityBase
 {
-    IQueryable<T> GetAll();
-    IQueryable<T> GetAllActive();
-    Task<T?> GetByIdAsync(int id);
-    Task<T?> GetActiveByIdAsync(int id);
-    Task<T?> UpdateAsync(T Entity);
-    Task<T?> AddAsync(T entity, CancellationToken ct);
-    void Delete(T entity);
-    void SoftDelete(T entity);
-    void Restore(T entity);
-    Task SaveChangesAsync();
+    IQueryable<T> GetAll(CancellationToken ct = default);
+    IQueryable<T> GetAllActive(CancellationToken ct = default);
+    Task<T?> GetByIdAsync(int id, CancellationToken ct = default);
+    Task<T?> GetActiveByIdAsync(int id, CancellationToken ct = default);
+    Task<T?> UpdateAsync(T Entity, CancellationToken ct = default);
+    Task<T?> AddAsync(T entity, CancellationToken ct = default);
+    void Delete(T entity, CancellationToken ct = default);
+    void SoftDelete(T entity, CancellationToken ct = default);
+    void Restore(T entity, CancellationToken ct = default);
+    Task<T?> GetByIdAsNoTrackingAsync(int id, CancellationToken ct = default);
+
+    Task SaveChangesAsync(CancellationToken ct = default);
 }

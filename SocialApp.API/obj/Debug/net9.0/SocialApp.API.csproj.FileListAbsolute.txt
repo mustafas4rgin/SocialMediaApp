@@ -78,6 +78,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/AutoMapper.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/FluentValidation.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/FluentValidation.DependencyInjectionExtensions.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -92,11 +93,19 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Npgsql.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.AspNetCore.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Environment.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Thread.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Extensions.Hosting.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Extensions.Logging.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Formatting.Compact.dll
@@ -107,6 +116,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialAPp.Application.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Data.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Domain.dll
@@ -137,5 +147,3 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.genruntimeconfig.cache
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/ref/SocialApp.API.dll
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Environment.dll
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Thread.dll

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using SocialApp.Application.Providers.Service;
+using SocialApp.Domain.Parameters;
 
 namespace SocialApp.Application.Registrations;
 

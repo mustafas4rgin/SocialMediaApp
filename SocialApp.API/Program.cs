@@ -1,11 +1,14 @@
 using Serilog;
 using SocialApp.Application.Registrations;
 using SocialApp.Data.Registrations;
+using SocialApp.Domain.Parameters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 
 builder.Host.UseSerilog();
 

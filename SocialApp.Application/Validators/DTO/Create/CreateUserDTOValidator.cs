@@ -7,6 +7,10 @@ public class CreateUserDTOValidator : AbstractValidator<CreateUserDTO>
 {
     public CreateUserDTOValidator()
     {
+        RuleFor(x => x.RoleId)
+            .NotNull().WithMessage("RoleId value cannot be null.")
+            .GreaterThan(0).WithMessage("RoleId value must be greater than zero.");
+
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Please enter a valid email address.")

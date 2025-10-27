@@ -24,8 +24,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var activeEntities = await _repository.GetAllActive()
-                                    .ToListAsync();
+            var activeEntities = await _repository.GetAllActive(ct)
+                                    .ToListAsync(ct);
 
             if (!activeEntities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no active data.");
@@ -42,8 +42,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entities = await _repository.GetAll()
-                               .ToListAsync();
+            var entities = await _repository.GetAll(ct)
+                               .ToListAsync(ct);
 
             if (!entities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no data.");
@@ -60,14 +60,14 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(entity);
+            var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
             await _repository.AddAsync(entity, ct);
-            await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity added successfully.");
         }
@@ -82,14 +82,14 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(entity);
+            var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            await _repository.UpdateAsync(entity);
-            await _repository.SaveChangesAsync();
+            await _repository.UpdateAsync(entity, ct);
+            await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity updated successfully.");
         }
@@ -103,16 +103,16 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(entity);
+            var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            _repository.SoftDelete(entity);
-            await _repository.SaveChangesAsync();
+            _repository.SoftDelete(entity, ct);
+            await _repository.SaveChangesAsync(ct);
 
-            return new SuccessResult("Entity deleted successfully.");
+            return new SuccessResult("Entity soft deleted successfully.");
         }
         catch (Exception ex)
         {
@@ -124,7 +124,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(entity);
+            var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
@@ -133,8 +133,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             if (entity.IsDeleted)
                 return new ErrorResult("Entity already deleted.");
 
-            _repository.Delete(entity);
-            await _repository.SaveChangesAsync();
+            _repository.Delete(entity, ct);
+            await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity deleted successfully.");
         }
@@ -149,7 +149,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(entity);
+            var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
@@ -158,10 +158,10 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             if (!entity.IsDeleted)
                 return new ErrorResult("Entity is not currently deleted.");
 
-            _repository.Restore(entity);
-            await _repository.SaveChangesAsync();
+            _repository.Restore(entity, ct);
+            await _repository.SaveChangesAsync(ct);
 
-            return new SuccessResult("Entity restoerd successfully.");
+            return new SuccessResult("Entity restored successfully.");
         }
         catch(Exception ex)
         {
@@ -174,7 +174,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id, ct);
 
             if (entity is null)
                 return new ErrorResultWithData<T>($"There is no entity with ID : {id}");
@@ -191,7 +191,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entity = await _repository.GetActiveByIdAsync(id);
+            var entity = await _repository.GetActiveByIdAsync(id, ct);
 
             if (entity is null)
                 return new ErrorResultWithData<T>($"There is no active entity with ID : {id}");
