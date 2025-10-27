@@ -51,7 +51,7 @@ namespace SocialApp.API.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddAsync([FromBody] TCreateDto dto, CancellationToken ct)
         {
-            var validationResult = await _createValidator.ValidateAsync(dto);
+            var validationResult = await _createValidator.ValidateAsync(dto, ct);
 
             if (!validationResult.IsValid)
                 return HandleValidationErrors(validationResult.Errors);
@@ -93,7 +93,7 @@ namespace SocialApp.API.Controllers
             if (existingEntityErrorResponse != null)
                 return existingEntityErrorResponse;
 
-            var validationResult = await _updateValidator.ValidateAsync(dto);
+            var validationResult = await _updateValidator.ValidateAsync(dto, ct);
 
             if (!validationResult.IsValid)
                 return HandleValidationErrors(validationResult.Errors);
