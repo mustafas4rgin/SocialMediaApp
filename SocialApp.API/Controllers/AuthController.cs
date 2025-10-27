@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialApp.API.Controllers;
@@ -31,25 +33,47 @@ namespace SocialApp.API.Controllers
             return Ok(token);
         }
         [HttpGet("me")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> MeAsync(CancellationToken ct = default)
         {
             var userId = CurrentUserId;
-
-            if (userId == null)
+            if (userId is null)
                 return Unauthorized("Invalid token.");
 
-            var result = await _authService.MeAsync(userId.Value, ct);
+            // Authorization header’dan access token’ı çek
+            var authHeader = Request.Headers["Authorization"].ToString();
+            var token = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+                ? authHeader.Substring("Bearer ".Length).Trim()
+                : null;
+
+            if (string.IsNullOrWhiteSpace(token))
+                return Unauthorized("Token missing.");
+
+            // ⬇️ Burada ikinci argüman STRING token, üçüncü argüman CT olmalı
+            var result = await _authService.MeAsync(userId.Value, token, ct);
 
             if (!result.Success)
-                return BadRequest(result.Message);
+                return Unauthorized(result.Message);
 
             var user = result.Data;
-
             return Ok(new
             {
-                FirstName = user.FirstName + " " + user.LastName,
-                Role = user.Role.Name,
+                FirstName = $"{user.FirstName} {user.LastName}",
+                Role = user.Role.Name
             });
+        }
+        [HttpGet("logout")]
+        public async Task<IActionResult> LogOutAsync(CancellationToken ct = default)
+        {
+            var authHeader = HttpContext.Request.Headers["Authorization"].ToString();
+            var token = authHeader.StartsWith("Bearer ") ? authHeader.Substring("Bearer ".Length) : authHeader;
+
+            var result = await _authService.LogOutAsync(token);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
     }
 }

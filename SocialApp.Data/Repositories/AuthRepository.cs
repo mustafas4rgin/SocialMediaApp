@@ -25,7 +25,9 @@ public class AuthRepository : IAuthRepository
     public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string token, CancellationToken ct = default)
     => await _context.Set<RefreshToken>()
     .FirstOrDefaultAsync(rt => rt.Token == token, ct);
-
+    public async Task<AccessToken?> GetAccessTokenByTokenAsync(string token, CancellationToken ct = default)
+    => await _context.Set<AccessToken>()
+    .FirstOrDefaultAsync(at => at.Token == token, ct);
     public async Task<User?> GetUserByEmailWithRoleAsync(string email, CancellationToken ct = default)
     => await _context.Set<User>()
     .Include(u => u.Role)
@@ -34,16 +36,28 @@ public class AuthRepository : IAuthRepository
     => await _context.Set<User>()
     .Include(u => u.Role)
     .FirstOrDefaultAsync(u => u.Id == userId, ct);
+
+    public void UpdateAccessToken(AccessToken accessToken)
+    {
+        if (accessToken is null) return;
+        _context.Update(accessToken);
+    }
+    public void UpdateRefreshToken(RefreshToken refreshToken)
+    {
+        if (refreshToken is null) return;
+        _context.Update(refreshToken);
+    }
     public async Task AddAccessTokenAsync(AccessToken accessToken)
     {
         if (accessToken is null) return;
         await _context.AddAsync(accessToken);
     }
-
-    public async Task<AccessToken?> GetAccessTokenByTokenAsync(string token, CancellationToken ct = default)
-    => await _context.Set<AccessToken>()
-    .FirstOrDefaultAsync(at => at.Token == token, ct);
-
+    public async Task<AccessToken?> GetAccessTokenByUserIdAsync(int userId, CancellationToken ct = default)
+    {
+        return await _context.AccessTokens
+            .OrderByDescending(x => x.ExpiresAt)
+            .FirstOrDefaultAsync(x => x.UserId == userId, ct);
+    }
     public async Task<AccessToken?> GetAccessTokenByRefreshTokenAsync(string refreshToken, CancellationToken ct = default)
     => await _context.Set<AccessToken>()
     .FirstOrDefaultAsync(at => at.RefreshToken == refreshToken, ct);

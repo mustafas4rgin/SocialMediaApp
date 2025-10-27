@@ -12,7 +12,7 @@
           "Microsoft.AspNetCore.OpenApi": "9.0.10",
           "Serilog.AspNetCore": "9.0.0",
           "Serilog.Sinks.File": "7.0.0",
-          "SocialAPp.Application": "1.0.0",
+          "SocialApp.Application": "1.0.0",
           "SocialApp.Data": "1.0.0",
           "Swashbuckle.AspNetCore": "9.0.6"
         },
@@ -521,7 +521,7 @@
           }
         }
       },
-      "SocialAPp.Application/1.0.0": {
+      "SocialApp.Application/1.0.0": {
         "dependencies": {
           "FluentValidation": "12.0.0",
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
@@ -536,7 +536,7 @@
           "SocialApp.Domain": "1.0.0"
         },
         "runtime": {
-          "SocialAPp.Application.dll": {
+          "SocialApp.Application.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -915,7 +915,7 @@
       "path": "system.identitymodel.tokens.jwt/8.0.1",
       "hashPath": "system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
     },
-    "SocialAPp.Application/1.0.0": {
+    "SocialApp.Application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

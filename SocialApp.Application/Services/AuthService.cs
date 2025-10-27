@@ -26,7 +26,27 @@ public class AuthService : IAuthService
         _jwt = jwtOptions.Value;
         _loginValidator = loginValidator;
     }
+    public async Task<IServiceResult> LogOutAsync(string accessTokenString, CancellationToken ct = default)
+    {
+        var accessToken = await _authRepository.GetAccessTokenByTokenAsync(accessTokenString, ct);
 
+        if (accessToken is null)
+            return new ErrorResult("Invalid token.");
+
+        var refreshToken = await _authRepository.GetRefreshTokenByTokenAsync(accessToken.RefreshToken, ct);
+
+        if (refreshToken is null)
+            return new ErrorResult("Refresh token not found.");
+
+        accessToken.IsRevoked = true;
+        refreshToken.IsRevoked = true;
+
+        _authRepository.UpdateAccessToken(accessToken);
+        _authRepository.UpdateRefreshToken(refreshToken);
+        await _authRepository.SaveChangesAsync(ct);
+
+        return new SuccessResult("Logged out successfully.");
+    }
     public async Task<IServiceResultWithData<TokenResponseDTO>> GenerateAccessTokenWithRefreshTokenAsync(
     RefreshTokenRequestDTO dto, CancellationToken ct = default)
     {
@@ -136,13 +156,17 @@ public class AuthService : IAuthService
             return new ErrorResultWithData<TokenResponseDTO>(ex.Message);
         }
     }
-    public async Task<IServiceResultWithData<User>> MeAsync(int userId, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<User>> MeAsync(int userId, string accessTokenString, CancellationToken ct = default)
     {
+        var dbAccessToken = await _authRepository.GetAccessTokenByTokenAsync(accessTokenString, ct);
+        if (dbAccessToken is null || dbAccessToken.IsRevoked)
+            return new ErrorResultWithData<User>("Token revoked or invalid.");
+
         var user = await _authRepository.GetUserByIdWithRoleAsync(userId, ct);
-
         if (user is null)
-            return new ErrorResultWithData<User>($"Invalid token.");
+            return new ErrorResultWithData<User>("Invalid token.");
 
-        return new SuccessResultWithData<User>("Me: ", user);
+        return new SuccessResultWithData<User>("Me:", user);
     }
+
 }
