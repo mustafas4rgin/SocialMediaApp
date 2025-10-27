@@ -17,7 +17,7 @@ namespace SocialApp.API.Controllers
             _authService = authService;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody]LoginDTO dto, CancellationToken ct)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginDTO dto, CancellationToken ct)
         {
             var loginResult = await _authService.LoginAsync(dto, ct);
 
@@ -29,6 +29,27 @@ namespace SocialApp.API.Controllers
             var token = loginResult.Data;
 
             return Ok(token);
+        }
+        [HttpGet("me")]
+        public async Task<IActionResult> MeAsync(CancellationToken ct = default)
+        {
+            var userId = CurrentUserId;
+
+            if (userId == null)
+                return Unauthorized("Invalid token.");
+
+            var result = await _authService.MeAsync(userId.Value, ct);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            var user = result.Data;
+
+            return Ok(new
+            {
+                FirstName = user.FirstName + " " + user.LastName,
+                Role = user.Role.Name,
+            });
         }
     }
 }

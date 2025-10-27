@@ -85,7 +85,7 @@ public class AuthService : IAuthService
         }
 
 
-        }
+    }
     public async Task<IServiceResultWithData<TokenResponseDTO>> LoginAsync(LoginDTO dto, CancellationToken ct = default)
     {
         try
@@ -135,5 +135,14 @@ public class AuthService : IAuthService
             Log.Error(ex, ex.Message);
             return new ErrorResultWithData<TokenResponseDTO>(ex.Message);
         }
+    }
+    public async Task<IServiceResultWithData<User>> MeAsync(int userId, CancellationToken ct = default)
+    {
+        var user = await _authRepository.GetUserByIdWithRoleAsync(userId, ct);
+
+        if (user is null)
+            return new ErrorResultWithData<User>($"Invalid token.");
+
+        return new SuccessResultWithData<User>("Me: ", user);
     }
 }

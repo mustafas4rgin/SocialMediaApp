@@ -1,6 +1,7 @@
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SocialApp.Application.Helpers;
 using SocialApp.Domain.Contracts;
 
 namespace SocialApp.API.Controllers
@@ -9,7 +10,7 @@ namespace SocialApp.API.Controllers
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        //protected int? CurrentUserId => User.GetUserId();
+        protected int? CurrentUserId => User.GetUserId();
         protected IActionResult? HandleServiceResult<T>(IServiceResultWithData<T> result) where T : class
         {
             if (!result.Success)
