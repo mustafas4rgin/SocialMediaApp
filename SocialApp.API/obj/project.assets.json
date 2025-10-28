@@ -839,7 +839,7 @@
           }
         }
       },
-      "SocialApp.Application/1.0.0": {
+      "SocialAPp.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
@@ -856,10 +856,10 @@
           "SocialApp.Domain": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/SocialApp.Application.dll": {}
+          "bin/placeholder/SocialAPp.Application.dll": {}
         },
         "runtime": {
-          "bin/placeholder/SocialApp.Application.dll": {}
+          "bin/placeholder/SocialAPp.Application.dll": {}
         }
       },
       "SocialApp.Data/1.0.0": {
@@ -2287,10 +2287,10 @@
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
-    "SocialApp.Application/1.0.0": {
+    "SocialAPp.Application/1.0.0": {
       "type": "project",
-      "path": "../SocialApp.Application/SocialApp.Application.csproj",
-      "msbuildProject": "../SocialApp.Application/SocialApp.Application.csproj"
+      "path": "../SocialApp.Application/SocialAPp.Application.csproj",
+      "msbuildProject": "../SocialApp.Application/SocialAPp.Application.csproj"
     },
     "SocialApp.Data/1.0.0": {
       "type": "project",
@@ -2306,10 +2306,11 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "AutoMapper >= 13.*",
+      "FluentValidation >= 12.0.0",
       "Microsoft.AspNetCore.OpenApi >= 9.0.10",
       "Serilog.AspNetCore >= 9.0.0",
       "Serilog.Sinks.File >= 7.0.0",
-      "SocialApp.Application >= 1.0.0",
+      "SocialAPp.Application >= 1.0.0",
       "SocialApp.Data >= 1.0.0",
       "Swashbuckle.AspNetCore >= 9.0.6"
     ]
@@ -2339,8 +2340,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj": {
-              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj"
+            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj": {
+              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj"
             },
             "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj": {
               "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj"
@@ -2367,6 +2368,10 @@
           "AutoMapper": {
             "target": "Package",
             "version": "[13.*, )"
+          },
+          "FluentValidation": {
+            "target": "Package",
+            "version": "[12.0.0, )"
           },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",

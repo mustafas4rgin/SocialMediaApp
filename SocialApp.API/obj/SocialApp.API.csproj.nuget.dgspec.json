@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj": {
-                "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj"
+              "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj": {
+                "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj"
               },
               "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj": {
                 "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/SocialApp.Data.csproj"
@@ -54,6 +54,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[13.*, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -95,12 +99,12 @@
         }
       }
     },
-    "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj": {
+    "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj",
-        "projectName": "SocialApp.Application",
-        "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialApp.Application.csproj",
+        "projectUniqueName": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj",
+        "projectName": "SocialAPp.Application",
+        "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj",
         "packagesPath": "/Users/s4rgin/.nuget/packages/",
         "outputPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/obj/",
         "projectStyle": "PackageReference",

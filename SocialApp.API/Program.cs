@@ -57,6 +57,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseGlobalException();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
