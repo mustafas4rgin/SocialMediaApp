@@ -40,7 +40,6 @@ namespace SocialApp.API.Controllers
             if (userId is null)
                 return Unauthorized("Invalid token.");
 
-            // Authorization header’dan access token’ı çek
             var authHeader = Request.Headers["Authorization"].ToString();
             var token = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
                 ? authHeader.Substring("Bearer ".Length).Trim()
@@ -49,7 +48,6 @@ namespace SocialApp.API.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Unauthorized("Token missing.");
 
-            // ⬇️ Burada ikinci argüman STRING token, üçüncü argüman CT olmalı
             var result = await _authService.MeAsync(userId.Value, token, ct);
 
             if (!result.Success)
