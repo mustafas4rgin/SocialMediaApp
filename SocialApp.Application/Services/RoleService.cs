@@ -1,6 +1,8 @@
+using System.Text.Json;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SocialApp.Application.Helpers;
@@ -18,6 +20,7 @@ public class RoleService : GenericService<Role>, IRoleService
     private readonly IValidator<Role> _validator;
     private readonly IRoleRepository _roleRepository;
     private readonly ILogger<RoleService> _logger;
+
     public RoleService(
     IValidator<Role> validator,
     IRoleRepository roleRepository,
@@ -60,6 +63,7 @@ public class RoleService : GenericService<Role>, IRoleService
     {
         try
         {
+            
             var query = _roleRepository.GetAllActive();
 
             if (!string.IsNullOrEmpty(param.Include))
@@ -69,6 +73,7 @@ public class RoleService : GenericService<Role>, IRoleService
 
             if (role is null)
                 return new ErrorResultWithData<Role>($"There is no role with ID : {id}");
+
 
             return new SuccessResultWithData<Role>("Role found", role);
         }

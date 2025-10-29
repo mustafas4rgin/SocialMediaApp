@@ -17,6 +17,8 @@ public static class BusinessServiceRegistration
 
         services.AddAuthService(configuration);
 
+        services.AddCacheServices(configuration);
+
         ServiceRegistrationProvider.RegisterServices(services);
 
         return services;

@@ -85,6 +85,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Relational.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Caching.Abstractions.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Caching.Memory.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
@@ -102,6 +103,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Npgsql.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Pipelines.Sockets.Unofficial.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.AspNetCore.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Enrichers.Environment.dll
@@ -113,6 +115,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Sinks.Console.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Sinks.Debug.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Serilog.Sinks.File.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/StackExchange.Redis.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
