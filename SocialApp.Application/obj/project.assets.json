@@ -1835,19 +1835,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gaming\\.nuget\\packages\\": {}
+    "/Users/s4rgin/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Application\\SocialAPp.Application.csproj",
+      "projectUniqueName": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj",
       "projectName": "SocialAPp.Application",
-      "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Application\\SocialAPp.Application.csproj",
-      "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Application\\obj\\",
+      "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/SocialAPp.Application.csproj",
+      "packagesPath": "/Users/s4rgin/.nuget/packages/",
+      "outputPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/s4rgin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -1859,8 +1859,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj": {
-              "projectPath": "C:\\Users\\Gaming\\Desktop\\Projects\\SocialMediaApp\\SocialApp.Domain\\SocialApp.Domain.csproj"
+            "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj": {
+              "projectPath": "/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Domain/SocialApp.Domain.csproj"
             }
           }
         }
@@ -1875,7 +1875,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -1946,7 +1946,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
