@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Helpers;
 using SocialApp.Application.Registrations;
@@ -15,15 +16,19 @@ namespace SocialApp.Application.Services;
 
 public class LikeService : GenericService<Like>, ILikeService
 {
+    private readonly IDistributedCache _cache;
     private readonly IValidator<Like> _validator;
     private readonly ILikeRepository _likeRepository;
     private readonly ILogger<LikeService> _logger;
+    private static readonly SemaphoreSlim _sfLock = new(1, 1);
     public LikeService(
     IValidator<Like> validator,
+    IDistributedCache cache,
     ILikeRepository likeRepository,
     ILogger<LikeService> logger
     ) : base(validator, likeRepository, logger)
     {
+        _cache = cache;
         _validator = validator;
         _likeRepository = likeRepository;
         _logger = logger;
@@ -32,17 +37,40 @@ public class LikeService : GenericService<Like>, ILikeService
     {
         try
         {
-            var query = _likeRepository.GetAllActive(ct);
+            var cacheKey = ListHelper.LikesListKey(param);
 
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForLike(query, param.Include);
+            var cached = await CacheHelper.GetTypedAsync<IEnumerable<Like>>(_cache, cacheKey, ct);
+            if (cached is not null && cached.Any())
+                return new SuccessResultWithData<IEnumerable<Like>>("Roles (cache)", cached);
 
-            var likes = await query.ToListAsync(ct);
+            //anti-stampede
+            await _sfLock.WaitAsync(ct);
+            try
+            {
+                //double check
+                cached = await CacheHelper.GetTypedAsync<IEnumerable<Like>>(_cache, cacheKey, ct);
+                if (cached is not null && cached.Any())
+                    return new SuccessResultWithData<IEnumerable<Like>>("Likes (cache)", cached);
 
-            if (!likes.Any())
-                return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
+                var query = _likeRepository.GetAllActive(ct);
 
-            return new SuccessResultWithData<IEnumerable<Like>>("Likes found.", likes);
+                if (!string.IsNullOrEmpty(param.Include))
+                    query = QueryHelper.ApplyIncludesForLike(query, param.Include);
+
+                var likes = await query.ToListAsync(ct);
+
+                if (!likes.Any())
+                    return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
+
+                //caching
+                await CacheHelper.SetTypedAsync(_cache, cacheKey, likes, ct);
+
+                return new SuccessResultWithData<IEnumerable<Like>>("Likes found.", likes);
+            }
+            finally
+            {
+                _sfLock.Release();
+            }
         }
         catch (Exception ex)
         {

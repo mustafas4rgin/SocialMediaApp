@@ -13,5 +13,7 @@ public class PostService : GenericService<Post>, IPostService
     IValidator<Post> validator,
     ILogger<PostService> logger
     ) : base(validator, postRepository, logger)
-    {}
+    {
+        
+    }
 }
