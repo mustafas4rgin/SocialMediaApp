@@ -36,7 +36,27 @@ public class CommentService : GenericService<Comment>, ICommentService
         _commentRepository = commentRepository;
         _logger = logger;
     }
-    //get post comments
+    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(int postId,QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var query = _commentRepository.GetPostComments(postId, ct);
+
+            if (!StringHelper.EmptyCheck(param.Include))
+                query = QueryHelper.ApplyIncludesForComment(query, param.Include);
+
+            var comments = await query.ToListAsync(ct);
+            if (comments is null || !comments.Any())
+                return new ErrorResultWithData<IEnumerable<Comment>>("No comment found.");
+
+            return new SuccessResultWithData<IEnumerable<Comment>>("Comments found.", comments);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occured while getting commentsç");
+            return new ErrorResultWithData<IEnumerable<Comment>>(ex.Message);
+        }
+    }
     public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetAllCommentsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
