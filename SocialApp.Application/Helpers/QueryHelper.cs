@@ -7,6 +7,36 @@ namespace SocialApp.Application.Helpers;
 
 public static class QueryHelper
 {
+    public static IQueryable<Post> ApplyIncludesforPost(IQueryable<Post> query, string include)
+    {
+        if (StringHelper.EmptyCheck(include))
+            return query;
+
+        var includes = StringHelper.Includes(include);
+
+        foreach (var inc in includes.Select(i => i.Trim().ToLower()))
+        {
+            switch (inc)
+            {
+                case "user": query = query.Include(p => p.User); break;
+                case "comments": query = query.Include(p => p.Comments); break;
+                case "post-images": query = query.Include(p => p.PostImages); break;
+                case "post-brutals": query = query.Include(p => p.PostBrutals); break;
+                case "likes": query = query.Include(p => p.Likes); break;
+                case "all":
+                    query = query
+                                    .Include(p => p.User)
+                                    .Include(p => p.Comments)
+                                    .Include(p => p.PostBrutals)
+                                    .Include(p => p.PostImages)
+                                    .Include(p => p.Likes);
+                    break;
+                default: break;
+            }
+        }
+
+        return query;
+    }
     public static IQueryable<CommentResponse> ApplyIncludesForCommentResponse(IQueryable<CommentResponse> query, string include)
     {
         if (StringHelper.EmptyCheck(include))
