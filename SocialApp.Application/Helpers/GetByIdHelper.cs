@@ -9,4 +9,7 @@ public static class GetById
 
     public static string Post(int id, string include)
     => $"post:item:{include}:{id}";
+
+    public static string User(int id, string include)
+    => $"user:istem:{include}:{id}";
 }
