@@ -33,6 +33,28 @@ public class LikeService : GenericService<Like>, ILikeService
         _likeRepository = likeRepository;
         _logger = logger;
     }
+    public async Task<IServiceResultWithData<IEnumerable<Like>>> GetLikesByUserIdAsync(int userId, QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var query = _likeRepository.GetAllByUserId(userId, ct);
+
+            if (String.IsNullOrEmpty(param.Include))
+                query = QueryHelper.ApplyIncludesForLike(query, param.Include);
+
+            var likes = await query.ToListAsync(ct);
+
+            if (!likes.Any())
+                return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
+
+            return new SuccessResultWithData<IEnumerable<Like>>("Likes: ", likes);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occured while getting likes.");
+            return new ErrorResultWithData<IEnumerable<Like>>(ex.Message);
+        }
+    }
     public async Task<IServiceResultWithData<IEnumerable<Like>>> GetAllLikesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
     {
         try

@@ -29,10 +29,12 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
     {
         try
         {
-            var responses = _commentResponseRepository.GetResponsesByCommentId(commentId, ct);
+            var query = _commentResponseRepository.GetResponsesByCommentId(commentId, ct);
+
+            var responses = await query.ToListAsync(ct);
 
             if (!string.IsNullOrEmpty(param.Include))
-                QueryHelper.ApplyIncludesForCommentResponse(responses, param.Include);
+                query = QueryHelper.ApplyIncludesForCommentResponse(query, param.Include);
 
             if (!responses.Any())
                 return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");

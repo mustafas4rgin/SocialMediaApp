@@ -12,6 +12,8 @@ public class LikeRepository : GenericRepository<Like>, ILikeRepository
     {
         _context = context;
     }
+    public IQueryable<Like> GetAllByUserId(int userId, CancellationToken ct = default)
+    => _context.Set<Like>().AsNoTracking().Where(l => l.UserId == userId);
     public async Task<Like?> GetExistLikeAsync(int postId, int userId, CancellationToken ct = default)
     => await _context.Set<Like>().AsNoTracking().FirstOrDefaultAsync(l => l.PostId == postId && l.UserId == userId, ct);
 }
