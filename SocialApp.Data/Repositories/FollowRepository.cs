@@ -14,6 +14,8 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
     {
         _context = context;
     }
+    public IQueryable<Follow> GetFollowsByFollowingId(int followingId, CancellationToken ct = default)
+    => _context.Set<Follow>().AsNoTracking().Where(f => f.FollowingId == followingId);
     public async Task<Follow?> GetExistFollowAsync(int followerId, int followingId, CancellationToken ct = default)
     => await _context.Set<Follow>().AsNoTracking().FirstOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingId == followingId, ct);
 }

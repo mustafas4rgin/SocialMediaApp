@@ -27,6 +27,28 @@ public class FollowService : GenericService<Follow>, IFollowService
         _validator = validator;
         _followRepository = repository;
     }
+    public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetFollowsByFollowingId(int FollowingId, QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var query = _followRepository.GetFollowsByFollowingId(FollowingId, ct);
+
+            if (!string.IsNullOrEmpty(param.Include))
+                query = QueryHelper.ApplyIncludesForFollow(query, param.Include);
+
+            var follows = await query.ToListAsync(ct);
+
+            if (!follows.Any())
+                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.");
+
+            return new SuccessResultWithData<IEnumerable<Follow>>("Followers: ", follows);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occured while getting follows.");
+            return new ErrorResultWithData<IEnumerable<Follow>>(ex.Message);
+        }
+    }
     public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetAllFollowsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
