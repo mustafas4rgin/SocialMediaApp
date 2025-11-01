@@ -15,6 +15,7 @@ public class ServiceRegistrationProvider
             (typeof(IGenericService<>),typeof(GenericService<>)),
             (typeof(IRoleService),typeof(RoleService)),
             (typeof(IFollowService),typeof(FollowService)),
+            (typeof(ICommentService),typeof(CommentService)),
             (typeof(ICommentResponseService), typeof(CommentResponseService)),
             (typeof(ILikeService), typeof(LikeService)),
             (typeof(IPostBrutalService), typeof(PostBrutalService)),

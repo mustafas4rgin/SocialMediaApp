@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Entities;
+using SocialApp.Domain.Parameters;
 
 namespace SocialApp.API.Controllers
 {
@@ -33,7 +34,7 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllAsync(CancellationToken ct)
+        public virtual async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _service.GetAllAsync(ct);
 
@@ -68,7 +69,7 @@ namespace SocialApp.API.Controllers
             return Ok(addingResult.Message);
         }
         [HttpGet("{id:int}/getbyid")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id, CancellationToken ct)
+        public virtual async Task<IActionResult> GetByIdAsync([FromRoute] int id, [FromQuery] QueryParameters parma, CancellationToken ct = default)
         {
             var result = await _service.GetByIdAsync(id, ct);
 
