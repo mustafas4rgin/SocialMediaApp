@@ -7,6 +7,7 @@ using SocialApp.Domain.DTOs.Create;
 using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.DTOs.Update;
 using SocialApp.Domain.Entities;
+using SocialApp.Domain.Parameters;
 
 namespace SocialApp.API.Controllers
 {
@@ -29,6 +30,48 @@ namespace SocialApp.API.Controllers
             _updateValidator = updateValidator;
             _mapper = mapper;
             _postService = postService;
+        }
+        public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
+        {
+            var result = await _postService.GetAllPostsWithIncludesAsync(param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var posts = result.Data;
+
+            var dto = _mapper.Map<IEnumerable<PostDTO>>(posts);
+
+            return Ok(
+            new
+            {
+                result.Message,
+                Posts = dto
+            }
+            );
+        }
+        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var result = await _postService.GetPostByIdWithIncludesAsync(id, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var post = result.Data;
+
+            var dto = _mapper.Map<PostDTO>(post);
+
+            return Ok(
+            new
+            {
+                result.Message,
+                Post = dto
+            }
+            );
         }
     }
 }
