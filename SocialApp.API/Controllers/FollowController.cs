@@ -27,6 +27,28 @@ namespace SocialApp.API.Controllers
             _followService = followService;
             _mapper = mapper;
         }
+        [HttpGet("followers/{followingId}")]
+        public  async Task<IActionResult> GetFollowersByFollowingIdAsync([FromRoute]int followingId, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var result = await _followService.GetFollowsByFollowingId(followingId, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var followers = result.Data;
+
+            var dto = _mapper.Map<IEnumerable<Follow>>(followers);
+
+            return Ok(
+            new
+            {
+                result.Message,
+                Followers = dto
+            }
+            );
+        }
         public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _followService.GetAllFollowsWithIncludesAsync(param, ct);
