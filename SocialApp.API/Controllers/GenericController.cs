@@ -50,7 +50,7 @@ namespace SocialApp.API.Controllers
             return Ok(dtoList);
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromBody] TCreateDto dto, CancellationToken ct)
+        public virtual async Task<IActionResult> AddAsync([FromBody] TCreateDto dto, CancellationToken ct = default)
         {
             var validationResult = await _createValidator.ValidateAsync(dto, ct);
 
