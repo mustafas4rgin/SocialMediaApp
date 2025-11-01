@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialApp.Application.Providers.Service;
 using SocialApp.Application.Registrations.Auth;
+using SocialApp.Application.Services;
 using SocialApp.Domain.Parameters;
 
 namespace SocialApp.Application.Registrations;
@@ -18,6 +19,8 @@ public static class BusinessServiceRegistration
         services.AddAuthService(configuration);
 
         services.AddCacheServices(configuration);
+
+        services.AddHostedService<TokenCleanupService>();
 
         ServiceRegistrationProvider.RegisterServices(services);
 
