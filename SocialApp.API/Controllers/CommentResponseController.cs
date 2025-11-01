@@ -49,7 +49,7 @@ namespace SocialApp.API.Controllers
             }
             );
         }
-        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        public override async Task<IActionResult> GetByIdAsync([FromRoute] int id, [FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _commentResponseSevice.GetCommentResponseByIdWithIncludesAsync(id, param, ct);
 
@@ -70,5 +70,28 @@ namespace SocialApp.API.Controllers
             }
             );
         }
+        [HttpGet("responses/{commentId}")]
+        public async Task<IActionResult> GetCommentsResponsesAsync([FromRoute]int commentId, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var result = await _commentResponseSevice.GetResponsesByCommentId(commentId, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var responses = result.Data;
+
+            var dto = _mapper.Map<IEnumerable<CommentResponseDTO>>(responses);
+
+            return Ok(
+            new
+            {
+                result.Message,
+                CommentsResponses = dto
+            }
+            );
+        }
+        
     }
 }

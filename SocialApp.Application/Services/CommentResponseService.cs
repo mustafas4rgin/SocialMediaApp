@@ -25,6 +25,26 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         _logger = logger;
         _commentResponseRepository = commentResponseRepository;
     }
+    public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetResponsesByCommentId(int commentId, QueryParameters param, CancellationToken ct = default)
+    {
+        try
+        {
+            var responses = _commentResponseRepository.GetResponsesByCommentId(commentId, ct);
+
+            if (!string.IsNullOrEmpty(param.Include))
+                QueryHelper.ApplyIncludesForCommentResponse(responses, param.Include);
+
+            if (!responses.Any())
+                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
+
+            return new SuccessResultWithData<IEnumerable<CommentResponse>>("Responses: ", responses);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occured while getting responses.");
+            return new ErrorResultWithData<IEnumerable<CommentResponse>>(ex.Message);
+        }
+    }
     public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetAllCommentResponsesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
