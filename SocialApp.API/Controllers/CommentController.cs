@@ -27,6 +27,28 @@ namespace SocialApp.API.Controllers
             _commentService = commentService;
             _mapper = mapper;
         }
+        [HttpGet("post-comments/{postId}")]
+        public async Task<IActionResult> GetCommentsByPostIdAsync([FromRoute]int postId, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var result = await _commentService.GetPostCommentsByPostId(postId, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            var comments = result.Data;
+
+            var dto = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+
+            return Ok(
+            new
+            {
+                result.Message,
+                Comments = dto
+            }
+            );
+        }
         public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _commentService.GetAllCommentsWithIncludesAsync(param, ct);
