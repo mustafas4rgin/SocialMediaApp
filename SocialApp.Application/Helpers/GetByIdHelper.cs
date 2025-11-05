@@ -11,5 +11,7 @@ public static class GetById
     => $"post:item:{include}:{id}";
 
     public static string User(int id, string include)
-    => $"user:istem:{include}:{id}";
+    => $"user:item:{include}:{id}";
+    public static string Like(int id, string include)
+    => $"like:item:{include}:{id}";
 }
