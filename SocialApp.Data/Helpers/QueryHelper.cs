@@ -1,9 +1,8 @@
-using System.Reflection.Emit;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Domain.Entities;
 
-namespace SocialApp.Application.Helpers;
+namespace SocialApp.Data.Helpers;
 
 public static class QueryHelper
 {

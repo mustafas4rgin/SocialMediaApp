@@ -4,5 +4,5 @@ namespace SocialApp.Domain.Contracts;
 
 public interface ICommentResponseRepository : IGenericRepository<CommentResponse>
 {
-    IQueryable<CommentResponse> GetResponsesByCommentId(int commentId, CancellationToken ct = default);
+    Task<List<CommentResponse>> GetResponsesByCommentId(int commentId, string? include, CancellationToken ct = default);
 }

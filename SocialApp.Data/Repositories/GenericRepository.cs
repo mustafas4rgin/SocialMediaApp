@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -10,11 +11,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     private readonly AppDbContext _context;
     public GenericRepository(AppDbContext context) => _context = context;
 
-    public IQueryable<T> GetAll(CancellationToken ct = default)
-        => _context.Set<T>().AsNoTracking();
+        public async Task<List<T>> GetAllAsync(CancellationToken ct = default)
+        => await _context.Set<T>()
+            .AsNoTracking()
+            .ToListAsync(ct);
 
-    public IQueryable<T> GetAllActive(CancellationToken ct = default)
-        => _context.Set<T>().AsNoTracking().Where(e => !e.IsDeleted);
+    public async Task<List<T>> GetAllActiveAsync(CancellationToken ct = default)
+        => await _context.Set<T>()
+            .AsNoTracking()
+            .Where(e => !e.IsDeleted)
+            .ToListAsync(ct);
 
     public async Task<T?> GetActiveByIdAsync(int id, CancellationToken ct = default)
         => await _context.Set<T>()

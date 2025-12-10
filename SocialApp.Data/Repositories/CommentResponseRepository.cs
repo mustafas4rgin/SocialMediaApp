@@ -1,6 +1,7 @@
-using System.Security.Cryptography.X509Certificates;
+
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -15,6 +16,14 @@ public class CommentResponseRepository : GenericRepository<CommentResponse>, ICo
     {
         _context = context;
     }
-    public IQueryable<CommentResponse> GetResponsesByCommentId(int commentId, CancellationToken ct = default)
-    => _context.Set<CommentResponse>().AsNoTracking().Where(cr => cr.CommentId == commentId);
+    public async Task<List<CommentResponse>> GetResponsesByCommentId(int commentId, string? include, CancellationToken ct = default)
+    {
+        var query = _context.Responses
+                        .Where(cr =>!cr.IsDeleted && cr.CommentId == commentId);
+        
+        if (!string.IsNullOrWhiteSpace(include))
+            query = QueryHelper.ApplyIncludesForCommentResponse(query, include);
+        
+        return await query.AsNoTracking().ToListAsync(ct);
+    }
 }

@@ -4,8 +4,8 @@ namespace SocialApp.Domain.Contracts;
 
 public interface IGenericRepository<T>  where T : EntityBase
 {
-    IQueryable<T> GetAll(CancellationToken ct = default);
-    IQueryable<T> GetAllActive(CancellationToken ct = default);
+    Task<List<T>>GetAllAsync(CancellationToken ct = default);
+    Task<List<T>> GetAllActiveAsync(CancellationToken ct = default);
     Task<T?> GetByIdAsync(int id, CancellationToken ct = default);
     Task<T?> GetActiveByIdAsync(int id, CancellationToken ct = default);
     Task<T?> UpdateAsync(T Entity, CancellationToken ct = default);
