@@ -154,7 +154,7 @@ public class AuthService : IAuthService
         catch (Exception ex)
         {
             Log.Error(ex, ex.Message);
-            return new ErrorResultWithData<TokenResponseDTO>(ex.Message);
+            return new ErrorResultWithData<TokenResponseDTO>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResult> RegisterAsync(User user, CancellationToken ct = default)
@@ -179,7 +179,7 @@ public class AuthService : IAuthService
         catch (Exception ex)
         {
             Log.Error(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<User>> MeAsync(int userId, string accessTokenString, CancellationToken ct = default)

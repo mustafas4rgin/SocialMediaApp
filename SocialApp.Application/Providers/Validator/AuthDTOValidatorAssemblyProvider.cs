@@ -9,6 +9,7 @@ public class AuthDTOValidatorAssemblyProvider
         return new[]
         {
             typeof(LoginDTOValidator),
+            typeof(RegisterDTOValidator)
         };
     }
 }

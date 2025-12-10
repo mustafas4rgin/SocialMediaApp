@@ -14,5 +14,9 @@ public sealed class AccesTokenConfiguration : BaseEntityConfiguration<AccessToke
            .WithMany()
            .HasForeignKey(at => at.UserId)
            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(at => at.Token).IsUnique();
+        builder.HasIndex(at => at.UserId);
+        builder.HasIndex(at => at.ExpiresAt);
     }
 }

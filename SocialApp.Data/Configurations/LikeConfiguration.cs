@@ -13,6 +13,8 @@ public sealed class LikeConfiguration : BaseEntityConfiguration<Like>
         builder.Property(l => l.UserId).IsRequired();
         builder.Property(l => l.PostId).IsRequired();
 
+        builder.HasIndex(l => new { l.UserId, l.PostId }).IsUnique();
+
         builder.HasOne(l => l.Post)
             .WithMany(p => p.Likes)
             .HasForeignKey(l => l.PostId)

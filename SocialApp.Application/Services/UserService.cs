@@ -64,7 +64,7 @@ public class UserService : GenericService<User>, IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting users.");
-            return new ErrorResultWithData<IEnumerable<User>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<User>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<User>> GetUserByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
@@ -99,7 +99,7 @@ public class UserService : GenericService<User>, IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"An error occured while getting user with ID : {id}");
-            return new ErrorResultWithData<User>(ex.Message);
+            return new ErrorResultWithData<User>("An unexpected error occured.");
         }
     }
 }

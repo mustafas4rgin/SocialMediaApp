@@ -46,7 +46,7 @@ public class FollowService : GenericService<Follow>, IFollowService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting follows.");
-            return new ErrorResultWithData<IEnumerable<Follow>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Follow>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetAllFollowsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
@@ -90,7 +90,7 @@ public class FollowService : GenericService<Follow>, IFollowService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"An error occured while getting follow with ID : {id}");
-            return new ErrorResultWithData<Follow>(ex.Message);
+            return new ErrorResultWithData<Follow>("An unexpected error occured.");
         }
     }
     public override async Task<IServiceResult> AddAsync(Follow follow, CancellationToken ct)
@@ -123,7 +123,7 @@ public class FollowService : GenericService<Follow>, IFollowService
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 }

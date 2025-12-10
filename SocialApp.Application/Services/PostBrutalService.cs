@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Interfaces;
-using SocialApp.Domain.DTOs;
+using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
 namespace SocialApp.Application.Services;

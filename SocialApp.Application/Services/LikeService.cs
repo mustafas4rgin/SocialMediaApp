@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Helpers;
-using SocialApp.Application.Registrations;
+using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Parameters;
@@ -63,7 +63,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 "An error occured while getting likes for user {UserId}.",
                 userId);
 
-            return new ErrorResultWithData<IEnumerable<Like>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Like>>("An unexpected error occured.");
         }
     }
 
@@ -115,7 +115,7 @@ public class LikeService : GenericService<Like>, ILikeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occured while getting likes.");
-            return new ErrorResultWithData<IEnumerable<Like>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Like>>("An unexpected error occured.");
         }
     }
 
@@ -156,7 +156,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 "An error occured while getting like with ID: {Id}",
                 id);
 
-            return new ErrorResultWithData<Like>(ex.Message);
+            return new ErrorResultWithData<Like>("An unexpected error occured.");
         }
     }
 
@@ -224,7 +224,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 like.PostId,
                 like.UserId);
 
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 }

@@ -35,7 +35,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<T>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default)
@@ -53,7 +53,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<T>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<T>>("An unexpected error occured.");
         }
     }
     public virtual async Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default)
@@ -74,7 +74,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 
@@ -96,7 +96,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
     public async Task<IServiceResult> SoftDeleteAsync(T entity, CancellationToken ct = default)
@@ -117,7 +117,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
     public async Task<IServiceResult> DeleteAsync(T entity, CancellationToken ct = default)
@@ -138,7 +138,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 
@@ -163,7 +163,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch(Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 
@@ -181,7 +181,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<T>(ex.Message);
+            return new ErrorResultWithData<T>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default)
@@ -198,7 +198,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<T>(ex.Message);
+            return new ErrorResultWithData<T>("An unexpected error occured.");
         }
     }
 }

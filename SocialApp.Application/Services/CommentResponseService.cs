@@ -25,16 +25,19 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         _logger = logger;
         _commentResponseRepository = commentResponseRepository;
     }
-    public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetResponsesByCommentId(int commentId, QueryParameters param, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetResponsesByCommentId(
+    int commentId,
+    QueryParameters param,
+    CancellationToken ct = default)
     {
         try
         {
             var query = _commentResponseRepository.GetResponsesByCommentId(commentId, ct);
 
-            var responses = await query.ToListAsync(ct);
-
             if (!string.IsNullOrEmpty(param.Include))
                 query = QueryHelper.ApplyIncludesForCommentResponse(query, param.Include);
+
+            var responses = await query.ToListAsync(ct);
 
             if (!responses.Any())
                 return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
@@ -44,9 +47,10 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting responses.");
-            return new ErrorResultWithData<IEnumerable<CommentResponse>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<CommentResponse>>("An unexpected error occured.");
         }
     }
+
     public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetAllCommentResponsesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
@@ -67,7 +71,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting responses.");
-            return new ErrorResultWithData<IEnumerable<CommentResponse>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<CommentResponse>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<CommentResponse>> GetCommentResponseByIdWithIncludesAsync(int id, QueryParameters parma, CancellationToken ct = default)
@@ -89,7 +93,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         catch (Exception ex)
         {
             _logger.LogError(ex, $"An error occured while getting response with ID : {id}");
-            return new ErrorResultWithData<CommentResponse>(ex.Message);
+            return new ErrorResultWithData<CommentResponse>("An unexpected error occured.");
         }
     }
 }

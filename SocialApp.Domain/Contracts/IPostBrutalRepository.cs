@@ -1,7 +1,7 @@
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
-namespace SocialApp.Domain.DTOs;
+namespace SocialApp.Domain.Contracts;
 
 public interface IPostBrutalRepository : IGenericRepository<PostBrutal>
 {

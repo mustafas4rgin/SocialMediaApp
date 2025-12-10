@@ -1,6 +1,7 @@
 
 using SocialApp.Domain.Entities;
 
+namespace SocialApp.Domain.Contracts;
 public interface IAuthRepository
 {
     IQueryable<User> GetUsersWithRoles(CancellationToken ct = default);

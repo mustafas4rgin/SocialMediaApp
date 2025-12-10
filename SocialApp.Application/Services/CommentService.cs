@@ -54,7 +54,7 @@ public class CommentService : GenericService<Comment>, ICommentService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting commentsç");
-            return new ErrorResultWithData<IEnumerable<Comment>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Comment>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetAllCommentsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
@@ -76,7 +76,7 @@ public class CommentService : GenericService<Comment>, ICommentService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting comments.");
-            return new ErrorResultWithData<IEnumerable<Comment>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Comment>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<Comment>> GetCommentByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
@@ -98,7 +98,7 @@ public class CommentService : GenericService<Comment>, ICommentService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"An error occured while getting comment with ID : {id}");
-            return new ErrorResultWithData<Comment>(ex.Message);
+            return new ErrorResultWithData<Comment>("An unexpected error occured.");
         }
     }
     public override async Task<IServiceResult> AddAsync(Comment comment, CancellationToken ct = default)

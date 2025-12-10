@@ -15,6 +15,11 @@ public sealed class RefreshTokenConfiguration : BaseEntityConfiguration<RefreshT
 
         builder.HasOne(rt => rt.User)
             .WithMany()
-            .HasForeignKey(rt => rt.UserId);
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(rt => rt.Token).IsUnique();
+        builder.HasIndex(rt => rt.UserId);
+        builder.HasIndex(rt => rt.ExpiresAt);
     }
 }

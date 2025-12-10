@@ -68,7 +68,7 @@ public class PostService : GenericService<Post>, IPostService
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while getting posts.");
-            return new ErrorResultWithData<IEnumerable<Post>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Post>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<Post>> GetPostByIdWithIncludesAsync(

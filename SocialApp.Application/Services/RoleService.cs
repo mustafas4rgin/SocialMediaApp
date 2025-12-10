@@ -56,7 +56,7 @@ public class RoleService : GenericService<Role>, IRoleService
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<Role>>(ex.Message);
+            return new ErrorResultWithData<IEnumerable<Role>>("An unexpected error occured.");
         }
     }
     public async Task<IServiceResultWithData<Role>> GetRoleByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
@@ -80,7 +80,7 @@ public class RoleService : GenericService<Role>, IRoleService
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<Role>(ex.Message);
+            return new ErrorResultWithData<Role>("An unexpected error occured.");
         }
     }
     public override async Task<IServiceResult> UpdateAsync(Role role, CancellationToken ct = default)
@@ -106,7 +106,7 @@ public class RoleService : GenericService<Role>, IRoleService
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
     public override async Task<IServiceResult> AddAsync(Role role, CancellationToken ct = default)
@@ -132,7 +132,7 @@ public class RoleService : GenericService<Role>, IRoleService
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult(ex.Message);
+            return new ErrorResult("An unexpected error occured.");
         }
     }
 }
