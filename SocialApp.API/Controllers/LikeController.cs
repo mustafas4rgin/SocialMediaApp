@@ -1,8 +1,7 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SocialApp.Application.Registrations;
+using SocialApp.Application.Interfaces;
 using SocialApp.Domain.DTOs.Create;
 using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.DTOs.Update;
