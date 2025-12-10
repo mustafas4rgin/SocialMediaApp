@@ -83,11 +83,37 @@ public class RoleService : GenericService<Role>, IRoleService
             return new ErrorResultWithData<Role>(ex.Message);
         }
     }
+    public override async Task<IServiceResult> UpdateAsync(Role role, CancellationToken ct = default)
+    {
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(role, ct);
+
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
+                
+            var roleExists = await _roleRepository.RoleNameCheckAsync(StringHelper.Normalize(role.Name), ct);
+
+            if (roleExists)
+                return new ErrorResult($"Role already exists with name : {role.Name}");
+            
+            await _roleRepository.UpdateAsync(role, ct);
+            await _roleRepository.SaveChangesAsync();
+
+            return new SuccessResult("Role updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            return new ErrorResult(ex.Message);
+        }
+    }
     public override async Task<IServiceResult> AddAsync(Role role, CancellationToken ct = default)
     {
         try
         {
-            var validationResult = await _validator.ValidateAsync(role);
+            var validationResult = await _validator.ValidateAsync(role, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
@@ -98,7 +124,7 @@ public class RoleService : GenericService<Role>, IRoleService
             if (roleExists)
                 return new ErrorResult($"Role already exists with name : {role.Name}");
             
-            await _roleRepository.AddAsync(role);
+            await _roleRepository.AddAsync(role, ct);
             await _roleRepository.SaveChangesAsync();
 
             return new SuccessResult("Role added successfully.");

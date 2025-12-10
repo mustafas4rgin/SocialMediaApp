@@ -78,7 +78,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
     }
 
-    public async Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default)
+    public virtual async Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default)
     {
         try
         {
