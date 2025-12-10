@@ -1,3 +1,5 @@
+using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +8,7 @@ using SocialApp.API.Controllers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Application.Services;
 using SocialApp.Domain.DTOs.Auth;
+using SocialApp.Domain.Entities;
 
 namespace SocialApp.API.Controllers
 {
@@ -14,9 +17,32 @@ namespace SocialApp.API.Controllers
     public class AuthController : BaseApiController
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IValidator<RegisterDTO> _registerValidator;
+        private readonly IMapper _mapper;
+        public AuthController(IAuthService authService, IValidator<RegisterDTO> registerValidator, IMapper mapper)
         {
+            _registerValidator = registerValidator;
             _authService = authService;
+            _mapper = mapper;
+        }
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAsync([FromBody]RegisterDTO dto, CancellationToken ct = default)
+        {
+            var validationResult = await _registerValidator.ValidateAsync(dto, ct);
+
+            if (!validationResult.IsValid)
+                return HandleValidationErrors(validationResult.Errors);
+            
+            var user = _mapper.Map<User>(dto);
+
+            var registerResult = await _authService.RegisterAsync(user, ct);
+
+            var errorResult = HandleServiceResult(registerResult);
+
+            if (errorResult != null)
+                return errorResult;
+            
+            return Ok(registerResult.Message);
         }
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO dto, CancellationToken ct)

@@ -10,5 +10,5 @@ public interface IAuthService
     Task<IServiceResultWithData<TokenResponseDTO>> LoginAsync(LoginDTO dto, CancellationToken ct);
     Task<IServiceResultWithData<User>> MeAsync(int userId, string accessTokenString, CancellationToken ct = default);
     Task<IServiceResult> LogOutAsync(string accessTokenString, CancellationToken ct = default);
-
+    Task<IServiceResult> RegisterAsync(User user, CancellationToken ct = default);
 }
