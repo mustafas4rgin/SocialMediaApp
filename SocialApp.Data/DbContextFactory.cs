@@ -9,7 +9,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseNpgsql("Host=dpg-d3onpbs9c44c738bpgng-a.oregon-postgres.render.com;Database=s4rgin;Username=s4rgin_user;Password=AuIbUXiPZ5ThC0T6EEw6o1xtrTzkAYTZ;Port=5432;Ssl Mode=Require;Trust Server Certificate=true");
+            optionsBuilder.UseNpgsql("Host=ep-shiny-surf-agw6tuvy-pooler.c-2.eu-central-1.aws.neon.tech;Port=5432;Database=neondb;Username=neondb_owner;Password=npg_MTPB3g4JvoGn;SSL Mode=Require;Trust Server Certificate=true;");
 
             return new AppDbContext(optionsBuilder.Options);
         }

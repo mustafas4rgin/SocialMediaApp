@@ -130,9 +130,6 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            if (entity.IsDeleted)
-                return new ErrorResult("Entity already deleted.");
-
             _repository.Delete(entity, ct);
             await _repository.SaveChangesAsync(ct);
 

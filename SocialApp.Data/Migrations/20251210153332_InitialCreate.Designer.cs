@@ -12,8 +12,8 @@ using SocialApp.Data.Contexts;
 namespace SocialApp.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251017211556_EntityBaseColumn")]
-    partial class EntityBaseColumn
+    [Migration("20251210153332_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
