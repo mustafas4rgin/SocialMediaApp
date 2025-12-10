@@ -18,11 +18,12 @@ public class AuthService : IAuthService
     private readonly IAuthRepository _authRepository;
     private readonly IValidator<LoginDTO> _loginValidator;
     private readonly JwtOptions _jwt;
+    private readonly IValidator<User> _userValidator;
 
-
-    public AuthService(IAuthRepository authRepository, IOptions<JwtOptions> jwtOptions, IValidator<LoginDTO> loginValidator)
+    public AuthService(IAuthRepository authRepository, IValidator<User> userValidator, IOptions<JwtOptions> jwtOptions, IValidator<LoginDTO> loginValidator)
     {
         _authRepository = authRepository;
+        _userValidator = userValidator;
         _jwt = jwtOptions.Value;
         _loginValidator = loginValidator;
     }
@@ -154,6 +155,31 @@ public class AuthService : IAuthService
         {
             Log.Error(ex, ex.Message);
             return new ErrorResultWithData<TokenResponseDTO>(ex.Message);
+        }
+    }
+    public async Task<IServiceResult> RegisterAsync(User user, CancellationToken ct = default)
+    {
+        try
+        {
+            var validationResult = await _userValidator.ValidateAsync(user);
+
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage)));
+            
+            var userExists = await _authRepository.UserExistsAsync(user.UserName, user.Email, ct);
+
+            if (userExists)
+                return new ErrorResult("There is user with this email or user name");
+
+            await _authRepository.RegisterUserAsync(user, ct);
+            await _authRepository.SaveChangesAsync(ct);
+
+            return new SuccessResult("Registered successfully.");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, ex.Message);
+            return new ErrorResult(ex.Message);
         }
     }
     public async Task<IServiceResultWithData<User>> MeAsync(int userId, string accessTokenString, CancellationToken ct = default)
