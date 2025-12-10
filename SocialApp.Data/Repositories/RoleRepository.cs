@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
@@ -13,4 +15,6 @@ public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
         _context = context;
     }
+    public async Task<bool> RoleNameCheckAsync(string roleName, CancellationToken ct = default)
+    => await _context.Set<Role>().AnyAsync(r => r.Name == roleName, ct);
 }
