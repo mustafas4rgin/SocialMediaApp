@@ -41,16 +41,8 @@ public class LikeService : GenericService<Like>, ILikeService
     {
         try
         {
-            param ??= new QueryParameters();
 
-            var query = _likeRepository.GetAllByUserId(userId, ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForLike(query, param.Include);
-
-            query = query.AsNoTracking();
-
-            var likes = await query.ToListAsync(ct);
+            var likes = await _likeRepository.GetLikesByUserIdAsync(userId, param.Include, ct);
 
             if (!likes.Any())
                 return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
@@ -91,14 +83,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<Like>>("Likes (cache)", cached);
 
-                var query = _likeRepository.GetAllActive(ct);
-
-                if (!string.IsNullOrEmpty(param.Include))
-                    query = QueryHelper.ApplyIncludesForLike(query, param.Include);
-
-                query = query.AsNoTracking();
-
-                var likes = await query.ToListAsync(ct);
+                var likes = await _likeRepository.GetAllLikesAsync(param.Include, ct);
 
                 if (!likes.Any())
                     return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
@@ -134,14 +119,7 @@ public class LikeService : GenericService<Like>, ILikeService
             if (cached is not null)
                 return new SuccessResultWithData<Like>("Like (cache)", cached);
 
-            var query = _likeRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForLike(query, param.Include);
-
-            query = query.AsNoTracking();
-
-            var like = await query.FirstOrDefaultAsync(l => l.Id == id, ct);
+            var like = await _likeRepository.GetLikeByIdAsync(id, param.Include, ct);
 
             if (like is null)
                 return new ErrorResultWithData<Like>($"There is no like with ID: {id}");

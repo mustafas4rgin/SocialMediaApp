@@ -24,8 +24,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var activeEntities = await _repository.GetAllActive(ct)
-                                    .ToListAsync(ct);
+            var activeEntities = await _repository.GetAllActiveAsync(ct);
 
             if (!activeEntities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no active data.");
@@ -42,8 +41,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entities = await _repository.GetAll(ct)
-                               .ToListAsync(ct);
+            var entities = await _repository.GetAllAsync(ct);
 
             if (!entities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no data.");

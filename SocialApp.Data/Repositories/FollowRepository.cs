@@ -23,7 +23,7 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
         if (!string.IsNullOrWhiteSpace(include))
             query = QueryHelper.ApplyIncludesForFollow(query, include);
 
-        return await query.FirstOrDefaultAsync(ct);
+        return await query.AsNoTracking().FirstOrDefaultAsync(ct);
     }
     public async Task<List<Follow>> GetFollowsByFollowingIdAsync(int followingId, string? include, CancellationToken ct = default)
     {
@@ -33,7 +33,7 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
         if (!string.IsNullOrWhiteSpace(include))
             query = QueryHelper.ApplyIncludesForFollow(query, include);
         
-        return await query.ToListAsync(ct);
+        return await query.AsNoTracking().ToListAsync(ct);
     }
     public async Task<List<Follow>> GetAllFollowsAsync(string? include, CancellationToken ct = default)
     {
@@ -43,7 +43,7 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
         if (!string.IsNullOrWhiteSpace(include))
             query = QueryHelper.ApplyIncludesForFollow(query, include);
         
-        return await query.ToListAsync(ct);
+        return await query.AsNoTracking().ToListAsync(ct);
     }
     public async Task<Follow?> GetExistFollowAsync(int followerId, int followingId, CancellationToken ct = default)
     => await _context.Set<Follow>().AsNoTracking().FirstOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingId == followingId, ct);
