@@ -40,12 +40,8 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var query = _commentRepository.GetPostComments(postId, ct);
+            var comments = await _commentRepository.GetPostCommentsByPostIdAsync(postId, param.Include, ct);
 
-            if (!StringHelper.EmptyCheck(param.Include))
-                query = QueryHelper.ApplyIncludesForComment(query, param.Include);
-
-            var comments = await query.ToListAsync(ct);
             if (comments is null || !comments.Any())
                 return new ErrorResultWithData<IEnumerable<Comment>>("No comment found.");
 
@@ -61,12 +57,7 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var query = _commentRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForComment(query, param.Include);
-
-            var comments = await query.ToListAsync(ct);
+            var comments = await _commentRepository.GetPostCommentsAsync(param.Include, ct);
 
             if (!comments.Any())
                 return new ErrorResultWithData<IEnumerable<Comment>>("There is no comment.");
@@ -83,12 +74,7 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var query = _commentRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForComment(query, param.Include);
-
-            var comment = await query.FirstOrDefaultAsync(c => c.Id == id, ct);
+            var comment = await _commentRepository.GetPostCommentByIdAsync(id, param.Include, ct);
 
             if (comment is null)
                 return new ErrorResultWithData<Comment>($"There is no comment with ID : {id}");
