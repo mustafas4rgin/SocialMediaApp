@@ -52,6 +52,14 @@ public class AuthRepository : IAuthRepository
         if (accessToken is null) return;
         await _context.AddAsync(accessToken);
     }
+    public void Delete(AccessToken token) => _context.Remove(token);
+    public async Task<List<AccessToken>> GetExpiredAccessTokensAsync(CancellationToken ct = default)
+    {
+        var query = await _context.AccessTokens
+                        .Where(t => t.ExpiresAt <= DateTime.UtcNow)
+                        .ToListAsync(ct);
+        return query;
+    }
     public async Task<AccessToken?> GetAccessTokenByUserIdAsync(int userId, CancellationToken ct = default)
     {
         return await _context.AccessTokens

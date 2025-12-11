@@ -23,5 +23,6 @@ public interface IAuthRepository
     Task<AccessToken?> GetAccessTokenByUserIdAsync(int userId, CancellationToken ct = default);
     Task<bool> UserExistsAsync(string userName = "", string email = "", CancellationToken ct = default);
     Task RegisterUserAsync(User user, CancellationToken ct = default);
-
+    Task<List<AccessToken>> GetExpiredAccessTokensAsync(CancellationToken ct = default);
+    void Delete(AccessToken token);
 }

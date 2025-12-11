@@ -28,16 +28,14 @@ public class TokenCleanupService : BackgroundService
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var repo = scope.ServiceProvider.GetRequiredService<IGenericRepository<AccessToken>>();
+                var repo = scope.ServiceProvider.GetRequiredService<IAuthRepository>();
 
-                var expiredTokens = await repo.GetAll(stoppingToken)
-                    .Where(t => t.ExpiresAt <= DateTime.UtcNow)
-                    .ToListAsync(stoppingToken);
+                var expiredTokens = await repo.GetExpiredAccessTokensAsync(stoppingToken);
 
                 if (expiredTokens.Count > 0)
                 {
                     foreach (var token in expiredTokens)
-                        repo.Delete(token, stoppingToken);
+                        repo.Delete(token);
 
                     await repo.SaveChangesAsync(stoppingToken);
                     _logger.LogInformation("Deleted {Count} expired access tokens.", expiredTokens.Count);
