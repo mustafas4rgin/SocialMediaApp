@@ -27,16 +27,11 @@ public class FollowService : GenericService<Follow>, IFollowService
         _validator = validator;
         _followRepository = repository;
     }
-    public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetFollowsByFollowingId(int FollowingId, QueryParameters param, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetFollowsByFollowingId(int followingId, QueryParameters param, CancellationToken ct = default)
     {
         try
         {
-            var query = _followRepository.GetFollowsByFollowingId(FollowingId, ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForFollow(query, param.Include);
-
-            var follows = await query.ToListAsync(ct);
+            var follows = await _followRepository.GetFollowsByFollowingIdAsync(followingId, param.Include, ct);
 
             if (!follows.Any())
                 return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.");
@@ -53,12 +48,7 @@ public class FollowService : GenericService<Follow>, IFollowService
     {
         try
         {
-            var query = _followRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForFollow(query, param.Include);
-
-            var follows = await query.ToListAsync(ct);
+            var follows = await _followRepository.GetAllFollowsAsync(param.Include, ct);
 
             if (!follows.Any())
                 return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.");
@@ -75,12 +65,7 @@ public class FollowService : GenericService<Follow>, IFollowService
     {
         try
         {
-            var query = _followRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForFollow(query, param.Include);
-
-            var follow = await query.FirstOrDefaultAsync(f => f.Id == id, ct);
+            var follow = await _followRepository.GetFollowByIdAsync(id, param.Include, ct);
 
             if (follow is null)
                 return new ErrorResultWithData<Follow>($"There is no follow with ID : {id}");
