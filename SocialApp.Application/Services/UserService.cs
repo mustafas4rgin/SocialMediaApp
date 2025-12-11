@@ -45,12 +45,7 @@ public class UserService : GenericService<User>, IUserService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<User>>("Users found (cache)", cached);
 
-                var query = _userRepository.GetAllActive(ct);
-
-                if (!StringHelper.EmptyCheck(param.Include))
-                    query = QueryHelper.ApplyIncludesForUser(query, param.Include);
-
-                var users = await query.ToListAsync(ct);
+                var users = await _userRepository.GetAllUsersAsync(param.Include, ct);
 
                 await CacheHelper.SetTypedAsync(_cache, cacheKey, users, ct);
 
@@ -74,15 +69,11 @@ public class UserService : GenericService<User>, IUserService
             var cacheKey = GetById.User(id, param.Include);
 
             var cached = await CacheHelper.GetTypedAsync<User>(_cache, cacheKey, ct);
+
             if (cached is not null)
                 return new SuccessResultWithData<User>("User found (cached)", cached);
 
-            var query = _userRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForUser(query, param.Include);
-
-            var user = await query.FirstOrDefaultAsync(u => u.Id == id, ct);
+            var user = await _userRepository.GetUserByIdAsync(id, param.Include, ct);
 
             if (user is null)
                 return new ErrorResultWithData<User>($"There is no user with ID : {id}");
