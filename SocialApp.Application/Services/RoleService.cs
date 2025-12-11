@@ -35,18 +35,7 @@ public class RoleService : GenericService<Role>, IRoleService
     {
         try
         {
-            var query = _roleRepository.GetAllActive();
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForRole(query, param.Include);
-
-            if (!string.IsNullOrEmpty(param.Search))
-            {
-                var s = param.Search.ToLowerInvariant();
-                query = query.Where(r => r.Name.ToLower().Contains(s));
-            }
-
-            var roles = await query.ToListAsync();
+            var roles = await _roleRepository.GetAllRolesAsync(param.Include, ct);
 
             if (!roles.Any())
                 return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.");
@@ -63,17 +52,10 @@ public class RoleService : GenericService<Role>, IRoleService
     {
         try
         {
-            
-            var query = _roleRepository.GetAllActive();
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForRole(query, param.Include);
-
-            var role = await query.FirstOrDefaultAsync(r => r.Id == id);
+            var role = await _roleRepository.GetRoleByIdAsync(id, param.Include, ct);
 
             if (role is null)
                 return new ErrorResultWithData<Role>($"There is no role with ID : {id}");
-
 
             return new SuccessResultWithData<Role>("Role found", role);
         }
