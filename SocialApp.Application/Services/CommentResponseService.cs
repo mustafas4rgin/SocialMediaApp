@@ -1,8 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
+
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
@@ -32,13 +30,8 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
     {
         try
         {
-            var query = _commentResponseRepository.GetResponsesByCommentId(commentId, ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForCommentResponse(query, param.Include);
-
-            var responses = await query.ToListAsync(ct);
-
+            var responses = await _commentResponseRepository.GetResponsesByCommentIdAsync(commentId, param.Include, ct);
+            
             if (!responses.Any())
                 return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
 
@@ -55,12 +48,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
     {
         try
         {
-            var query = _commentResponseRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(param.Include))
-                query = QueryHelper.ApplyIncludesForCommentResponse(query, param.Include);
-
-            var commentResponses = await query.ToListAsync(ct);
+            var commentResponses = await _commentResponseRepository.GetAllResponsesAsync(param.Include, ct);
 
             if (!commentResponses.Any())
                 return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
@@ -78,12 +66,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
     {
         try
         {
-            var query = _commentResponseRepository.GetAllActive(ct);
-
-            if (!string.IsNullOrEmpty(parma.Include))
-                query = QueryHelper.ApplyIncludesForCommentResponse(query, parma.Include);
-
-            var commentResponse = await query.FirstOrDefaultAsync(cr => cr.Id == id, ct);
+            var commentResponse = await _commentResponseRepository.GetCommentResponseByIdAsync(id, parma.Include, ct);
 
             if (commentResponse is null)
                 return new ErrorResultWithData<CommentResponse>($"There is no response with ID : {id}");

@@ -1,8 +1,6 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SocialApp.API.Controllers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.DTOs.Create;
 using SocialApp.Domain.DTOs.List;
@@ -45,7 +43,7 @@ namespace SocialApp.API.Controllers
             new
             {
                 result.Message,
-                Responses = dto
+                Data = dto
             }
             );
         }
@@ -66,7 +64,7 @@ namespace SocialApp.API.Controllers
             new
             {
                 result.Message,
-                dto
+                Data = dto
             }
             );
         }
@@ -88,7 +86,7 @@ namespace SocialApp.API.Controllers
             new
             {
                 result.Message,
-                CommentsResponses = dto
+                Data = dto
             }
             );
         }
