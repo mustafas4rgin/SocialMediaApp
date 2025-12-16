@@ -1,0 +1,158 @@
+2025-12-16 18:26:19.904 +03:00 [INF] User profile is available. Using '/Users/s4rgin/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-12-16 18:26:21.245 +03:00 [INF] Now listening on: http://localhost:5084
+2025-12-16 18:26:21.250 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-16 18:26:21.250 +03:00 [INF] Hosting environment: Development
+2025-12-16 18:26:21.250 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-12-16 18:26:22.832 +03:00 [ERR] Failed executing DbCommand (84ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()
+2025-12-16 18:26:22.850 +03:00 [ERR] An exception occurred while iterating over the results of a query for context type 'SocialApp.Data.Contexts.AppDbContext'.
+Npgsql.PostgresException (0x80004005): 42703: column a.DeletedAt does not exist
+
+POSITION: 31
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column a.DeletedAt does not exist
+    Position: 31
+    File: parse_relation.c
+    Line: 3716
+    Routine: errorMissingColumn
+Npgsql.PostgresException (0x80004005): 42703: column a.DeletedAt does not exist
+
+POSITION: 31
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column a.DeletedAt does not exist
+    Position: 31
+    File: parse_relation.c
+    Line: 3716
+    Routine: errorMissingColumn
+2025-12-16 18:26:22.854 +03:00 [ERR] Token cleanup failed.
+Npgsql.PostgresException (0x80004005): 42703: column a.DeletedAt does not exist
+
+POSITION: 31
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at SocialApp.Data.Repositories.AuthRepository.GetExpiredAccessTokensAsync(CancellationToken ct) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Data/Repositories/AuthRepository.cs:line 58
+   at SocialApp.Application.Services.TokenCleanupService.ExecuteAsync(CancellationToken stoppingToken) in /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.Application/Services/TokenCleanupService.cs:line 33
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column a.DeletedAt does not exist
+    Position: 31
+    File: parse_relation.c
+    Line: 3716
+    Routine: errorMissingColumn
+2025-12-16 18:26:28.903 +03:00 [INF] Application is shutting down...
+2025-12-16 18:27:31.510 +03:00 [INF] User profile is available. Using '/Users/s4rgin/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-12-16 18:27:32.020 +03:00 [INF] Now listening on: http://localhost:5084
+2025-12-16 18:27:32.021 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-16 18:27:32.021 +03:00 [INF] Hosting environment: Development
+2025-12-16 18:27:32.021 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-12-16 18:27:32.703 +03:00 [INF] Executed DbCommand (82ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()
+2025-12-16 18:27:33.027 +03:00 [INF] Executed DbCommand (81ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p0;
+2025-12-16 18:27:33.031 +03:00 [INF] Deleted 1 expired access tokens.
+2025-12-16 18:27:43.608 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/GetAll - null null
+2025-12-16 18:27:43.627 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-12-16 18:27:43.690 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 18:27:43.708 +03:00 [INF] Route matched with {action = "GetAll", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-16 18:27:43.979 +03:00 [INF] Executed DbCommand (71ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted")
+2025-12-16 18:27:44.018 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-16 18:27:44.023 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API) in 313.4803ms
+2025-12-16 18:27:44.025 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 18:27:44.029 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/GetAll - 200 null application/json; charset=utf-8 421.7859ms
+2025-12-16 19:01:12.789 +03:00 [INF] User profile is available. Using '/Users/s4rgin/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-12-16 19:01:13.240 +03:00 [INF] Now listening on: http://localhost:5084
+2025-12-16 19:01:13.241 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-16 19:01:13.242 +03:00 [INF] Hosting environment: Development
+2025-12-16 19:01:13.242 +03:00 [INF] Content root path: /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API
+2025-12-16 19:01:14.873 +03:00 [INF] Executed DbCommand (81ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()
+2025-12-16 19:01:23.924 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/User/GetAll - null null
+2025-12-16 19:01:23.973 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-12-16 19:01:24.049 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/User/GetAll - 404 0 null 125.9107ms
+2025-12-16 19:01:24.051 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/User/GetAll, Response status code: 404
+2025-12-16 19:01:56.919 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/User/GetAll - null null
+2025-12-16 19:01:56.930 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/User/GetAll - 404 0 null 12.0322ms
+2025-12-16 19:01:56.931 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/User/GetAll, Response status code: 404
+2025-12-16 19:02:03.523 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/User/GetAll - null null
+2025-12-16 19:02:03.529 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/User/GetAll - 404 0 null 5.68ms
+2025-12-16 19:02:03.529 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/User/GetAll, Response status code: 404
+2025-12-16 19:02:22.876 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/GetAll - null null
+2025-12-16 19:02:22.892 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:02:22.937 +03:00 [INF] Route matched with {action = "GetAll", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-16 19:02:23.217 +03:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted")
+2025-12-16 19:02:23.268 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-16 19:02:23.273 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API) in 334.9332ms
+2025-12-16 19:02:23.274 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:02:23.278 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/GetAll - 200 null application/json; charset=utf-8 402.4689ms
+2025-12-16 19:03:32.152 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/GetAll - null null
+2025-12-16 19:03:32.163 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:03:32.167 +03:00 [INF] Route matched with {action = "GetAll", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-16 19:03:32.223 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-16 19:03:32.224 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API) in 56.896ms
+2025-12-16 19:03:32.224 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:03:32.225 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/GetAll - 200 null application/json; charset=utf-8 73.7677ms
+2025-12-16 19:03:38.731 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/GetAll - null null
+2025-12-16 19:03:38.734 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:03:38.735 +03:00 [INF] Route matched with {action = "GetAll", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-16 19:03:38.758 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-16 19:03:38.759 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API) in 23.6504ms
+2025-12-16 19:03:38.759 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetAllAsync (SocialApp.API)'
+2025-12-16 19:03:38.760 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/GetAll - 200 null application/json; charset=utf-8 28.4718ms
+2025-12-16 19:12:01.759 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/User/GetAll - null null
+2025-12-16 19:12:01.766 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/User/GetAll - 404 0 null 5.9632ms
+2025-12-16 19:12:01.783 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5084/User/GetAll, Response status code: 404
+2025-12-16 19:13:17.020 +03:00 [INF] Application is shutting down...
