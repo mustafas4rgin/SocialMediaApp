@@ -86,7 +86,7 @@ namespace SocialApp.API.Controllers
                 Role = user.Role.Name
             });
         }
-        [HttpGet("logout")]
+        [HttpPost("logout")]
         public async Task<IActionResult> LogOutAsync(CancellationToken ct = default)
         {
             var authHeader = HttpContext.Request.Headers["Authorization"].ToString();

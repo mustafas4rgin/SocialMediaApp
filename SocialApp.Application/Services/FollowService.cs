@@ -34,7 +34,7 @@ public class FollowService : GenericService<Follow>, IFollowService
             var follows = await _followRepository.GetFollowsByFollowingIdAsync(followingId, param.Include, ct);
 
             if (!follows.Any())
-                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.");
+                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.", 404);
 
             return new SuccessResultWithData<IEnumerable<Follow>>("Followers: ", follows);
         }
@@ -51,7 +51,7 @@ public class FollowService : GenericService<Follow>, IFollowService
             var follows = await _followRepository.GetAllFollowsAsync(param.Include, ct);
 
             if (!follows.Any())
-                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.");
+                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.", 404);
 
             return new SuccessResultWithData<IEnumerable<Follow>>("Follows found.", follows);
         }
@@ -68,7 +68,7 @@ public class FollowService : GenericService<Follow>, IFollowService
             var follow = await _followRepository.GetFollowByIdAsync(id, param.Include, ct);
 
             if (follow is null)
-                return new ErrorResultWithData<Follow>($"There is no follow with ID : {id}");
+                return new ErrorResultWithData<Follow>($"There is no follow with ID : {id}", 404);
 
             return new SuccessResultWithData<Follow>("Follow found.", follow);
         }
@@ -84,7 +84,7 @@ public class FollowService : GenericService<Follow>, IFollowService
             return new ErrorResult("Bad request.");
 
         if (follow.FollowerId == follow.FollowingId)
-            return new ErrorResult("You can't follow yourself.");
+            return new ErrorResult("You can't follow yourself.", 409);
 
         var validationResult = await _validator.ValidateAsync(follow, ct);
 
@@ -98,7 +98,7 @@ public class FollowService : GenericService<Follow>, IFollowService
             var existFollow = await _followRepository.GetExistFollowAsync(follow.FollowerId, follow.FollowingId, ct);
 
             if (existFollow is not null)
-                return new ErrorResult("Already follows.");
+                return new ErrorResult("Already follows.", 409);
 
             await _followRepository.AddAsync(follow, ct);
             await _followRepository.SaveChangesAsync();

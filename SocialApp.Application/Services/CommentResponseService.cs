@@ -33,7 +33,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
             var responses = await _commentResponseRepository.GetResponsesByCommentIdAsync(commentId, param.Include, ct);
             
             if (!responses.Any())
-                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
+                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.", 404);
 
             return new SuccessResultWithData<IEnumerable<CommentResponse>>("Responses: ", responses);
         }
@@ -51,7 +51,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
             var commentResponses = await _commentResponseRepository.GetAllResponsesAsync(param.Include, ct);
 
             if (!commentResponses.Any())
-                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.");
+                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.", 404);
 
             return new SuccessResultWithData<IEnumerable<CommentResponse>>("Response(s) found", commentResponses);
 
@@ -69,7 +69,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
             var commentResponse = await _commentResponseRepository.GetCommentResponseByIdAsync(id, parma.Include, ct);
 
             if (commentResponse is null)
-                return new ErrorResultWithData<CommentResponse>($"There is no response with ID : {id}");
+                return new ErrorResultWithData<CommentResponse>($"There is no response with ID : {id}", 404);
 
             return new SuccessResultWithData<CommentResponse>("Response found.", commentResponse);
         }

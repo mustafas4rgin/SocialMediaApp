@@ -27,7 +27,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             var activeEntities = await _repository.GetAllActiveAsync(ct);
 
             if (!activeEntities.Any())
-                return new ErrorResultWithData<IEnumerable<T>>("There is no active data.");
+                return new ErrorResultWithData<IEnumerable<T>>("There is no active data.", 404);
 
             return new SuccessResultWithData<IEnumerable<T>>("Active data found.", activeEntities);
         }
@@ -44,7 +44,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             var entities = await _repository.GetAllAsync(ct);
 
             if (!entities.Any())
-                return new ErrorResultWithData<IEnumerable<T>>("There is no data.");
+                return new ErrorResultWithData<IEnumerable<T>>("There is no data.", 404);
 
             return new SuccessResultWithData<IEnumerable<T>>("Data found.", entities);
         }
@@ -67,7 +67,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             await _repository.AddAsync(entity, ct);
             await _repository.SaveChangesAsync(ct);
 
-            return new SuccessResult("Entity added successfully.");
+            return new SuccessResult("Entity added successfully.", 201);
         }
         catch (Exception ex)
         {
@@ -172,7 +172,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             var entity = await _repository.GetByIdAsync(id, ct);
 
             if (entity is null)
-                return new ErrorResultWithData<T>($"There is no entity with ID : {id}");
+                return new ErrorResultWithData<T>($"There is no entity with ID : {id}", 404);
 
             return new SuccessResultWithData<T>("Entity found.", entity);
         }
@@ -189,7 +189,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             var entity = await _repository.GetActiveByIdAsync(id, ct);
 
             if (entity is null)
-                return new ErrorResultWithData<T>($"There is no active entity with ID : {id}");
+                return new ErrorResultWithData<T>($"There is no active entity with ID : {id}", 404);
 
             return new SuccessResultWithData<T>("Active entity found.", entity);
         }

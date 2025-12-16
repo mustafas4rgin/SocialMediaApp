@@ -5,8 +5,6 @@ namespace SocialApp.Application.Helpers;
 
 public static class CacheHelper
 {
-    // Tüm cache key'lerini tutacağımız basit bir registry.
-    // İster global kullan, ister ileride entity bazlı ayırırsın.
     private const string KeysRegistryKey = "cache:keys";
 
     private static readonly JsonSerializerOptions JsonOptions = new()

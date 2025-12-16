@@ -48,7 +48,7 @@ public class PostService : GenericService<Post>, IPostService
                 var posts = await _postRepository.GetAllPostsAsync(param.Include, ct);
 
                 if (!posts.Any())
-                    return new ErrorResultWithData<IEnumerable<Post>>("There is no post.");
+                    return new ErrorResultWithData<IEnumerable<Post>>("There is no post.", 404);
 
                 await CacheHelper.SetTypedAsync(_cache, cacheKey, posts, ct);
 
@@ -87,7 +87,7 @@ public class PostService : GenericService<Post>, IPostService
             if (post is null)
             {
                 _logger.LogInformation("Post not found for id {PostId}", id);
-                return new ErrorResultWithData<Post>($"There is no post with ID: {id}");
+                return new ErrorResultWithData<Post>($"There is no post with ID: {id}", 404);
             }
 
             await CacheHelper.SetTypedAsync(_cache, cacheKey, post, ct);

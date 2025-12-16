@@ -38,7 +38,7 @@ public class RoleService : GenericService<Role>, IRoleService
             var roles = await _roleRepository.GetAllRolesAsync(param.Include, ct);
 
             if (!roles.Any())
-                return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.");
+                return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.", 404);
 
             return new SuccessResultWithData<IEnumerable<Role>>("Roles found.", roles);
         }
@@ -55,7 +55,7 @@ public class RoleService : GenericService<Role>, IRoleService
             var role = await _roleRepository.GetRoleByIdAsync(id, param.Include, ct);
 
             if (role is null)
-                return new ErrorResultWithData<Role>($"There is no role with ID : {id}");
+                return new ErrorResultWithData<Role>($"There is no role with ID : {id}", 404);
 
             return new SuccessResultWithData<Role>("Role found", role);
         }
@@ -78,7 +78,7 @@ public class RoleService : GenericService<Role>, IRoleService
             var roleExists = await _roleRepository.RoleNameCheckAsync(StringHelper.Normalize(role.Name), ct);
 
             if (roleExists)
-                return new ErrorResult($"Role already exists with name : {role.Name}");
+                return new ErrorResult($"Role already exists with name : {role.Name}", 409);
             
             await _roleRepository.UpdateAsync(role, ct);
             await _roleRepository.SaveChangesAsync();
@@ -104,12 +104,12 @@ public class RoleService : GenericService<Role>, IRoleService
             var roleExists = await _roleRepository.RoleNameCheckAsync(StringHelper.Normalize(role.Name), ct);
 
             if (roleExists)
-                return new ErrorResult($"Role already exists with name : {role.Name}");
+                return new ErrorResult($"Role already exists with name : {role.Name}", 409);
             
             await _roleRepository.AddAsync(role, ct);
             await _roleRepository.SaveChangesAsync();
 
-            return new SuccessResult("Role added successfully.");
+            return new SuccessResult("Role added successfully.", 201);
         }
         catch (Exception ex)
         {

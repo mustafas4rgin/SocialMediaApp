@@ -76,7 +76,7 @@ public class UserService : GenericService<User>, IUserService
             var user = await _userRepository.GetUserByIdAsync(id, param.Include, ct);
 
             if (user is null)
-                return new ErrorResultWithData<User>($"There is no user with ID : {id}");
+                return new ErrorResultWithData<User>($"There is no user with ID : {id}", 404);
 
             await CacheHelper.SetTypedAsync(_cache, cacheKey, user, ct);
 

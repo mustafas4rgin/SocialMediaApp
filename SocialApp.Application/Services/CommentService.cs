@@ -43,7 +43,7 @@ public class CommentService : GenericService<Comment>, ICommentService
             var comments = await _commentRepository.GetPostCommentsByPostIdAsync(postId, param.Include, ct);
 
             if (comments is null || !comments.Any())
-                return new ErrorResultWithData<IEnumerable<Comment>>("No comment found.");
+                return new ErrorResultWithData<IEnumerable<Comment>>("No comment found.", 404);
 
             return new SuccessResultWithData<IEnumerable<Comment>>("Comments found.", comments);
         }
@@ -60,7 +60,7 @@ public class CommentService : GenericService<Comment>, ICommentService
             var comments = await _commentRepository.GetPostCommentsAsync(param.Include, ct);
 
             if (!comments.Any())
-                return new ErrorResultWithData<IEnumerable<Comment>>("There is no comment.");
+                return new ErrorResultWithData<IEnumerable<Comment>>("There is no comment.", 404);
 
             return new SuccessResultWithData<IEnumerable<Comment>>("Comments found.", comments);
         }
@@ -77,7 +77,7 @@ public class CommentService : GenericService<Comment>, ICommentService
             var comment = await _commentRepository.GetPostCommentByIdAsync(id, param.Include, ct);
 
             if (comment is null)
-                return new ErrorResultWithData<Comment>($"There is no comment with ID : {id}");
+                return new ErrorResultWithData<Comment>($"There is no comment with ID : {id}", 404);
 
             return new SuccessResultWithData<Comment>("Comment found.", comment);
         }
@@ -103,12 +103,12 @@ public class CommentService : GenericService<Comment>, ICommentService
             var existingPost = await _postRepository.GetActiveByIdAsync(comment.PostId, ct);
 
             if (existingPost is null)
-                return new ErrorResult($"There is no post with ID : {comment.PostId}");
+                return new ErrorResult($"There is no post with ID : {comment.PostId}", 404);
 
             var existingUser = await _userRepository.GetActiveByIdAsync(comment.UserId, ct);
 
             if (existingUser is null)
-                return new ErrorResult($"There is no user with ID : {comment.UserId}");
+                return new ErrorResult($"There is no user with ID : {comment.UserId}", 404);
 
             await _commentRepository.AddAsync(comment, ct);
             await _commentRepository.SaveChangesAsync(ct);

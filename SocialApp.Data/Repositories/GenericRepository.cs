@@ -73,6 +73,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
         if (entity is null) return;
 
         entity.IsDeleted = true;
+        entity.DeletedAt = DateTime.UtcNow;
         entity.UpdatedAt = DateTime.UtcNow;
 
         _context.Attach(entity);

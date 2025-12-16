@@ -45,7 +45,7 @@ public class LikeService : GenericService<Like>, ILikeService
             var likes = await _likeRepository.GetLikesByUserIdAsync(userId, param.Include, ct);
 
             if (!likes.Any())
-                return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
+                return new ErrorResultWithData<IEnumerable<Like>>("There is no like.", 404);
 
             return new SuccessResultWithData<IEnumerable<Like>>("Likes found.", likes);
         }
@@ -86,7 +86,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 var likes = await _likeRepository.GetAllLikesAsync(param.Include, ct);
 
                 if (!likes.Any())
-                    return new ErrorResultWithData<IEnumerable<Like>>("There is no like.");
+                    return new ErrorResultWithData<IEnumerable<Like>>("There is no like.", 404);
 
                 await CacheHelper.SetTypedAsync(_cache, cacheKey, likes, ct);
 
@@ -122,7 +122,7 @@ public class LikeService : GenericService<Like>, ILikeService
             var like = await _likeRepository.GetLikeByIdAsync(id, param.Include, ct);
 
             if (like is null)
-                return new ErrorResultWithData<Like>($"There is no like with ID: {id}");
+                return new ErrorResultWithData<Like>($"There is no like with ID: {id}", 404);
 
             await CacheHelper.SetTypedAsync(_cache, cacheKey, like, ct);
 
