@@ -8,7 +8,7 @@ where T : EntityBase
 {
     Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default);
     Task<IServiceResultWithData<IEnumerable<T>>> GetAllActiveAsync(CancellationToken ct = default);
-    Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResultWithData<T>> AddAsync(T entity, CancellationToken ct = default);
     Task<IServiceResultWithData<T>> GetByIdAsync(int id, CancellationToken ct = default);
     Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default);
     Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default);

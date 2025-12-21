@@ -83,7 +83,8 @@ namespace SocialApp.API.Controllers
             return Ok(new
             {
                 FirstName = $"{user.FirstName} {user.LastName}",
-                Role = user.Role.Name
+                Role = user.Role.Name,
+                UserId = user.Id
             });
         }
         [HttpPost("logout")]

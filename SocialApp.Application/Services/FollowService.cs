@@ -78,18 +78,18 @@ public class FollowService : GenericService<Follow>, IFollowService
             return new ErrorResultWithData<Follow>("An unexpected error occured.");
         }
     }
-    public override async Task<IServiceResult> AddAsync(Follow follow, CancellationToken ct)
+    public override async Task<IServiceResultWithData<Follow>> AddAsync(Follow follow, CancellationToken ct)
     {
         if (follow is null)
-            return new ErrorResult("Bad request.");
+            return new ErrorResultWithData<Follow>("Bad request.");
 
         if (follow.FollowerId == follow.FollowingId)
-            return new ErrorResult("You can't follow yourself.", 409);
+            return new ErrorResultWithData<Follow>("You can't follow yourself.", 409);
 
         var validationResult = await _validator.ValidateAsync(follow, ct);
 
         if (!validationResult.IsValid)
-            return new ErrorResult(string.Join(" | ",
+            return new ErrorResultWithData<Follow>(string.Join(" | ",
                 validationResult.Errors.Select(e => e.ErrorMessage)));
 
         try
@@ -98,17 +98,17 @@ public class FollowService : GenericService<Follow>, IFollowService
             var existFollow = await _followRepository.GetExistFollowAsync(follow.FollowerId, follow.FollowingId, ct);
 
             if (existFollow is not null)
-                return new ErrorResult("Already follows.", 409);
+                return new ErrorResultWithData<Follow>("Already follows.", 409);
 
             await _followRepository.AddAsync(follow, ct);
             await _followRepository.SaveChangesAsync();
 
-            return new SuccessResult("Followed successfully.");
+            return new SuccessResultWithData<Follow>("Followed successfully.", follow);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            return new ErrorResultWithData<Follow>("An unexpected error occured.");
         }
     }
 }

@@ -27,6 +27,23 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
             _userService = userService;
         }
+        [HttpGet("recommended")]
+        public async Task<IActionResult> GetRecommendedUsersAsync([FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var userId = CurrentUserId;
+
+            if (userId is null)
+                return Unauthorized("Unauthorized.");
+
+            var result = await _userService.GetRecommendedUsersAsync(userId.Value, param.PageSize, param.PageNumber, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+            
+            return Ok(result);
+        }
         public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _userService.GetAllUsersWithIncludesAsync(param, ct);

@@ -54,25 +54,25 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             return new ErrorResultWithData<IEnumerable<T>>("An unexpected error occured.");
         }
     }
-    public virtual async Task<IServiceResult> AddAsync(T entity, CancellationToken ct = default)
+    public virtual async Task<IServiceResultWithData<T>> AddAsync(T entity, CancellationToken ct = default)
     {
         try
         {
             var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
-                return new ErrorResult(string.Join(" | ",
+                return new ErrorResultWithData<T>(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
             await _repository.AddAsync(entity, ct);
             await _repository.SaveChangesAsync(ct);
 
-            return new SuccessResult("Entity added successfully.", 201);
+            return new SuccessResultWithData<T>($"Entity added successfully.", entity, 201);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            return new ErrorResultWithData<T>("An unexpected error occured.");
         }
     }
 

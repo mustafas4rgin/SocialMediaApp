@@ -91,30 +91,30 @@ public class RoleService : GenericService<Role>, IRoleService
             return new ErrorResult("An unexpected error occured.");
         }
     }
-    public override async Task<IServiceResult> AddAsync(Role role, CancellationToken ct = default)
+    public override async Task<IServiceResultWithData<Role>> AddAsync(Role role, CancellationToken ct = default)
     {
         try
         {
             var validationResult = await _validator.ValidateAsync(role, ct);
 
             if (!validationResult.IsValid)
-                return new ErrorResult(string.Join(" | ",
+                return new ErrorResultWithData<Role>(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
             
             var roleExists = await _roleRepository.RoleNameCheckAsync(StringHelper.Normalize(role.Name), ct);
 
             if (roleExists)
-                return new ErrorResult($"Role already exists with name : {role.Name}", 409);
+                return new ErrorResultWithData<Role>($"Role already exists with name : {role.Name}", 409);
             
             await _roleRepository.AddAsync(role, ct);
             await _roleRepository.SaveChangesAsync();
 
-            return new SuccessResult("Role added successfully.", 201);
+            return new SuccessResultWithData<Role>("Role added successfully.", role, 201);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            return new ErrorResultWithData<Role>("An unexpected error occured.");
         }
     }
 }

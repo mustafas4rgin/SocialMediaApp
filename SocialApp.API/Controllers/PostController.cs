@@ -31,6 +31,25 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
             _postService = postService;
         }
+        [HttpGet("feed")]
+        public async Task<IActionResult> GetFeedAsync([FromQuery]QueryParameters param, CancellationToken ct = default)
+        {
+            var userId = CurrentUserId;
+
+            if (userId is null)
+                return Unauthorized("Unauthorized.");
+
+            var result = await _postService.GetFeedAsync(userId.Value, param.PageNumber, param.PageSize, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+            
+            var feed = result.Data;
+
+            return Ok(feed);
+        }
         public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
         {
             var result = await _postService.GetAllPostsWithIncludesAsync(param, ct);

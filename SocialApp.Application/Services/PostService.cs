@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.DTOs;
+using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Parameters;
 using SocialApp.Domain.Results.Error;
@@ -105,4 +107,58 @@ public class PostService : GenericService<Post>, IPostService
             return new ErrorResultWithData<Post>("An error occurred while retrieving the post.");
         }
     }
+    public async Task<IServiceResultWithData<List<FeedDTO>>> GetFeedAsync(
+    int userId,
+    int pageNumber,
+    int pageSize,
+    CancellationToken ct = default)
+    {
+        try
+        {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize < 1 ? 10 : pageSize;
+            pageSize = pageSize > 50 ? 50 : pageSize;
+
+            var feed = await _postRepository.GetUsersFeedAsync(userId, pageNumber, pageSize, ct);
+
+            var dto = new List<FeedDTO>();
+
+            foreach (var post in feed)
+            {
+                dto.Add(new FeedDTO
+                {
+                    Id = post.Id,
+                    Content = post.Body,
+                    CreatedAt = post.CreatedAt,
+
+                    CommentCount = post.Comments?.Count(c => !c.IsDeleted) ?? 0,
+                    LikeCount = post.Likes?.Count(l => !l.IsDeleted) ?? 0,
+
+                    PostImages = post.PostImages?.ToList() ?? new List<PostImage>(),
+                    PostBrutals = post.PostBrutals?.ToList() ?? new List<PostBrutal>(),
+
+                    User = new UserDTO
+                    {
+                        Id = post.UserId,
+                        FirstName = post.User is null ? "" : post.User.FirstName,
+                        LastName = post.User is null ? "" : post.User.LastName
+                    },
+
+                    IsLikedByMe = post.Likes?.Any(l => !l.IsDeleted && l.UserId == userId) ?? false
+                });
+            }
+
+
+            if (!dto.Any())
+                return new ErrorResultWithData<List<FeedDTO>>("There is no post.", 404);
+
+            return new SuccessResultWithData<List<FeedDTO>>("Feed found.", dto);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while getting feed.");
+            return new ErrorResultWithData<List<FeedDTO>>("An error occured while retrieving feed.");
+        }
+    }
+
 }

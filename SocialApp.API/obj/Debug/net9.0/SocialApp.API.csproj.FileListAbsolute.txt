@@ -120,11 +120,11 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialAPp.Application.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Application.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Data.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Domain.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Data.pdb
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialAPp.Application.pdb
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Application.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Domain.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.csproj.AssemblyReference.cache
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.GeneratedMSBuildEditorConfig.editorconfig

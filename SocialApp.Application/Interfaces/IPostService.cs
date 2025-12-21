@@ -1,4 +1,5 @@
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.DTOs;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Parameters;
 
@@ -11,4 +12,9 @@ public interface IPostService : IGenericService<Post>
         QueryParameters param,
         CancellationToken ct);
     Task<IServiceResultWithData<IEnumerable<Post>>> GetAllPostsWithIncludesAsync(QueryParameters param, CancellationToken ct);
+    Task<IServiceResultWithData<List<FeedDTO>>> GetFeedAsync(
+    int userId,
+    int pageNumber,
+    int pageSize,
+    CancellationToken ct = default);
 }

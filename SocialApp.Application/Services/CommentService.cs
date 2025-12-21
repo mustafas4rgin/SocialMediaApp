@@ -87,15 +87,15 @@ public class CommentService : GenericService<Comment>, ICommentService
             return new ErrorResultWithData<Comment>("An unexpected error occured.");
         }
     }
-    public override async Task<IServiceResult> AddAsync(Comment comment, CancellationToken ct = default)
+    public override async Task<IServiceResultWithData<Comment>> AddAsync(Comment comment, CancellationToken ct = default)
     {
         if (comment is null)
-            return new ErrorResult("Comment does not exist.");
+            return new ErrorResultWithData<Comment>("Comment does not exist.");
 
         var validationResult = await _validator.ValidateAsync(comment, ct);
 
         if (!validationResult.IsValid)
-            return new ErrorResult(string.Join(" | ",
+            return new ErrorResultWithData<Comment>(string.Join(" | ",
                 validationResult.Errors.Select(e => e.ErrorMessage)));
 
         try
@@ -103,22 +103,22 @@ public class CommentService : GenericService<Comment>, ICommentService
             var existingPost = await _postRepository.GetActiveByIdAsync(comment.PostId, ct);
 
             if (existingPost is null)
-                return new ErrorResult($"There is no post with ID : {comment.PostId}", 404);
+                return new ErrorResultWithData<Comment>($"There is no post with ID : {comment.PostId}", 404);
 
             var existingUser = await _userRepository.GetActiveByIdAsync(comment.UserId, ct);
 
             if (existingUser is null)
-                return new ErrorResult($"There is no user with ID : {comment.UserId}", 404);
+                return new ErrorResultWithData<Comment>($"There is no user with ID : {comment.UserId}", 404);
 
             await _commentRepository.AddAsync(comment, ct);
             await _commentRepository.SaveChangesAsync(ct);
 
-            return new SuccessResult("Comment added successfully.");
+            return new SuccessResultWithData<Comment>("Comment added successfully.", comment);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while adding comment.");
-            return new ErrorResult(ex.Message);
+            return new ErrorResultWithData<Comment>(ex.Message);
         }
     }
 }

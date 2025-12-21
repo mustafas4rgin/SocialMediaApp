@@ -8,4 +8,5 @@ public interface IFollowRepository : IGenericRepository<Follow>
     Task<List<Follow>> GetAllFollowsAsync(string? include, CancellationToken ct = default);
     Task<Follow?> GetFollowByIdAsync(int id, string? include, CancellationToken ct = default);
     Task<List<Follow>> GetFollowsByFollowingIdAsync(int followingId, string? include, CancellationToken ct = default);
+    Task<List<Follow>> GetUsersFollowings(int userId, CancellationToken ct = default);
 }

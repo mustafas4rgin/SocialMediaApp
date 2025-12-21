@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.DTOs;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Parameters;
 using SocialApp.Domain.Results.Error;
@@ -91,6 +92,23 @@ public class UserService : GenericService<User>, IUserService
         {
             _logger.LogError(ex, $"An error occured while getting user with ID : {id}");
             return new ErrorResultWithData<User>("An unexpected error occured.");
+        }
+    }
+    public async Task<IServiceResultWithData<List<UserRecommendationDto>>> GetRecommendedUsersAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
+    {
+        try
+        {
+            var recommendedUsers = await _userRepository.GetRecommendedUsersAsync(userId, pageNumber, pageSize, ct);
+
+            if (!recommendedUsers.Any())
+                return new ErrorResultWithData<List<UserRecommendationDto>>("There is no recommendation.", 404);
+            
+            return new SuccessResultWithData<List<UserRecommendationDto>>("Recommendations: ", recommendedUsers);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error occured while getting recommended users.");
+            return new ErrorResultWithData<List<UserRecommendationDto>>("An error occured while getting recommended users.");
         }
     }
 }

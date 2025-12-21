@@ -66,7 +66,7 @@ namespace SocialApp.API.Controllers
             if (errorResponse != null)
                 return errorResponse;
 
-            return Ok(addingResult.Message);
+            return Ok(addingResult);
         }
         [HttpGet("{id:int}/getbyid")]
         public virtual async Task<IActionResult> GetByIdAsync([FromRoute] int id, [FromQuery] QueryParameters parma, CancellationToken ct = default)

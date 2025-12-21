@@ -15,6 +15,13 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
     {
         _context = context;
     }
+    public async Task<List<Follow>> GetUsersFollowings(int userId, CancellationToken ct = default)
+    {
+        var query = _context.Follows
+                        .Where(f => !f.IsDeleted && f.FollowingId == userId);
+                
+        return await query.AsNoTracking().ToListAsync(ct);
+    }
     public async Task<Follow?> GetFollowByIdAsync(int id, string? include, CancellationToken ct = default)
     {
         var query = _context.Follows

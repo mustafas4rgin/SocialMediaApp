@@ -1,0 +1,12 @@
+2025-12-19 10:51:47.551 +03:00 [INF] Executed DbCommand (188ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()
+2025-12-19 10:51:47.873 +03:00 [INF] Executed DbCommand (275ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p0;
+2025-12-19 10:51:47.874 +03:00 [INF] Deleted 1 expired access tokens.
+2025-12-19 21:11:44.137 +03:00 [INF] Executed DbCommand (106ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()

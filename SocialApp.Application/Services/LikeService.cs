@@ -138,19 +138,19 @@ public class LikeService : GenericService<Like>, ILikeService
         }
     }
 
-    public override async Task<IServiceResult> AddAsync(
+    public override async Task<IServiceResultWithData<Like>> AddAsync(
         Like like,
         CancellationToken ct = default)
     {
         if (like is null)
-            return new ErrorResult("Bad request.");
+            return new ErrorResultWithData<Like>("Bad request.");
 
         var validationResult = await _validator.ValidateAsync(like, ct);
 
         if (!validationResult.IsValid)
         {
             var errors = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
-            return new ErrorResult(errors);
+            return new ErrorResultWithData<Like>(errors);
         }
 
         try
@@ -171,7 +171,7 @@ public class LikeService : GenericService<Like>, ILikeService
                     like.UserId,
                     like.PostId);
 
-                return new SuccessResult("Unliked successfully.");
+                return new SuccessResultWithData<Like>("Unliked successfully.", like);
             }
 
             await _likeRepository.AddAsync(like, ct);
@@ -184,7 +184,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 like.UserId,
                 like.PostId);
 
-            return new SuccessResult("Liked successfully.");
+            return new SuccessResultWithData<Like>("Liked successfully.", like, 201);
         }
         catch (DbUpdateException dbEx)
         {
@@ -193,7 +193,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 like.PostId,
                 like.UserId);
 
-            return new ErrorResult("An error occurred while updating like state.");
+            return new ErrorResultWithData<Like>("An error occurred while updating like state.");
         }
         catch (Exception ex)
         {
@@ -202,7 +202,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 like.PostId,
                 like.UserId);
 
-            return new ErrorResult("An unexpected error occured.");
+            return new ErrorResultWithData<Like>("An unexpected error occured.");
         }
     }
 }
