@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Debug API + Frontend",
+      "configurations": [
+        "SocialApp API",
+        "Frontend (Next.js)"
+      ],
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "name": "SocialApp API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build SocialApp.API",
+      "program": "${workspaceFolder}/SocialApp.API/bin/Debug/net9.0/SocialApp.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/SocialApp.API",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      }
+    },
+    {
+      "name": "Frontend (Next.js)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/social-app-frontend",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      }
+    }
+  ]
+}

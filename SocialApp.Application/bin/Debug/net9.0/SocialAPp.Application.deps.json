@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "SocialAPp.Application/1.0.0": {
+      "SocialApp.Application/1.0.0": {
         "dependencies": {
           "FluentValidation": "12.0.0",
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
@@ -23,7 +23,7 @@
           "StackExchange.Redis": "2.9.32"
         },
         "runtime": {
-          "SocialAPp.Application.dll": {}
+          "SocialApp.Application.dll": {}
         }
       },
       "FluentValidation/12.0.0": {
@@ -463,7 +463,7 @@
     }
   },
   "libraries": {
-    "SocialAPp.Application/1.0.0": {
+    "SocialApp.Application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -114,3 +114,10 @@ export interface ProfileData {
   postsCount: number;
   posts: FeedPostDto[];
 }
+
+export interface NotificationItem {
+  id: number;
+  message: string;
+  isSeen: boolean;
+  createdAt?: string;
+}

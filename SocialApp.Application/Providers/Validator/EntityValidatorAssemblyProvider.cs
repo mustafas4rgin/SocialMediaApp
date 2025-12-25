@@ -18,6 +18,7 @@ public static class EntityValidatorAssemblyProvider
             typeof(PostImageValidator),
             typeof(UserValidator),
             typeof(UserImageValidator),
+            typeof(NotificationValidator)
         };
     }
 }

@@ -46,7 +46,7 @@ public class NotificationService : GenericService<Notification>, INotificationSe
         var user = await _userRepository.GetByIdAsync(
             id: userId,
             includeDeleted: false,
-            asNoTracking: true,
+            asNoTracking: false,
             ct: ct
         );
 
@@ -61,14 +61,16 @@ public class NotificationService : GenericService<Notification>, INotificationSe
             );
 
             if (!notifications.Any())
-                return new ErrorResultWithData<List<NotificationDTO>>("There is no unread notification right now.");
+                return new SuccessResultWithData<List<NotificationDTO>>("There is no notification right now.", new());
 
             return new SuccessResultWithData<List<NotificationDTO>>("Notifications found.",
              notifications
              .Select(n => new NotificationDTO
              {
                  Id = n.Id,
-                 Message = n.Message
+                 Message = n.Message,
+                 IsSeen = n.IsSeen,
+                 CreatedAt = n.CreatedAt
              })
              .ToList());
         }

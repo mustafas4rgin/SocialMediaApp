@@ -16,10 +16,13 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
         _context = context;
     }
     public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId, CancellationToken ct = default)
-    => await Query(includeDeleted: false, asNoTracking: false)
-                    .Where(p => p.UserId == userId && p.IsSeen == false)
-                    .OrderedByNewest()
-                    .ToListAsync(ct);
+    {
+        var cutOff = DateTimeOffset.UtcNow.AddDays(-30);
+        return await Query(includeDeleted: false, asNoTracking: false)
+                        .Where(p => p.UserId == userId && p.CreatedAt >= cutOff)
+                        .OrderedByNewest()
+                        .ToListAsync(ct);
+    }
     
     public async Task<bool> MarkAsSeenAsync(int notificationId, CancellationToken ct = default)
     =>  await _context.Notifications

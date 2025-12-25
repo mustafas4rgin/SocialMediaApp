@@ -32,8 +32,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResultWithData<IEnumerable<T>>("An error occured while getting entities.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<IEnumerable<T>>("An error occurred while getting entities.");
         }
     }
     public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default)
@@ -49,8 +49,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResultWithData<IEnumerable<T>>("An error occured while getting entities.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<IEnumerable<T>>("An error occurred while getting entities.");
         }
     }
     public virtual async Task<IServiceResultWithData<T>> AddAsync(T entity, CancellationToken ct = default)
@@ -69,12 +69,12 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
 
             await _repository.SaveChangesAsync(ct);
 
-            return new SuccessResultWithData<T>($"Entity added successfully.", entity, 201);
+            return new SuccessResultWithData<T>($"Entity added successfully.", created, 201);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResultWithData<T>("An error occured while adding entity.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<T>("An error occurred while adding entity.");
         }
     }
 
@@ -98,8 +98,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResult("An error occured while updating entity.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An error occurred while updating entity.");
         }
     }
     public async Task<IServiceResult> DeleteByIdAsync(int id, CancellationToken ct = default)
@@ -124,8 +124,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResult("An error occured while deleting entity.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An error occurred while deleting entity.");
         }
     }
 
@@ -154,8 +154,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch(Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResult("An error occured while restoring entity.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An error occurred while restoring entity.");
         }
     }
 
@@ -172,8 +172,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResultWithData<T>($"An error occured while getting entity with ID : {id}.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<T>($"An error occurred while getting entity with ID : {id}.");
         }
     }
     public async Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default)
@@ -189,8 +189,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unexpected error occured.");
-            return new ErrorResultWithData<T>($"An error occured while getting entity with ID : {id}.");
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<T>($"An error occurred while getting entity with ID : {id}.");
         }
     }
 }

@@ -1,3 +1,4 @@
+using SocialApp.Application.Validators.DTO.Create;
 using SocialApp.Application.Validators.DTO.Update;
 
 namespace SocialApp.Application.Providers.Validator;
@@ -18,6 +19,7 @@ public static class UpdateDTOValidatorAssemblyProvider
             typeof(UpdatePostImageDTOValidator),
             typeof(UpdateUserDTOValidator),
             typeof(UpdateUserImageDTOValidator),
+            typeof(UpdateNotificationDTOValidator)
         };
     }
 }

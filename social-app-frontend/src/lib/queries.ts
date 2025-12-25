@@ -8,6 +8,7 @@ import type {
   RegisterData,
   CurrentUser,
   FeedPostDto,
+  NotificationItem,
 } from '@/types';
 // Auth APIs
 export const authApi = {
@@ -350,5 +351,66 @@ export const likeApi = {
   },
   unlikePost: async (likeId: number) => {
     await api.delete(`/Like/${likeId}/delete`);
+  },
+};
+
+export const notificationApi = {
+  getNotifications: async (): Promise<NotificationItem[]> => {
+    try {
+      const { data } = await api.get("/Notification/notifications");
+      const payload =
+        data?.data ??
+        data?.Data ??
+        data?.notifications ??
+        data?.Notifications ??
+        data;
+
+      const rawList: any[] = Array.isArray(payload?.data)
+        ? payload.data
+        : Array.isArray(payload)
+        ? payload
+        : [];
+
+      const list = rawList
+        .map((n: any) => ({
+          id: n.id ?? n.Id ?? 0,
+          message: n.message ?? n.Message ?? "",
+          isSeen: n.isSeen ?? n.IsSeen ?? false,
+          createdAt:
+            n.createdAt ??
+            n.CreatedAt ??
+            n.timestamp ??
+            n.Timestamp ??
+            n.date ??
+            n.Date ??
+            undefined,
+        }))
+        .filter((n: NotificationItem) => {
+          if (!n.createdAt) return true;
+          const dt = new Date(n.createdAt);
+          if (Number.isNaN(dt.getTime())) return true;
+          const cutoff = new Date();
+          cutoff.setDate(cutoff.getDate() - 30);
+          return dt >= cutoff;
+        });
+
+      return list;
+    } catch (error: any) {
+      const msg =
+        error?.response?.data?.message ??
+        error?.response?.data?.Message ??
+        error?.message;
+      if (msg && msg.toLowerCase().includes("no unread")) {
+        return [];
+      }
+      // 400/404 için boş listeye düş
+      if (error?.response?.status === 400 || error?.response?.status === 404) {
+        return [];
+      }
+      throw error;
+    }
+  },
+  markAsSeen: async (notificationId: number): Promise<void> => {
+    await api.post(`/Notification/notifications/${notificationId}/mark-as-seen`);
   },
 };

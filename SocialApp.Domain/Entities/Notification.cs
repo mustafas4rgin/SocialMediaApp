@@ -6,5 +6,5 @@ public class Notification : EntityBase
     public int UserId { get; set; }
     public bool IsSeen { get; set; } = false;
     //navigation properties
-    public User User { get; set; } = new();
+    public User User { get; set; } = null!;
 }

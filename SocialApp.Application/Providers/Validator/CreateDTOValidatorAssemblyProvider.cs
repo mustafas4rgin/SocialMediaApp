@@ -19,6 +19,7 @@ public class CreateDTOValidatorAssemblyProvider
             typeof(CreateRoleDTOValidator),
             typeof(CreateUserDTOValidator),
             typeof(CreateUserImageDTOValidator),
+            typeof(CreateNotificationDTOValidator)
         };
     }
 }
