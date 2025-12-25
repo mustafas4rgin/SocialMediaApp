@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.DTOs;
 using SocialApp.Domain.DTOs.List;
@@ -23,7 +22,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Users
             .AsNoTracking()
-            .Where(u => !u.IsDeleted && u.Id != userId)
+            .Where(u => u.Id != userId)
             .OrderBy(u => u.Id)
             .Take(5)
             .Select(u => new UserRecommendationDto
@@ -32,30 +31,22 @@ public class UserRepository : GenericRepository<User>, IUserRepository
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 IsFollowedByMe = _context.Follows.Any(f =>
-                    !f.IsDeleted &&
                     f.FollowerId == userId &&
                     f.FollowingId == u.Id)
             })
     .ToListAsync(ct);
 
     }
-    public async Task<List<User>> GetAllUsersAsync(string? include, CancellationToken ct = default)
+    public async Task<List<User>> GetAllUsersAsync(CancellationToken ct = default)
     {
-        var query = _context.Users
-                        .Where(u => !u.IsDeleted);
-
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForUser(query, include);
+        var query = _context.Users;
 
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<User?> GetUserByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<User?> GetUserByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Users
-                        .Where(u => !u.IsDeleted && u.Id == id);
-
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForUser(query, include);
+                        .Where(u => u.Id == id);
 
         return await query.FirstOrDefaultAsync(ct);
     }
@@ -63,7 +54,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Users
             .AsNoTracking()
-            .Where(u => !u.IsDeleted && u.Id == id)
+            .Where(u => u.Id == id)
             .Include(u => u.Followers)
             .Include(u => u.Followings)
             .Include(u => u.UserImages)
@@ -73,7 +64,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Users
             .AsNoTracking()
-            .Where(u => !u.IsDeleted && u.UserName == userName)
+            .Where(u => u.UserName == userName)
             .Include(u => u.Followers)
             .Include(u => u.Followings)
             .Select(u => new ProfileHeaderDTO
@@ -107,7 +98,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Users
             .AsNoTracking()
-            .Where(u => !u.IsDeleted && u.Id == userId)
+            .Where(u => u.Id == userId)
             .Include(u => u.Followers)
             .Include(u => u.Followings)
             .Select(u => new ProfileHeaderDTO
@@ -143,7 +134,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         return await _context.Posts
             .AsNoTracking()
-            .Where(p => p.UserId == userId && !p.IsDeleted)
+            .Where(p => p.UserId == userId)
             .OrderByDescending(p => p.CreatedAt)
             .ThenByDescending(p => p.Id)
             .Skip((pageNumber - 1) * pageSize)

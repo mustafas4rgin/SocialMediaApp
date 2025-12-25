@@ -47,7 +47,7 @@ public class PostService : GenericService<Post>, IPostService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<Post>>("Posts (cache)", cached);
 
-                var posts = await _postRepository.GetAllPostsAsync(param.Include, ct);
+                var posts = await _postRepository.GetAllPostsAsync(ct);
 
                 if (!posts.Any())
                     return new ErrorResultWithData<IEnumerable<Post>>("There is no post.", 404);
@@ -73,7 +73,7 @@ public class PostService : GenericService<Post>, IPostService
         QueryParameters param,
         CancellationToken ct)
     {
-        var cacheKey = GetById.Post(id, param.Include);
+        var cacheKey = GetById.Post(id);
 
         try
         {
@@ -84,7 +84,7 @@ public class PostService : GenericService<Post>, IPostService
                 return new SuccessResultWithData<Post>("Post (cache)", cached);
             }
 
-            var post = await _postRepository.GetPostByIdAsync(id, param.Include, ct);
+            var post = await _postRepository.GetPostByIdAsync(id, ct);
 
             if (post is null)
             {

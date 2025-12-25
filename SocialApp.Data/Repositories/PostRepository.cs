@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.Entities;
@@ -20,14 +19,14 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
         if (pageSize < 1) pageSize = 10;
 
         var followingIdsQuery = _context.Follows
-            .Where(f => !f.IsDeleted && f.FollowerId == userId)
+            .Where(f => f.FollowerId == userId)
             .Select(f => f.FollowingId);
 
         if (!followingIdsQuery.Any())
             return new();
 
         return await _context.Posts
-            .Where(p => !p.IsDeleted && followingIdsQuery.Contains(p.UserId))
+            .Where(p => followingIdsQuery.Contains(p.UserId))
             .OrderByDescending(p => p.CreatedAt)
             .ThenByDescending(p => p.Id)
             .AsNoTracking()
@@ -41,23 +40,16 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
             .ToListAsync(ct);
     }
 
-    public async Task<List<Post>> GetAllPostsAsync(string? include, CancellationToken ct = default)
+    public async Task<List<Post>> GetAllPostsAsync(CancellationToken ct = default)
     {
-        var query = _context.Posts
-                        .Where(p => !p.IsDeleted);
-
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesforPost(query, include);
+        var query = _context.Posts;
 
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<Post?> GetPostByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<Post?> GetPostByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Posts
-                        .Where(p => !p.IsDeleted && p.Id == id);
-
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesforPost(query, include);
+                        .Where(p => p.Id == id);
 
         return await query.AsNoTracking().FirstOrDefaultAsync(ct);
     }
@@ -65,14 +57,14 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     {
         return await _context.Posts
                         .AsNoTracking()
-                        .Where(p => !p.IsDeleted && p.UserId == userId)
+                        .Where(p => p.UserId == userId)
                         .CountAsync(ct);
     }
     public async Task<List<PostDTO>> GetUserPostsPagedAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
     {
         return await _context.Posts
             .AsNoTracking()
-            .Where(p => !p.IsDeleted && p.UserId == userId)
+            .Where(p => p.UserId == userId)
             .OrderByDescending(p => p.CreatedAt)
             .ThenByDescending(p => p.Id)
             .Skip((pageNumber - 1) * pageSize)

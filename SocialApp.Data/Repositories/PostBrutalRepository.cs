@@ -16,7 +16,7 @@ public class PostBrutalRepository : GenericRepository<PostBrutal>, IPostBrutalRe
     {
         return await _context.Brutals
                         .AsNoTracking()
-                        .Where(pb => !pb.IsDeleted && pb.PostId == postId)
+                        .Where(pb => pb.PostId == postId)
                         .OrderByDescending(pb => pb.CreatedAt)
                         .ThenByDescending(pb => pb.Id)
                         .ToListAsync(ct);

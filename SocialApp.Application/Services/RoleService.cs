@@ -35,7 +35,7 @@ public class RoleService : GenericService<Role>, IRoleService
     {
         try
         {
-            var roles = await _roleRepository.GetAllRolesAsync(param.Include, ct);
+            var roles = await _roleRepository.GetAllRolesAsync(ct);
 
             if (!roles.Any())
                 return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.", 404);
@@ -52,7 +52,7 @@ public class RoleService : GenericService<Role>, IRoleService
     {
         try
         {
-            var role = await _roleRepository.GetRoleByIdAsync(id, param.Include, ct);
+            var role = await _roleRepository.GetRoleByIdAsync(id, ct);
 
             if (role is null)
                 return new ErrorResultWithData<Role>($"There is no role with ID : {id}", 404);

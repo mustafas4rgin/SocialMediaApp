@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -14,33 +12,23 @@ public class LikeRepository : GenericRepository<Like>, ILikeRepository
     {
         _context = context;
     }
-    public async Task<List<Like>> GetLikesByUserIdAsync(int userId, string? include, CancellationToken ct = default)
+    public async Task<List<Like>> GetLikesByUserIdAsync(int userId, CancellationToken ct = default)
     {
         var query = _context.Likes
-                        .Where(l => !l.IsDeleted && l.UserId == userId);
-        
-        if (!string.IsNullOrEmpty(include))
-            query = QueryHelper.ApplyIncludesForLike(query, include);
+                        .Where(l => l.UserId == userId);
 
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<Like?> GetLikeByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<Like?> GetLikeByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Likes
-                        .Where(l => !l.IsDeleted && l.Id == id);
+                        .Where(l => l.Id == id);
 
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForLike(query, include);
-        
         return await query.FirstOrDefaultAsync(ct);
     }
-    public async Task<List<Like>> GetAllLikesAsync(string? include, CancellationToken ct = default)
+    public async Task<List<Like>> GetAllLikesAsync(CancellationToken ct = default)
     {
-        var query = _context.Likes
-                        .Where(l => !l.IsDeleted);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForLike(query, include);
+        var query = _context.Likes;
         
         return await query.AsNoTracking().ToListAsync(ct);
     }

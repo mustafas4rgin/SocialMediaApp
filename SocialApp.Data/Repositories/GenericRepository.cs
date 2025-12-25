@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -9,36 +8,40 @@ namespace SocialApp.Data.Repositories;
 public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
 {
     private readonly AppDbContext _context;
+    private DbSet<T> Set => _context.Set<T>();
+
     public GenericRepository(AppDbContext context) => _context = context;
 
-        public async Task<List<T>> GetAllAsync(CancellationToken ct = default)
-        => await _context.Set<T>()
-            .AsNoTracking()
+    private IQueryable<T> Query(bool includeDeleted, bool asNoTracking)
+    {
+        IQueryable<T> query = Set;
+
+        if (includeDeleted)
+            query = query.IgnoreQueryFilters();
+
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return query;
+    }
+
+    public async Task<List<T>> GetAllAsync(bool includeDeleted = false, CancellationToken ct = default)
+        => await Query(includeDeleted, asNoTracking: true)
             .ToListAsync(ct);
 
-    public async Task<List<T>> GetAllActiveAsync(CancellationToken ct = default)
-        => await _context.Set<T>()
-            .AsNoTracking()
-            .Where(e => !e.IsDeleted)
-            .ToListAsync(ct);
-
-    public async Task<T?> GetActiveByIdAsync(int id, CancellationToken ct = default)
-        => await _context.Set<T>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, ct);
-
-    public async Task<T?> GetByIdAsync(int id, CancellationToken ct = default)
-        => await _context.Set<T>().FindAsync(new object?[] { id }, ct);
-
-    public async Task<T?> GetByIdAsNoTrackingAsync(int id, CancellationToken ct = default)
-        => await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, ct);
+    public async Task<T?> GetByIdAsync(
+        int id,
+        bool includeDeleted = false,
+        bool asNoTracking = false,
+        CancellationToken ct = default)
+        => await Query(includeDeleted, asNoTracking)
+            .FirstOrDefaultAsync(x => x.Id == id, ct);
 
     public async Task<T?> AddAsync(T entity, CancellationToken ct = default)
     {
         if (entity is null) return null;
 
-        entity.CreatedAt = DateTime.UtcNow;
-        await _context.Set<T>().AddAsync(entity, ct);
+        await Set.AddAsync(entity, ct);
         return entity;
     }
 
@@ -46,55 +49,54 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     {
         if (entity is null || entity.Id == default) return null;
 
-        var dbEntity = await _context.Set<T>().FindAsync(new object?[] { entity.Id }, ct);
+        var dbEntity = await Set.FirstOrDefaultAsync(x => x.Id == entity.Id, ct);
         if (dbEntity is null) return null;
 
         var createdAt = dbEntity.CreatedAt;
         var isDeleted = dbEntity.IsDeleted;
+        var deletedAt = dbEntity.DeletedAt;
 
         _context.Entry(dbEntity).CurrentValues.SetValues(entity);
 
-        dbEntity.CreatedAt = createdAt;    
-        dbEntity.IsDeleted = isDeleted;    
-        dbEntity.UpdatedAt = DateTime.UtcNow;
+        dbEntity.CreatedAt = createdAt;
+        dbEntity.IsDeleted = isDeleted;
+        dbEntity.DeletedAt = deletedAt;
 
+        dbEntity.UpdatedAt = DateTime.UtcNow;
 
         return dbEntity;
     }
 
-    public void Delete(T entity, CancellationToken ct = default)
+    public void Delete(T entity)
     {
         if (entity is null) return;
-        _context.Set<T>().Remove(entity);
+        Set.Remove(entity); 
     }
 
-    public void SoftDelete(T entity, CancellationToken ct = default)
+    public void HardDelete(T entity)
     {
         if (entity is null) return;
 
-        entity.IsDeleted = true;
-        entity.DeletedAt = DateTime.UtcNow;
-        entity.UpdatedAt = DateTime.UtcNow;
-
-        _context.Attach(entity);
-        _context.Entry(entity).Property(x => x.IsDeleted).IsModified = true;
-        _context.Entry(entity).Property(x => x.UpdatedAt).IsModified = true;
+        Set.IgnoreQueryFilters()
+           .Where(x => x.Id == entity.Id)
+           .ExecuteDelete();
     }
 
-    public void Restore(T entity, CancellationToken ct = default)
+    public void Restore(T entity)
     {
         if (entity is null) return;
 
         entity.IsDeleted = false;
+        entity.DeletedAt = null;
         entity.UpdatedAt = DateTime.UtcNow;
 
-        _context.Attach(entity);
+        Set.Attach(entity);
+
         _context.Entry(entity).Property(x => x.IsDeleted).IsModified = true;
+        _context.Entry(entity).Property(x => x.DeletedAt).IsModified = true;
         _context.Entry(entity).Property(x => x.UpdatedAt).IsModified = true;
     }
 
-    public async Task SaveChangesAsync(CancellationToken ct = default)
-    {
-        await _context.SaveChangesAsync(ct);
-    }
+    public Task SaveChangesAsync(CancellationToken ct = default)
+        => _context.SaveChangesAsync(ct);
 }

@@ -880,3 +880,17 @@ LIMIT 1
 2025-12-25 13:51:23.582 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 89.1423ms
 2025-12-25 13:51:23.583 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
 2025-12-25 13:51:23.583 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/2/getbyid - 200 null application/json; charset=utf-8 94.2372ms
+2025-12-25 14:50:27.658 +03:00 [INF] Executed DbCommand (123ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."ExpiresAt" <= now()
+2025-12-25 14:50:27.941 +03:00 [INF] Executed DbCommand (70ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p0;
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p1;
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p2;
+DELETE FROM "AccessTokens"
+WHERE "Id" = @p3;
+2025-12-25 14:50:28.051 +03:00 [INF] Deleted 4 expired access tokens.

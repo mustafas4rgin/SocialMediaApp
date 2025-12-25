@@ -15,6 +15,7 @@ public class User : EntityBase
     public ICollection<UserImage> UserImages { get; set; } = null!;
     public ICollection<Post>? Posts { get; set; }
     public ICollection<Follow> Followers { get; set; } = null!;
+    public ICollection<Notification> Notifications { get; set; } = null!;
     public ICollection<Follow> Followings { get; set; } = null!;
     public ICollection<Like>? Likes { get; set; }
 }

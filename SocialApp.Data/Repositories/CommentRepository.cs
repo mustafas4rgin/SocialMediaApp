@@ -16,33 +16,24 @@ public class CommentRepository : GenericRepository<Comment>, ICommentRepository
     {
         _context = context;
     }
-    public async Task<List<Comment>> GetPostCommentsByPostIdAsync(int postId, string? include, CancellationToken ct = default)
+    public async Task<List<Comment>> GetPostCommentsByPostIdAsync(int postId, CancellationToken ct = default)
     {
         var query = _context.Comments
-                        .Where(c => !c.IsDeleted && c.PostId == postId);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForComment(query, include);
+                        .Where(c =>c.PostId == postId)
+                        .OrderedByNewest();
 
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<List<Comment>> GetPostCommentsAsync(string? include, CancellationToken ct = default)
+    public async Task<List<Comment>> GetPostCommentsAsync(CancellationToken ct = default)
     {
-        var query = _context.Comments
-                        .Where(c => !c.IsDeleted);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForComment(query, include);
+        var query = _context.Comments;
         
         return await query.AsNoTracking().ToListAsync();
     }
-    public async Task<Comment?> GetPostCommentByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<Comment?> GetPostCommentByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Comments
-                        .Where(c => !c.IsDeleted && c.Id == id);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForComment(query, include);
+                        .Where(c => c.Id == id);
         
         return await query.AsNoTracking().FirstOrDefaultAsync(ct);
     }

@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -16,23 +15,16 @@ public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
         _context = context;
     }
-    public async Task<List<Role>> GetAllRolesAsync(string? include, CancellationToken ct = default)
+    public async Task<List<Role>> GetAllRolesAsync(CancellationToken ct = default)
     {
-        var query = _context.Roles
-                        .Where(p => !p.IsDeleted);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForRole(query, include);
+        var query = _context.Roles;
         
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<Role?> GetRoleByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<Role?> GetRoleByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Roles
-                        .Where(r => !r.IsDeleted && r.Id == id);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForRole(query, include);
+                        .Where(r => r.Id == id);
         
         return await query.AsNoTracking().FirstOrDefaultAsync(ct);
     }

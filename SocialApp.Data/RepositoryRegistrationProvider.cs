@@ -22,7 +22,8 @@ public class RepositoryRegistrationProvider
             (typeof(IPostImageRepository),typeof(PostImageRepository)),
             (typeof(IUserRepository),typeof(UserRepository)),
             (typeof(IUserImageRepository),typeof(UserImageRepository)),
-            (typeof(IAuthRepository), typeof(AuthRepository))
+            (typeof(IAuthRepository), typeof(AuthRepository)),
+            (typeof(INotificationRepository), typeof(NotificationRepository))
         };
         foreach (var service in servicesToRegister)
         {

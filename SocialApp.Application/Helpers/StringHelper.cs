@@ -1,4 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,7 +6,6 @@ namespace SocialApp.Application.Helpers;
 public static class StringHelper
 {
     public static bool EmptyCheck(string? s) => string.IsNullOrWhiteSpace(s);
-    public static string[] Includes(string i) => i.Split(',', StringSplitOptions.RemoveEmptyEntries);
     public static string Normalize(string? s) => string.IsNullOrWhiteSpace(s) ? "" : s.Trim().ToLowerInvariant();
     public static string Sha256Base64Url(string input)
     {

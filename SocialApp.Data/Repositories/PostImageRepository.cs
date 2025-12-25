@@ -16,7 +16,7 @@ public class PostImageRepository : GenericRepository<PostImage>, IPostImageRepos
     {
         return await _context.PostImages
                         .AsNoTracking()
-                        .Where(p => !p.IsDeleted && p.PostId == postId)
+                        .Where(p => p.PostId == postId)
                         .OrderByDescending(p => p.CreatedAt)
                         .ThenByDescending(p => p.Id)
                         .ToListAsync(ct);

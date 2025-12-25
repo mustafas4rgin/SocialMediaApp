@@ -31,7 +31,7 @@ public class FollowService : GenericService<Follow>, IFollowService
     {
         try
         {
-            var follows = await _followRepository.GetFollowsByFollowingIdAsync(followingId, param.Include, ct);
+            var follows = await _followRepository.GetFollowsByFollowingIdAsync(followingId, ct);
 
             if (!follows.Any())
                 return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.", 404);
@@ -48,7 +48,7 @@ public class FollowService : GenericService<Follow>, IFollowService
     {
         try
         {
-            var follows = await _followRepository.GetAllFollowsAsync(param.Include, ct);
+            var follows = await _followRepository.GetAllFollowsAsync(ct);
 
             if (!follows.Any())
                 return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.", 404);
@@ -65,7 +65,7 @@ public class FollowService : GenericService<Follow>, IFollowService
     {
         try
         {
-            var follow = await _followRepository.GetFollowByIdAsync(id, param.Include, ct);
+            var follow = await _followRepository.GetFollowByIdAsync(id, ct);
 
             if (follow is null)
                 return new ErrorResultWithData<Follow>($"There is no follow with ID : {id}", 404);

@@ -40,7 +40,7 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var comments = await _commentRepository.GetPostCommentsByPostIdAsync(postId, param.Include, ct);
+            var comments = await _commentRepository.GetPostCommentsByPostIdAsync(postId, ct);
 
             if (comments is null || !comments.Any())
                 return new ErrorResultWithData<IEnumerable<Comment>>("No comment found.", 404);
@@ -57,7 +57,7 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var comments = await _commentRepository.GetPostCommentsAsync(param.Include, ct);
+            var comments = await _commentRepository.GetPostCommentsAsync(ct);
 
             if (!comments.Any())
                 return new ErrorResultWithData<IEnumerable<Comment>>("There is no comment.", 404);
@@ -74,7 +74,7 @@ public class CommentService : GenericService<Comment>, ICommentService
     {
         try
         {
-            var comment = await _commentRepository.GetPostCommentByIdAsync(id, param.Include, ct);
+            var comment = await _commentRepository.GetPostCommentByIdAsync(id, ct);
 
             if (comment is null)
                 return new ErrorResultWithData<Comment>($"There is no comment with ID : {id}", 404);

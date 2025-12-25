@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
-using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -18,37 +17,27 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
     public async Task<List<Follow>> GetUsersFollowings(int userId, CancellationToken ct = default)
     {
         var query = _context.Follows
-                        .Where(f => !f.IsDeleted && f.FollowingId == userId);
+                        .Where(f => f.FollowingId == userId);
                 
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<Follow?> GetFollowByIdAsync(int id, string? include, CancellationToken ct = default)
+    public async Task<Follow?> GetFollowByIdAsync(int id, CancellationToken ct = default)
     {
         var query = _context.Follows
-                        .Where(f => !f.IsDeleted && f.Id == id);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForFollow(query, include);
+                        .Where(f => f.Id == id);
 
         return await query.AsNoTracking().FirstOrDefaultAsync(ct);
     }
-    public async Task<List<Follow>> GetFollowsByFollowingIdAsync(int followingId, string? include, CancellationToken ct = default)
+    public async Task<List<Follow>> GetFollowsByFollowingIdAsync(int followingId, CancellationToken ct = default)
     {
         var query = _context.Follows
-                        .Where(f => !f.IsDeleted && f.FollowingId == followingId);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForFollow(query, include);
+                        .Where(f => f.FollowingId == followingId);
         
         return await query.AsNoTracking().ToListAsync(ct);
     }
-    public async Task<List<Follow>> GetAllFollowsAsync(string? include, CancellationToken ct = default)
+    public async Task<List<Follow>> GetAllFollowsAsync(CancellationToken ct = default)
     {
-        var query = _context.Follows
-                        .Where(f => !f.IsDeleted);
-        
-        if (!string.IsNullOrWhiteSpace(include))
-            query = QueryHelper.ApplyIncludesForFollow(query, include);
+        var query = _context.Follows;
         
         return await query.AsNoTracking().ToListAsync(ct);
     }
