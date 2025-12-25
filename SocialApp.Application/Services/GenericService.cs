@@ -1,9 +1,8 @@
+using System.Data;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
-using SocialApp.Domain.Entities;
 using SocialApp.Domain.Results.Error;
 using SocialApp.Domain.Results.Success;
 
@@ -24,7 +23,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var activeEntities = await _repository.GetAllActiveAsync(ct);
+            var activeEntities = await _repository.GetAllAsync(false, ct);
 
             if (!activeEntities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no active data.", 404);
@@ -33,15 +32,15 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<T>>("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResultWithData<IEnumerable<T>>("An error occured while getting entities.");
         }
     }
     public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default)
     {
         try
         {
-            var entities = await _repository.GetAllAsync(ct);
+            var entities = await _repository.GetAllAsync(true, ct);
 
             if (!entities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no data.", 404);
@@ -50,8 +49,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<T>>("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResultWithData<IEnumerable<T>>("An error occured while getting entities.");
         }
     }
     public virtual async Task<IServiceResultWithData<T>> AddAsync(T entity, CancellationToken ct = default)
@@ -64,15 +63,18 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
                 return new ErrorResultWithData<T>(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            await _repository.AddAsync(entity, ct);
+            var created = await _repository.AddAsync(entity, ct);
+            if (created is null)
+                return new ErrorResultWithData<T>("Entity not found or create failed.", 404);
+
             await _repository.SaveChangesAsync(ct);
 
             return new SuccessResultWithData<T>($"Entity added successfully.", entity, 201);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<T>("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResultWithData<T>("An error occured while adding entity.");
         }
     }
 
@@ -86,64 +88,56 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            await _repository.UpdateAsync(entity, ct);
+            var updated = await _repository.UpdateAsync(entity, ct);
+            if (updated is null)
+                return new ErrorResult("Entity not found or update failed.", 404);
+
             await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResult("An error occured while updating entity.");
         }
     }
-    public async Task<IServiceResult> SoftDeleteAsync(T entity, CancellationToken ct = default)
+    public async Task<IServiceResult> DeleteByIdAsync(int id, CancellationToken ct = default)
     {
         try
         {
+            var entity = await _repository.GetByIdAsync(id, includeDeleted: false, ct: ct);
+
+            if (entity is null)
+                return new ErrorResult($"There is no entity with ID : {id}.", 404);
+
             var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
                 return new ErrorResult(string.Join(" | ",
                     validationResult.Errors.Select(e => e.ErrorMessage)));
 
-            _repository.SoftDelete(entity, ct);
-            await _repository.SaveChangesAsync(ct);
-
-            return new SuccessResult("Entity soft deleted successfully.");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
-        }
-    }
-    public async Task<IServiceResult> DeleteAsync(T entity, CancellationToken ct = default)
-    {
-        try
-        {
-            var validationResult = await _validator.ValidateAsync(entity, ct);
-
-            if (!validationResult.IsValid)
-                return new ErrorResult(string.Join(" | ",
-                    validationResult.Errors.Select(e => e.ErrorMessage)));
-
-            _repository.Delete(entity, ct);
+            _repository.Delete(entity);
             await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity deleted successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResult("An error occured while deleting entity.");
         }
     }
 
-    public async Task<IServiceResult> RestoreAsync(T entity, CancellationToken ct = default)
+    public async Task<IServiceResult> RestoreAsync(int id, CancellationToken ct = default)
     {
         try
         {
+            var entity = await _repository.GetByIdAsync(id, includeDeleted: true, ct: ct);
+
+            if (entity is null)
+                return new ErrorResult($"There is no entity with ID : {id}.", 404);
+
             var validationResult = await _validator.ValidateAsync(entity, ct);
 
             if (!validationResult.IsValid)
@@ -153,15 +147,15 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             if (!entity.IsDeleted)
                 return new ErrorResult("Entity is not currently deleted.");
 
-            _repository.Restore(entity, ct);
+            _repository.Restore(entity);
             await _repository.SaveChangesAsync(ct);
 
             return new SuccessResult("Entity restored successfully.");
         }
         catch(Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResult("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResult("An error occured while restoring entity.");
         }
     }
 
@@ -169,7 +163,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entity = await _repository.GetByIdAsync(id, ct);
+            var entity = await _repository.GetByIdAsync(id, includeDeleted: true, ct: ct);
 
             if (entity is null)
                 return new ErrorResultWithData<T>($"There is no entity with ID : {id}", 404);
@@ -178,15 +172,15 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<T>("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResultWithData<T>($"An error occured while getting entity with ID : {id}.");
         }
     }
     public async Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default)
     {
         try
         {
-            var entity = await _repository.GetActiveByIdAsync(id, ct);
+            var entity = await _repository.GetByIdAsync(id);
 
             if (entity is null)
                 return new ErrorResultWithData<T>($"There is no active entity with ID : {id}", 404);
@@ -195,8 +189,8 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<T>("An unexpected error occured.");
+            _logger.LogError(ex, "An unexpected error occured.");
+            return new ErrorResultWithData<T>($"An error occured while getting entity with ID : {id}.");
         }
     }
 }

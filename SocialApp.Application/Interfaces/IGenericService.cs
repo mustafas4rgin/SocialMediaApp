@@ -12,7 +12,6 @@ where T : EntityBase
     Task<IServiceResultWithData<T>> GetByIdAsync(int id, CancellationToken ct = default);
     Task<IServiceResultWithData<T>> GetActiveByIdAsync(int id, CancellationToken ct = default);
     Task<IServiceResult> UpdateAsync(T entity, CancellationToken ct = default);
-    Task<IServiceResult> DeleteAsync(T entity, CancellationToken ct = default);
-    Task<IServiceResult> SoftDeleteAsync(T entity, CancellationToken ct = default);
-    Task<IServiceResult> RestoreAsync(T entity, CancellationToken ct = default);
+    Task<IServiceResult> DeleteByIdAsync(int id, CancellationToken ct = default);
+    Task<IServiceResult> RestoreAsync(int id, CancellationToken ct = default);
 }
