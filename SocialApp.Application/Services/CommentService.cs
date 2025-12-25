@@ -100,12 +100,12 @@ public class CommentService : GenericService<Comment>, ICommentService
 
         try
         {
-            var existingPost = await _postRepository.GetActiveByIdAsync(comment.PostId, ct);
+            var existingPost = await _postRepository.GetByIdAsync(id: comment.PostId, includeDeleted: false, ct: ct);
 
             if (existingPost is null)
                 return new ErrorResultWithData<Comment>($"There is no post with ID : {comment.PostId}", 404);
 
-            var existingUser = await _userRepository.GetActiveByIdAsync(comment.UserId, ct);
+            var existingUser = await _userRepository.GetByIdAsync(id: comment.UserId, includeDeleted: false, ct: ct);
 
             if (existingUser is null)
                 return new ErrorResultWithData<Comment>($"There is no user with ID : {comment.UserId}", 404);

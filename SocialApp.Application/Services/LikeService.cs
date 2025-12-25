@@ -162,7 +162,7 @@ public class LikeService : GenericService<Like>, ILikeService
 
             if (existingLike is not null)
             {
-                _likeRepository.Delete(existingLike, ct);
+                _likeRepository.Delete(existingLike);
                 await _likeRepository.SaveChangesAsync(ct);
                 await CacheHelper.RemoveByPatternAsync(_cache, LikesCachePrefix, ct);
 

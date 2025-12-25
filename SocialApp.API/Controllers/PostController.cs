@@ -50,47 +50,5 @@ namespace SocialApp.API.Controllers
 
             return Ok(feed);
         }
-        public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _postService.GetAllPostsWithIncludesAsync(param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var posts = result.Data;
-
-            var dto = _mapper.Map<IEnumerable<PostDTO>>(posts);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Posts = dto
-            }
-            );
-        }
-        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _postService.GetPostByIdWithIncludesAsync(id, param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var post = result.Data;
-
-            var dto = _mapper.Map<PostDTO>(post);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Post = dto
-            }
-            );
-        }
     }
 }

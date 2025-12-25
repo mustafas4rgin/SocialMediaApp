@@ -49,47 +49,5 @@ namespace SocialApp.API.Controllers
             }
             );
         }
-        public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _followService.GetAllFollowsWithIncludesAsync(param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var follows = result.Data;
-
-            var dto = _mapper.Map<IEnumerable<FollowDTO>>(follows);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Follows = dto
-            }
-            );
-        }
-        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _followService.GetFollowByIdWithIncludesAsync(id, param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var follow = result.Data;
-
-            var dto = _mapper.Map<FollowDTO>(follow);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Follow = dto
-            }
-            );
-        }
     }
 }

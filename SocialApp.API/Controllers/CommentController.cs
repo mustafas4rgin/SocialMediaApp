@@ -48,47 +48,5 @@ namespace SocialApp.API.Controllers
             }
             );
         }
-        public override async Task<IActionResult> GetAllAsync([FromQuery] QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _commentService.GetAllCommentsWithIncludesAsync(param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var comments = result.Data;
-
-            var dto = _mapper.Map<IEnumerable<CommentDTO>>(comments);
-
-            return Ok(
-                new
-                {
-                    result.Message,
-                    Comments = dto
-                }
-            );
-        }
-        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _commentService.GetCommentByIdWithIncludesAsync(id, param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var comment = result.Data;
-
-            var dto = _mapper.Map<CommentDTO>(comment);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Comment = dto
-            }
-            );
-        }
     }
 }

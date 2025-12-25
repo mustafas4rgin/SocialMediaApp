@@ -26,8 +26,8 @@ public class PostBrutalService : GenericService<PostBrutal>, IPostBrutalService
         _postBrutalRepository = postBrutalRepository;
     }
     public async Task<IServiceResultWithData<List<PostBrutalDTO>>> GetPostBrutalByPostIdAsync(int postId, CancellationToken ct = default)
-    {
-        var post = await _postRepository.GetByIdAsync(postId, ct);
+    {   
+        var post = await _postRepository.GetByIdAsync(id: postId, includeDeleted: false, ct: ct);
 
         if (post is null)
             return new ErrorResultWithData<List<PostBrutalDTO>>($"There is no post with ID : {postId}.", 404);

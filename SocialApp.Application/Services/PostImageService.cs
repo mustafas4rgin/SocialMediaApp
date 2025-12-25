@@ -27,7 +27,7 @@ public class PostImageService : GenericService<PostImage>, IPostImageService
     }
     public async Task<IServiceResultWithData<List<PostImageDTO>>> GetPostImages(int postId, CancellationToken ct = default)
     {
-        var post = await _postRepository.GetByIdAsync(postId, ct);
+        var post = await _postRepository.GetByIdAsync(id: postId, includeDeleted: false, ct: ct);
 
         if (post is null)
             return new ErrorResultWithData<List<PostImageDTO>>($"There is no post with ID : {postId}.", 404);

@@ -30,48 +30,6 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
             _likeService = likeService;
         }
-        public override async Task<IActionResult> GetByIdAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _likeService.GetLikeByIdWithIncludesAsync(id, param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var like = result.Data;
-
-            var dto = _mapper.Map<LikeDTO>(like);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Like = dto
-            }
-            );
-        }
-        public override async Task<IActionResult> GetAllAsync([FromQuery]QueryParameters param, CancellationToken ct = default)
-        {
-            var result = await _likeService.GetAllLikesWithIncludesAsync(param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var likes = result.Data;
-
-            var dto = _mapper.Map<IEnumerable<Like>>(likes);
-
-            return Ok(
-            new
-            {
-                result.Message,
-                Likes = dto
-            }
-            );
-        }
         public override async Task<IActionResult> AddAsync([FromBody]CreateLikeDTO dto, CancellationToken ct = default)
         {
             var validationResult = await _createValidator.ValidateAsync(dto);
