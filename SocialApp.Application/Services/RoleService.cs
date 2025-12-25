@@ -31,40 +31,6 @@ public class RoleService : GenericService<Role>, IRoleService
         _validator = validator;
         _roleRepository = roleRepository;
     }
-    public async Task<IServiceResultWithData<IEnumerable<Role>>> GetRolesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var roles = await _roleRepository.GetAllRolesAsync(ct);
-
-            if (!roles.Any())
-                return new ErrorResultWithData<IEnumerable<Role>>("Roles not found.", 404);
-
-            return new SuccessResultWithData<IEnumerable<Role>>("Roles found.", roles);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<IEnumerable<Role>>("An unexpected error occured.");
-        }
-    }
-    public async Task<IServiceResultWithData<Role>> GetRoleByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var role = await _roleRepository.GetRoleByIdAsync(id, ct);
-
-            if (role is null)
-                return new ErrorResultWithData<Role>($"There is no role with ID : {id}", 404);
-
-            return new SuccessResultWithData<Role>("Role found", role);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-            return new ErrorResultWithData<Role>("An unexpected error occured.");
-        }
-    }
     public override async Task<IServiceResult> UpdateAsync(Role role, CancellationToken ct = default)
     {
         try

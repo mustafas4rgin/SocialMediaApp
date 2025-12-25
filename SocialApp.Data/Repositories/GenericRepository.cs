@@ -12,7 +12,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
 
     public GenericRepository(AppDbContext context) => _context = context;
 
-    private IQueryable<T> Query(bool includeDeleted, bool asNoTracking)
+    protected IQueryable<T> Query(bool includeDeleted, bool asNoTracking)
     {
         IQueryable<T> query = Set;
 

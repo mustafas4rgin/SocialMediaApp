@@ -180,7 +180,7 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
     {
         try
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id, ct: ct);
 
             if (entity is null)
                 return new ErrorResultWithData<T>($"There is no active entity with ID : {id}", 404);

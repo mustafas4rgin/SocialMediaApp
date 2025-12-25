@@ -59,7 +59,7 @@ public class LikeService : GenericService<Like>, ILikeService
         }
     }
 
-    public async Task<IServiceResultWithData<IEnumerable<Like>>> GetAllLikesWithIncludesAsync(
+    public async Task<IServiceResultWithData<IEnumerable<Like>>> GetAllLikesCachedAsync(
         QueryParameters param,
         CancellationToken ct = default)
     {
@@ -83,7 +83,7 @@ public class LikeService : GenericService<Like>, ILikeService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<Like>>("Likes (cache)", cached);
 
-                var likes = await _likeRepository.GetAllLikesAsync(ct);
+                var likes = await _likeRepository.GetAllAsync(includeDeleted: false, ct: ct);
 
                 if (!likes.Any())
                     return new ErrorResultWithData<IEnumerable<Like>>("There is no like.", 404);
@@ -103,41 +103,6 @@ public class LikeService : GenericService<Like>, ILikeService
             return new ErrorResultWithData<IEnumerable<Like>>("An unexpected error occured.");
         }
     }
-
-    public async Task<IServiceResultWithData<Like>> GetLikeByIdWithIncludesAsync(
-        int id,
-        QueryParameters param,
-        CancellationToken ct = default)
-    {
-        try
-        {
-            param ??= new QueryParameters();
-
-            var cacheKey = GetById.Like(id); 
-
-            var cached = await CacheHelper.GetTypedAsync<Like>(_cache, cacheKey, ct);
-            if (cached is not null)
-                return new SuccessResultWithData<Like>("Like (cache)", cached);
-
-            var like = await _likeRepository.GetLikeByIdAsync(id, ct);
-
-            if (like is null)
-                return new ErrorResultWithData<Like>($"There is no like with ID: {id}", 404);
-
-            await CacheHelper.SetTypedAsync(_cache, cacheKey, like, ct);
-
-            return new SuccessResultWithData<Like>("Like found.", like);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex,
-                "An error occured while getting like with ID: {Id}",
-                id);
-
-            return new ErrorResultWithData<Like>("An unexpected error occured.");
-        }
-    }
-
     public override async Task<IServiceResultWithData<Like>> AddAsync(
         Like like,
         CancellationToken ct = default)

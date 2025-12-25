@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.Entities;
@@ -25,57 +26,33 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
         if (!followingIdsQuery.Any())
             return new();
 
-        return await _context.Posts
-            .Where(p => followingIdsQuery.Contains(p.UserId))
-            .OrderByDescending(p => p.CreatedAt)
-            .ThenByDescending(p => p.Id)
-            .AsNoTracking()
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .Include(p => p.User)
-            .Include(p => p.Likes)
-            .Include(p => p.Comments)
-            .Include(p => p.PostBrutals)
-            .Include(p => p.PostImages)
-            .ToListAsync(ct);
-    }
-
-    public async Task<List<Post>> GetAllPostsAsync(CancellationToken ct = default)
-    {
-        var query = _context.Posts;
-
-        return await query.AsNoTracking().ToListAsync(ct);
-    }
-    public async Task<Post?> GetPostByIdAsync(int id, CancellationToken ct = default)
-    {
-        var query = _context.Posts
-                        .Where(p => p.Id == id);
-
-        return await query.AsNoTracking().FirstOrDefaultAsync(ct);
+        return await Query(includeDeleted: false, asNoTracking: true)
+                    .Where(p => followingIdsQuery.Contains(p.UserId))
+                    .OrderedByNewest()
+                    .PagedQuery(pageNumber, pageSize)
+                    .Include(p => p.User)
+                    .Include(p => p.Likes)
+                    .Include(p => p.Comments)
+                    .Include(p => p.PostBrutals)
+                    .Include(p => p.PostImages)
+                    .ToListAsync(ct);
     }
     public async Task<int> CountUsersPostsAsync(int userId, CancellationToken ct = default)
-    {
-        return await _context.Posts
-                        .AsNoTracking()
-                        .Where(p => p.UserId == userId)
-                        .CountAsync(ct);
-    }
-    public async Task<List<PostDTO>> GetUserPostsPagedAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
-    {
-        return await _context.Posts
-            .AsNoTracking()
+    => await Query(includeDeleted: false, asNoTracking: true)
             .Where(p => p.UserId == userId)
-            .OrderByDescending(p => p.CreatedAt)
-            .ThenByDescending(p => p.Id)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .Select(p => new PostDTO
-            {
-                Id = p.Id,
-                Body = p.Body,
-                CreatedAt = p.CreatedAt,
-                UserId = p.UserId
-            })
-            .ToListAsync(ct);
-    }
+            .CountAsync();
+
+    public async Task<List<PostDTO>> GetUserPostsPagedAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
+    => await Query(includeDeleted: false, asNoTracking: true)
+                .Where(p => p.UserId == userId)
+                .OrderedByNewest()
+                .PagedQuery(pageNumber, pageSize)
+                .Select(p => new PostDTO
+                {
+                    Id = p.Id,
+                    Body = p.Body,
+                    CreatedAt = p.CreatedAt,
+                    UserId = p.UserId
+                })
+                .ToListAsync(ct);
 }

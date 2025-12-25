@@ -44,40 +44,6 @@ public class FollowService : GenericService<Follow>, IFollowService
             return new ErrorResultWithData<IEnumerable<Follow>>("An unexpected error occured.");
         }
     }
-    public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetAllFollowsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var follows = await _followRepository.GetAllFollowsAsync(ct);
-
-            if (!follows.Any())
-                return new ErrorResultWithData<IEnumerable<Follow>>("There is no follow.", 404);
-
-            return new SuccessResultWithData<IEnumerable<Follow>>("Follows found.", follows);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occured while getting follows.");
-            return new ErrorResultWithData<IEnumerable<Follow>>("An error occured.");
-        }
-    }
-    public async Task<IServiceResultWithData<Follow>> GetFollowByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var follow = await _followRepository.GetFollowByIdAsync(id, ct);
-
-            if (follow is null)
-                return new ErrorResultWithData<Follow>($"There is no follow with ID : {id}", 404);
-
-            return new SuccessResultWithData<Follow>("Follow found.", follow);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"An error occured while getting follow with ID : {id}");
-            return new ErrorResultWithData<Follow>("An unexpected error occured.");
-        }
-    }
     public override async Task<IServiceResultWithData<Follow>> AddAsync(Follow follow, CancellationToken ct)
     {
         if (follow is null)

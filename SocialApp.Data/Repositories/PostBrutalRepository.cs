@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -12,13 +13,9 @@ public class PostBrutalRepository : GenericRepository<PostBrutal>, IPostBrutalRe
     {
         _context = context;
     }
-    public async Task<List<PostBrutal>> GetPostBrutalsByPostId(int postId, CancellationToken ct = default)
-    {
-        return await _context.Brutals
-                        .AsNoTracking()
-                        .Where(pb => pb.PostId == postId)
-                        .OrderByDescending(pb => pb.CreatedAt)
-                        .ThenByDescending(pb => pb.Id)
-                        .ToListAsync(ct);
-    }
+    public async Task<List<PostBrutal>> GetPostBrutalsByPostIdAsync(int postId, CancellationToken ct = default)
+    => await Query(includeDeleted: false, asNoTracking: true)
+                .Where(pb => pb.PostId == postId)
+                .OrderedByNewest()
+                .ToListAsync(ct);
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
 
@@ -13,13 +14,8 @@ public class PostImageRepository : GenericRepository<PostImage>, IPostImageRepos
         _context = context;
     }
     public async Task<List<PostImage>> GetPostImages(int postId, CancellationToken ct = default)
-    {
-        return await _context.PostImages
-                        .AsNoTracking()
-                        .Where(p => p.PostId == postId)
-                        .OrderByDescending(p => p.CreatedAt)
-                        .ThenByDescending(p => p.Id)
-                        .ToListAsync(ct);
-                        
-    }
+    => await Query(includeDeleted: false, asNoTracking: true)
+                .Where(pi => pi.PostId == postId)
+                .OrderedByNewest()
+                .ToListAsync(ct);
 }

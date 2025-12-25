@@ -36,7 +36,7 @@ public class CommentService : GenericService<Comment>, ICommentService
         _commentRepository = commentRepository;
         _logger = logger;
     }
-    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(int postId,QueryParameters param, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(int postId, QueryParameters param, CancellationToken ct = default)
     {
         try
         {
@@ -51,40 +51,6 @@ public class CommentService : GenericService<Comment>, ICommentService
         {
             _logger.LogError(ex, "An error occured while getting commentsç");
             return new ErrorResultWithData<IEnumerable<Comment>>("An unexpected error occured.");
-        }
-    }
-    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetAllCommentsWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var comments = await _commentRepository.GetPostCommentsAsync(ct);
-
-            if (!comments.Any())
-                return new ErrorResultWithData<IEnumerable<Comment>>("There is no comment.", 404);
-
-            return new SuccessResultWithData<IEnumerable<Comment>>("Comments found.", comments);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occured while getting comments.");
-            return new ErrorResultWithData<IEnumerable<Comment>>("An unexpected error occured.");
-        }
-    }
-    public async Task<IServiceResultWithData<Comment>> GetCommentByIdWithIncludesAsync(int id, QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var comment = await _commentRepository.GetPostCommentByIdAsync(id, ct);
-
-            if (comment is null)
-                return new ErrorResultWithData<Comment>($"There is no comment with ID : {id}", 404);
-
-            return new SuccessResultWithData<Comment>("Comment found.", comment);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"An error occured while getting comment with ID : {id}");
-            return new ErrorResultWithData<Comment>("An unexpected error occured.");
         }
     }
     public override async Task<IServiceResultWithData<Comment>> AddAsync(Comment comment, CancellationToken ct = default)

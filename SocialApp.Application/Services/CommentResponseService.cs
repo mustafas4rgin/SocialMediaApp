@@ -31,7 +31,7 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         try
         {
             var responses = await _commentResponseRepository.GetResponsesByCommentIdAsync(commentId, ct);
-            
+
             if (!responses.Any())
                 return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.", 404);
 
@@ -41,42 +41,6 @@ public class CommentResponseService : GenericService<CommentResponse>, ICommentR
         {
             _logger.LogError(ex, "An error occured while getting responses.");
             return new ErrorResultWithData<IEnumerable<CommentResponse>>("An unexpected error occured.");
-        }
-    }
-
-    public async Task<IServiceResultWithData<IEnumerable<CommentResponse>>> GetAllCommentResponsesWithIncludesAsync(QueryParameters param, CancellationToken ct = default)
-    {
-        try
-        {
-            var commentResponses = await _commentResponseRepository.GetAllResponsesAsync(ct);
-
-            if (!commentResponses.Any())
-                return new ErrorResultWithData<IEnumerable<CommentResponse>>("There is no response.", 404);
-
-            return new SuccessResultWithData<IEnumerable<CommentResponse>>("Response(s) found", commentResponses);
-
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occured while getting responses.");
-            return new ErrorResultWithData<IEnumerable<CommentResponse>>("An unexpected error occured.");
-        }
-    }
-    public async Task<IServiceResultWithData<CommentResponse>> GetCommentResponseByIdWithIncludesAsync(int id, QueryParameters parma, CancellationToken ct = default)
-    {
-        try
-        {
-            var commentResponse = await _commentResponseRepository.GetCommentResponseByIdAsync(id, ct);
-
-            if (commentResponse is null)
-                return new ErrorResultWithData<CommentResponse>($"There is no response with ID : {id}", 404);
-
-            return new SuccessResultWithData<CommentResponse>("Response found.", commentResponse);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"An error occured while getting response with ID : {id}");
-            return new ErrorResultWithData<CommentResponse>("An unexpected error occured.");
         }
     }
 }

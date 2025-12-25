@@ -16,10 +16,8 @@ public class NotificationRepository : INotificationRepository
         _context = context;
     }
     public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId, CancellationToken ct = default)
-    {
-        return await _context.Notifications
-                        .Where(p => p.UserId == userId)
-                        .OrderedByNewest()
-                        .ToListAsync(ct);
-    }
+    => await _context.Notifications
+                    .Where(p => p.UserId == userId)
+                    .OrderedByNewest()
+                    .ToListAsync(ct);
 }

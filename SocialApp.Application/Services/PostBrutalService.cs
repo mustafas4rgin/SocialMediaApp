@@ -34,7 +34,7 @@ public class PostBrutalService : GenericService<PostBrutal>, IPostBrutalService
 
         try
         {
-            var postBrutals = await _postBrutalRepository.GetPostBrutalsByPostId(postId, ct);
+            var postBrutals = await _postBrutalRepository.GetPostBrutalsByPostIdAsync(postId, ct);
 
             if (!postBrutals.Any())
                 return new ErrorResultWithData<List<PostBrutalDTO>>("There is no brutal for that post.");

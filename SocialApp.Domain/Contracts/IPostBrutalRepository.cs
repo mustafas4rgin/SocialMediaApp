@@ -5,5 +5,5 @@ namespace SocialApp.Domain.Contracts;
 
 public interface IPostBrutalRepository : IGenericRepository<PostBrutal>
 {
-    Task<List<PostBrutal>> GetPostBrutalsByPostId(int postId, CancellationToken ct = default);
+    Task<List<PostBrutal>> GetPostBrutalsByPostIdAsync(int postId, CancellationToken ct = default);
 }

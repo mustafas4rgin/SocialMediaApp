@@ -894,3 +894,4 @@ WHERE "Id" = @p2;
 DELETE FROM "AccessTokens"
 WHERE "Id" = @p3;
 2025-12-25 14:50:28.051 +03:00 [INF] Deleted 4 expired access tokens.
+2025-12-25 16:48:16.221 +03:00 [INF] Application is shutting down...

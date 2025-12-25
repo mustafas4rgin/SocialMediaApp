@@ -32,37 +32,5 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
             _roleService = roleService;
         }
-        [HttpGet("with-includes")]
-        public async Task<IActionResult> GetAllWithIncludesAsync([FromQuery] QueryParameters param, CancellationToken ct)
-        {
-            var result = await _roleService.GetRolesWithIncludesAsync(param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var roles = result.Data;
-
-            var dto = _mapper.Map<IEnumerable<RoleDTO>>(roles);
-
-            return Ok(dto);
-        }
-        [HttpGet("{id:int}/with-includes")]
-        public async Task<IActionResult> GetByIdWithIncludesAsync([FromRoute]int id, [FromQuery]QueryParameters param, CancellationToken ct)
-        {
-            var result = await _roleService.GetRoleByIdWithIncludesAsync(id, param, ct);
-
-            var errorResult = HandleServiceResult(result);
-
-            if (errorResult != null)
-                return errorResult;
-
-            var role = result.Data;
-
-            var dto = _mapper.Map<RoleDTO>(role);
-
-            return Ok(dto);
-        }
     }
 }
