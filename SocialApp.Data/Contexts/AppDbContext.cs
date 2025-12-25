@@ -35,6 +35,12 @@ public class AppDbContext : DbContext
     {
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
+            if (!typeof(EntityBase).IsAssignableFrom(entityType.ClrType))
+                continue;
+
+            if (entityType.BaseType is not null)
+                continue;
+
             var clrType = entityType.ClrType;
 
             if (!typeof(EntityBase).IsAssignableFrom(clrType))

@@ -6,18 +6,24 @@ using SocialApp.Domain.Entities;
 
 namespace SocialApp.Data.Repositories;
 
-public class NotificationRepository : INotificationRepository
+public class NotificationRepository : GenericRepository<Notification>, INotificationRepository
 {
     private readonly AppDbContext _context;
     public NotificationRepository(
         AppDbContext context
-    )
+    ) : base(context)
     {
         _context = context;
     }
     public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId, CancellationToken ct = default)
-    => await _context.Notifications
-                    .Where(p => p.UserId == userId)
+    => await Query(includeDeleted: false, asNoTracking: false)
+                    .Where(p => p.UserId == userId && p.IsSeen == false)
                     .OrderedByNewest()
                     .ToListAsync(ct);
+    
+    public async Task<bool> MarkAsSeenAsync(int notificationId, CancellationToken ct = default)
+    =>  await _context.Notifications
+                .Where(n => n.Id == notificationId && !n.IsDeleted && n.DeletedAt == null && !n.IsSeen)
+                .ExecuteUpdateAsync(s => s.SetProperty(n => n.IsSeen, true), ct) > 0;
+
 }
