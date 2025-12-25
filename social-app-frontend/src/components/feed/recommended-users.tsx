@@ -47,32 +47,35 @@ export function RecommendedUsers() {
   };
 
   return (
-    <Card className="sticky top-6 rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur">
+    <Card className="sticky top-20 post-card">
       <CardHeader>
-        <CardTitle className="text-lg">Suggested For You</CardTitle>
+        <CardTitle className="text-lg font-semibold text-heading">Suggested For You</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {users.length === 0 && (
           <p className="text-sm text-muted-foreground">No suggestions right now.</p>
         )}
         {users.map((user) => (
-          <div key={user.id} className="flex items-center gap-3">
-            <Avatar className="w-12 h-12 border border-white/10 bg-white/10">
+          <div key={user.id} className="flex items-center gap-3 group">
+            <Avatar className="w-11 h-11 border-2 border-border ring-2 ring-background transition-all group-hover:border-primary/50">
               <AvatarImage src={`https://i.pravatar.cc/150?u=${user.firstName}${user.lastName}`} alt={`${user.firstName} ${user.lastName}`} />
-              <AvatarFallback className="bg-brand/15 text-brand">
+              <AvatarFallback className="bg-gradient-to-br from-brand/20 to-brand-dark/20 text-brand font-semibold">
                 {user.firstName[0]}{user.lastName[0]}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-sm truncate">
+              <h4 className="font-medium text-sm truncate text-foreground group-hover:text-primary transition-colors">
                 {user.firstName} {user.lastName}
               </h4>
+              <p className="text-xs text-muted-foreground">Suggested for you</p>
             </div>
             <Button
               size="sm"
               variant={following.has(user.id) ? "outline" : "default"}
               onClick={() => toggleFollow(user.id)}
-              className={following.has(user.id) ? '' : 'bg-brand hover:bg-brand-dark'}
+              className={following.has(user.id) 
+                ? 'border-border/50 hover:bg-muted' 
+                : 'bg-gradient-to-r from-brand to-brand-dark hover:from-brand-dark hover:to-brand shadow-sm'}
             >
               {following.has(user.id) ? "Following" : "Follow"}
             </Button>

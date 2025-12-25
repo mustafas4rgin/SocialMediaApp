@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Bell, Home, MessageSquare, Search, User, Settings, LogOut } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 function getStoredUserId(): number | null {
   if (typeof window === "undefined") return null;
@@ -114,17 +115,17 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="container max-w-7xl mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/feed" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-brand to-brand-dark rounded-xl flex items-center justify-center">
+          <Link href="/feed" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-brand to-brand-dark rounded-xl flex items-center justify-center shadow-lg shadow-brand/20 transition-all group-hover:shadow-brand/30 group-hover:scale-105">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
               </svg>
             </div>
-            <span className="text-xl font-bold text-heading hidden sm:inline">SocialApp</span>
+            <span className="text-xl font-bold gradient-text hidden sm:inline">SocialApp</span>
           </Link>
 
           {/* Search */}
@@ -133,8 +134,8 @@ export function Header() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search..."
-                className="pl-10 bg-muted/50"
+                placeholder="Search users..."
+                className="pl-10 bg-muted/50 border-border/50 focus:border-primary/50 transition-colors"
                 value={searchTerm}
                 onFocus={() => results.length && setOpenResults(true)}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -188,27 +189,29 @@ export function Header() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex items-center gap-2">
+          <nav className="flex items-center gap-1">
             <Link href="/feed">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 transition-colors">
                 <Home className="w-5 h-5" />
               </Button>
             </Link>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 transition-colors">
               <MessageSquare className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 transition-colors">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full shadow-sm"></span>
             </Button>
+            
+            <ThemeToggle />
 
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <Avatar className="w-9 h-9 border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-white/5">
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-transparent">
+                  <Avatar className="w-9 h-9 border-2 border-border hover:border-primary transition-all cursor-pointer ring-offset-background">
                     <AvatarImage src="https://i.pravatar.cc/150?u=currentuser" alt="User" />
-                    <AvatarFallback className="bg-brand/15 text-brand">JD</AvatarFallback>
+                    <AvatarFallback className="bg-gradient-to-br from-brand to-brand-dark text-white">JD</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>

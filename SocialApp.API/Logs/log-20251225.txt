@@ -1,0 +1,882 @@
+2025-12-25 13:36:00.733 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null 0
+2025-12-25 13:36:00.733 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null 0
+2025-12-25 13:36:01.144 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:01.144 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:01.149 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 204 null null 452.9985ms
+2025-12-25 13:36:01.149 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 204 null null 453.0016ms
+2025-12-25 13:36:01.154 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null null
+2025-12-25 13:36:01.154 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null null
+2025-12-25 13:36:01.156 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:01.157 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:01.207 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '24.12.2025 20:22:23', Current time (UTC): '25.12.2025 10:36:01'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-12-25 13:36:01.207 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '24.12.2025 20:22:23', Current time (UTC): '25.12.2025 10:36:01'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-12-25 13:36:01.278 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '24.12.2025 20:22:23', Current time (UTC): '25.12.2025 10:36:01'.
+2025-12-25 13:36:01.278 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '24.12.2025 20:22:23', Current time (UTC): '25.12.2025 10:36:01'.
+2025-12-25 13:36:01.282 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:36:01.282 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:36:01.284 +03:00 [INF] Route matched with {action = "GetFeed", controller = "Post"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFeedAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostController (SocialApp.API).
+2025-12-25 13:36:01.284 +03:00 [INF] Route matched with {action = "GetRecommendedUsers", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRecommendedUsersAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:01.352 +03:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'System.String'.
+2025-12-25 13:36:01.352 +03:00 [INF] Executing UnauthorizedObjectResult, writing value of type 'System.String'.
+2025-12-25 13:36:01.368 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API) in 83.5359ms
+2025-12-25 13:36:01.368 +03:00 [INF] Executed action SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API) in 83.93ms
+2025-12-25 13:36:01.368 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:36:01.368 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:36:01.368 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 401 null text/plain; charset=utf-8 214.6303ms
+2025-12-25 13:36:01.368 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 401 null text/plain; charset=utf-8 214.8214ms
+2025-12-25 13:36:13.061 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Auth/login - null 0
+2025-12-25 13:36:13.169 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:13.187 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Auth/login - 204 null null 159.8007ms
+2025-12-25 13:36:13.207 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5084/api/Auth/login - application/json 63
+2025-12-25 13:36:13.209 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:13.263 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-12-25 13:36:13.298 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoginAsync(SocialApp.Domain.DTOs.Auth.LoginDTO, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-12-25 13:36:15.284 +03:00 [INF] Executed DbCommand (136ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", r."Id", r."CreatedAt", r."DeletedAt", r."IsDeleted", r."Name", r."UpdatedAt"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Email" = @__email_0
+LIMIT 1
+2025-12-25 13:36:15.763 +03:00 [INF] Executed DbCommand (98ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (DbType = Boolean), @p4='?' (DbType = Boolean), @p5='?', @p6='?', @p7='?' (DbType = DateTime), @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime), @p10='?' (DbType = DateTime), @p11='?' (DbType = DateTime), @p12='?' (DbType = Boolean), @p13='?' (DbType = Boolean), @p14='?' (DbType = Boolean), @p15='?', @p16='?' (DbType = DateTime), @p17='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "AccessTokens" ("CreatedAt", "DeletedAt", "ExpiresAt", "IsDeleted", "IsRevoked", "RefreshToken", "Token", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "Id";
+INSERT INTO "RefreshTokens" ("CreatedAt", "DeletedAt", "ExpiresAt", "IsDeleted", "IsRevoked", "IsUsed", "Token", "UpdatedAt", "UserId")
+VALUES (@p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17)
+RETURNING "Id";
+2025-12-25 13:36:15.833 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.DTOs.Auth.TokenResponseDTO'.
+2025-12-25 13:36:15.837 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API) in 2538.6281ms
+2025-12-25 13:36:15.837 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.LoginAsync (SocialApp.API)'
+2025-12-25 13:36:15.837 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5084/api/Auth/login - 200 null application/json; charset=utf-8 2630.1952ms
+2025-12-25 13:36:15.886 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Auth/me - null 0
+2025-12-25 13:36:15.886 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:15.886 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Auth/me - 204 null null 0.5384ms
+2025-12-25 13:36:15.889 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Auth/me - null null
+2025-12-25 13:36:15.889 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:15.918 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.AuthController.MeAsync (SocialApp.API)'
+2025-12-25 13:36:15.919 +03:00 [INF] Route matched with {action = "Me", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] MeAsync(System.Threading.CancellationToken) on controller SocialApp.API.Controllers.AuthController (SocialApp.API).
+2025-12-25 13:36:15.986 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__token_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."Id", a."CreatedAt", a."DeletedAt", a."ExpiresAt", a."IsDeleted", a."IsRevoked", a."RefreshToken", a."Token", a."UpdatedAt", a."UserId"
+FROM "AccessTokens" AS a
+WHERE a."Token" = @__token_0
+LIMIT 1
+2025-12-25 13:36:16.044 +03:00 [INF] Executed DbCommand (57ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", r."Id", r."CreatedAt", r."DeletedAt", r."IsDeleted", r."Name", r."UpdatedAt"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Id" = @__userId_0
+LIMIT 1
+2025-12-25 13:36:16.045 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`3[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:16.046 +03:00 [INF] Executed action SocialApp.API.Controllers.AuthController.MeAsync (SocialApp.API) in 127.1622ms
+2025-12-25 13:36:16.046 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.AuthController.MeAsync (SocialApp.API)'
+2025-12-25 13:36:16.046 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Auth/me - 200 null application/json; charset=utf-8 157.2057ms
+2025-12-25 13:36:17.752 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null 0
+2025-12-25 13:36:17.752 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null 0
+2025-12-25 13:36:17.755 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.755 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.756 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 204 null null 4.96ms
+2025-12-25 13:36:17.756 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 204 null null 4.9381ms
+2025-12-25 13:36:17.764 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null null
+2025-12-25 13:36:17.765 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.775 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:36:17.776 +03:00 [INF] Route matched with {action = "GetRecommendedUsers", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRecommendedUsersAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:17.787 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null null
+2025-12-25 13:36:17.788 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.789 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-25 13:36:17.789 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null 0
+2025-12-25 13:36:17.789 +03:00 [INF] Route matched with {action = "GetProfileInfo", controller = "Profile"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetProfileInfoAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.ProfileController (SocialApp.API).
+2025-12-25 13:36:17.789 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.789 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 204 null null 0.5019ms
+2025-12-25 13:36:17.791 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null null
+2025-12-25 13:36:17.795 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:17.800 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:36:17.804 +03:00 [INF] Route matched with {action = "GetFeed", controller = "Post"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFeedAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostController (SocialApp.API).
+2025-12-25 13:36:17.914 +03:00 [INF] Executed DbCommand (85ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u0."Id", u0."FirstName", u0."LastName", u0."UserName", u0.c, u0.c0, f4."Id", f4."Id0", f6."Id", f6."Id0"
+FROM (
+    SELECT u."Id", u."FirstName", u."LastName", u."UserName", (
+        SELECT count(*)::int
+        FROM "Follows" AS f
+        WHERE u."Id" = f."FollowingId") AS c, (
+        SELECT count(*)::int
+        FROM "Follows" AS f0
+        WHERE u."Id" = f0."FollowerId") AS c0
+    FROM "Users" AS u
+    WHERE NOT (u."IsDeleted") AND u."Id" = @__userId_0
+    LIMIT 1
+) AS u0
+LEFT JOIN (
+    SELECT f3."Id", f3."Id0", f3."FollowingId"
+    FROM (
+        SELECT f1."FollowerId" AS "Id", f1."Id" AS "Id0", f1."FollowingId", ROW_NUMBER() OVER(PARTITION BY f1."FollowingId" ORDER BY f1."Id" DESC) AS row
+        FROM "Follows" AS f1
+    ) AS f3
+    WHERE f3.row <= 10
+) AS f4 ON u0."Id" = f4."FollowingId"
+LEFT JOIN (
+    SELECT f5."Id", f5."Id0", f5."FollowerId"
+    FROM (
+        SELECT f2."FollowingId" AS "Id", f2."Id" AS "Id0", f2."FollowerId", ROW_NUMBER() OVER(PARTITION BY f2."FollowerId" ORDER BY f2."Id" DESC) AS row
+        FROM "Follows" AS f2
+    ) AS f5
+    WHERE f5.row <= 10
+) AS f6 ON u0."Id" = f6."FollowerId"
+ORDER BY u0."Id", f4."FollowingId", f4."Id0" DESC, f6."FollowerId", f6."Id0" DESC
+2025-12-25 13:36:17.998 +03:00 [INF] Executed DbCommand (71ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+LIMIT @__p_2 OFFSET @__p_1
+2025-12-25 13:36:18.101 +03:00 [INF] Executed DbCommand (59ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+2025-12-25 13:36:18.110 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.Results.Success.SuccessResultWithData`1[[SocialApp.Domain.DTOs.ProfileDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:18.127 +03:00 [INF] Executed action SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API) in 337.9717ms
+2025-12-25 13:36:18.127 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-25 13:36:18.127 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 340.6567ms
+2025-12-25 13:36:18.434 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."FirstName", u."LastName", EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0 AND f."FollowingId" = u."Id") AS "IsFollowedByMe"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" <> @__userId_0
+ORDER BY u."Id"
+LIMIT @__p_1
+2025-12-25 13:36:18.435 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.Results.Success.SuccessResultWithData`1[[System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.UserRecommendationDto, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.436 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API) in 660.2026ms
+2025-12-25 13:36:18.436 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:36:18.437 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 200 null application/json; charset=utf-8 672.3907ms
+2025-12-25 13:36:18.522 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0)
+2025-12-25 13:36:18.647 +03:00 [INF] Executed DbCommand (96ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."Id", p0."Body", p0."CreatedAt", p0."DeletedAt", p0."IsDeleted", p0."Status", p0."UpdatedAt", p0."UserId", u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", l."Id", l."CreatedAt", l."DeletedAt", l."IsDeleted", l."PostId", l."UpdatedAt", l."UserId", s."Id", s."Body", s."CreatedAt", s."DeletedAt", s."IsDeleted", s."PostId", s."UpdatedAt", s."UserId", s."CommentId", s."Discriminator", p1."Id", p1."CreatedAt", p1."DeletedAt", p1."File", p1."IsDeleted", p1."PostId", p1."UpdatedAt", p2."Id", p2."CreatedAt", p2."DeletedAt", p2."File", p2."IsDeleted", p2."PostId", p2."UpdatedAt"
+FROM (
+    SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+    FROM "Posts" AS p
+    WHERE NOT (p."IsDeleted") AND p."UserId" IN (
+        SELECT f."FollowingId"
+        FROM "Follows" AS f
+        WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0
+    )
+    ORDER BY p."CreatedAt" DESC, p."Id" DESC
+    LIMIT @__p_2 OFFSET @__p_1
+) AS p0
+INNER JOIN "Users" AS u ON p0."UserId" = u."Id"
+LEFT JOIN "Likes" AS l ON p0."Id" = l."PostId"
+LEFT JOIN (
+    SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+        WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+    END AS "Discriminator"
+    FROM "Comments" AS c
+    LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+) AS s ON p0."Id" = s."PostId"
+LEFT JOIN "PostBrutals" AS p1 ON p0."Id" = p1."PostId"
+LEFT JOIN "PostImages" AS p2 ON p0."Id" = p2."PostId"
+ORDER BY p0."CreatedAt" DESC, p0."Id" DESC, u."Id", l."Id", s."Id", p1."Id"
+2025-12-25 13:36:18.668 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.FeedDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:18.669 +03:00 [INF] Executed action SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API) in 864.8543ms
+2025-12-25 13:36:18.670 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:36:18.670 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 878.7742ms
+2025-12-25 13:36:18.677 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/4 - null 0
+2025-12-25 13:36:18.678 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.679 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/3 - null 0
+2025-12-25 13:36:18.679 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.679 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/4 - 204 null null 1.1794ms
+2025-12-25 13:36:18.679 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/3 - 204 null null 0.2487ms
+2025-12-25 13:36:18.679 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/2 - null 0
+2025-12-25 13:36:18.680 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.680 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/2 - 204 null null 0.4887ms
+2025-12-25 13:36:18.681 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/4 - null null
+2025-12-25 13:36:18.681 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.682 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.682 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:36:18.682 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/2 - null null
+2025-12-25 13:36:18.682 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.682 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.682 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:36:18.682 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/3 - null null
+2025-12-25 13:36:18.685 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.685 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/1 - null 0
+2025-12-25 13:36:18.685 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.685 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.689 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:36:18.689 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/1 - 204 null null 3.3671ms
+2025-12-25 13:36:18.692 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/1 - null null
+2025-12-25 13:36:18.692 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.693 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.693 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:36:18.763 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.764 +03:00 [INF] Executed DbCommand (61ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.771 +03:00 [INF] Executed DbCommand (68ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.828 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.828 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.829 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.829 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.829 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 147.1214ms
+2025-12-25 13:36:18.829 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 134.5725ms
+2025-12-25 13:36:18.829 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.829 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/4 - 400 null application/json; charset=utf-8 148.0639ms
+2025-12-25 13:36:18.829 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.829 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/1 - 400 null application/json; charset=utf-8 137.1354ms
+2025-12-25 13:36:18.831 +03:00 [INF] Executed DbCommand (60ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.831 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.832 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 142.9765ms
+2025-12-25 13:36:18.832 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:18.832 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/3 - 400 null application/json; charset=utf-8 150.08ms
+2025-12-25 13:36:18.838 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/4 - null 0
+2025-12-25 13:36:18.839 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.839 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/4 - 204 null null 0.1985ms
+2025-12-25 13:36:18.839 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/1 - null 0
+2025-12-25 13:36:18.840 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.840 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/1 - 204 null null 0.2473ms
+2025-12-25 13:36:18.840 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/3 - null 0
+2025-12-25 13:36:18.841 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.841 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/3 - 204 null null 0.8793ms
+2025-12-25 13:36:18.842 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/4 - null null
+2025-12-25 13:36:18.842 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.842 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.843 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:36:18.843 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/1 - null null
+2025-12-25 13:36:18.843 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.843 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.843 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:36:18.844 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/3 - null null
+2025-12-25 13:36:18.846 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:18.846 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.846 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:36:18.906 +03:00 [INF] Executed DbCommand (59ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.906 +03:00 [INF] Executed DbCommand (59ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.910 +03:00 [INF] Executed DbCommand (61ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:18.963 +03:00 [INF] Executed DbCommand (56ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.963 +03:00 [INF] Executed DbCommand (56ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.963 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.963 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.963 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 120.8318ms
+2025-12-25 13:36:18.963 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 119.719ms
+2025-12-25 13:36:18.964 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.964 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.964 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/4 - 400 null application/json; charset=utf-8 121.638ms
+2025-12-25 13:36:18.964 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/1 - 400 null application/json; charset=utf-8 121.1014ms
+2025-12-25 13:36:18.976 +03:00 [INF] Executed DbCommand (65ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:18.977 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:18.977 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 130.774ms
+2025-12-25 13:36:18.977 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:18.977 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/3 - 400 null application/json; charset=utf-8 133.3505ms
+2025-12-25 13:36:19.235 +03:00 [INF] Executed DbCommand (57ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:19.316 +03:00 [INF] Executed DbCommand (76ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:19.316 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:19.317 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 634.5808ms
+2025-12-25 13:36:19.317 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:36:19.317 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/2 - 400 null application/json; charset=utf-8 635.1807ms
+2025-12-25 13:36:19.336 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/2 - null 0
+2025-12-25 13:36:19.337 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.338 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/2 - 204 null null 1.8503ms
+2025-12-25 13:36:19.340 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/2 - null null
+2025-12-25 13:36:19.340 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.342 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.343 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:36:19.424 +03:00 [INF] Executed DbCommand (69ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:36:19.485 +03:00 [INF] Executed DbCommand (60ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:36:19.485 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:19.485 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 142.0003ms
+2025-12-25 13:36:19.485 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.485 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/2 - 400 null application/json; charset=utf-8 145.1183ms
+2025-12-25 13:36:19.550 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:36:19.550 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.551 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:36:19.551 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.551 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.551 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:36:19.552 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - 204 null null 0.2996ms
+2025-12-25 13:36:19.618 +03:00 [INF] Executed DbCommand (55ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:36:19.618 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:19.621 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 69.4894ms
+2025-12-25 13:36:19.621 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.621 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 69.9012ms
+2025-12-25 13:36:19.669 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/1/getbyid - null 0
+2025-12-25 13:36:19.669 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.669 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/1/getbyid - 204 null null 0.3901ms
+2025-12-25 13:36:19.670 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:36:19.673 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.673 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.673 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:19.858 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" = @__id_0
+LIMIT 1
+2025-12-25 13:36:19.947 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:19.948 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 274.6365ms
+2025-12-25 13:36:19.948 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:19.948 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 278.3531ms
+2025-12-25 13:36:19.989 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:36:19.991 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:19.991 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - 204 null null 1.7303ms
+2025-12-25 13:36:19.994 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:36:19.995 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.018 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.019 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:36:20.089 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:36:20.091 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:20.091 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 71.9365ms
+2025-12-25 13:36:20.091 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.091 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 97.1303ms
+2025-12-25 13:36:20.107 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:36:20.107 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.107 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.108 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:20.160 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:20.160 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 52.6254ms
+2025-12-25 13:36:20.160 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.160 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 53.5498ms
+2025-12-25 13:36:20.166 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:36:20.166 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.166 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - 204 null null 0.4164ms
+2025-12-25 13:36:20.168 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:36:20.168 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.169 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.169 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:36:20.248 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:36:20.249 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:20.250 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 81.4344ms
+2025-12-25 13:36:20.250 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.251 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - 404 null application/json; charset=utf-8 82.4323ms
+2025-12-25 13:36:20.262 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:36:20.262 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.262 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - 204 null null 0.3414ms
+2025-12-25 13:36:20.267 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:36:20.267 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.267 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.267 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:36:20.326 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:36:20.326 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:36:20.326 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 59.1346ms
+2025-12-25 13:36:20.326 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.326 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 59.9632ms
+2025-12-25 13:36:20.329 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:36:20.329 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.329 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.329 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:20.329 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/2/getbyid - null 0
+2025-12-25 13:36:20.330 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.330 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/2/getbyid - 204 null null 0.1782ms
+2025-12-25 13:36:20.331 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/2/getbyid - null null
+2025-12-25 13:36:20.331 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:36:20.331 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.331 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:36:20.340 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:20.340 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 10.5614ms
+2025-12-25 13:36:20.340 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.340 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 11.5822ms
+2025-12-25 13:36:20.392 +03:00 [INF] Executed DbCommand (57ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" = @__id_0
+LIMIT 1
+2025-12-25 13:36:20.400 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:36:20.400 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 68.4312ms
+2025-12-25 13:36:20.400 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:36:20.400 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/2/getbyid - 200 null application/json; charset=utf-8 69.3395ms
+2025-12-25 13:51:19.990 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null 0
+2025-12-25 13:51:19.990 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null 0
+2025-12-25 13:51:19.990 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null 0
+2025-12-25 13:51:20.028 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.028 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.028 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.031 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 204 null null 46.559ms
+2025-12-25 13:51:20.031 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 204 null null 46.6075ms
+2025-12-25 13:51:20.031 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 204 null null 46.617ms
+2025-12-25 13:51:20.037 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null null
+2025-12-25 13:51:20.037 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null null
+2025-12-25 13:51:20.040 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.040 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.041 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null null
+2025-12-25 13:51:20.041 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:20.118 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:51:20.118 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:51:20.118 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-25 13:51:20.135 +03:00 [INF] Route matched with {action = "GetRecommendedUsers", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRecommendedUsersAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:51:20.135 +03:00 [INF] Route matched with {action = "GetFeed", controller = "Post"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFeedAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostController (SocialApp.API).
+2025-12-25 13:51:20.135 +03:00 [INF] Route matched with {action = "GetProfileInfo", controller = "Profile"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetProfileInfoAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.ProfileController (SocialApp.API).
+2025-12-25 13:51:21.640 +03:00 [INF] Executed DbCommand (110ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0)
+2025-12-25 13:51:21.648 +03:00 [INF] Executed DbCommand (128ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."FirstName", u."LastName", EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0 AND f."FollowingId" = u."Id") AS "IsFollowedByMe"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" <> @__userId_0
+ORDER BY u."Id"
+LIMIT @__p_1
+2025-12-25 13:51:21.649 +03:00 [INF] Executed DbCommand (129ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u0."Id", u0."FirstName", u0."LastName", u0."UserName", u0.c, u0.c0, f4."Id", f4."Id0", f6."Id", f6."Id0"
+FROM (
+    SELECT u."Id", u."FirstName", u."LastName", u."UserName", (
+        SELECT count(*)::int
+        FROM "Follows" AS f
+        WHERE u."Id" = f."FollowingId") AS c, (
+        SELECT count(*)::int
+        FROM "Follows" AS f0
+        WHERE u."Id" = f0."FollowerId") AS c0
+    FROM "Users" AS u
+    WHERE NOT (u."IsDeleted") AND u."Id" = @__userId_0
+    LIMIT 1
+) AS u0
+LEFT JOIN (
+    SELECT f3."Id", f3."Id0", f3."FollowingId"
+    FROM (
+        SELECT f1."FollowerId" AS "Id", f1."Id" AS "Id0", f1."FollowingId", ROW_NUMBER() OVER(PARTITION BY f1."FollowingId" ORDER BY f1."Id" DESC) AS row
+        FROM "Follows" AS f1
+    ) AS f3
+    WHERE f3.row <= 10
+) AS f4 ON u0."Id" = f4."FollowingId"
+LEFT JOIN (
+    SELECT f5."Id", f5."Id0", f5."FollowerId"
+    FROM (
+        SELECT f2."FollowingId" AS "Id", f2."Id" AS "Id0", f2."FollowerId", ROW_NUMBER() OVER(PARTITION BY f2."FollowerId" ORDER BY f2."Id" DESC) AS row
+        FROM "Follows" AS f2
+    ) AS f5
+    WHERE f5.row <= 10
+) AS f6 ON u0."Id" = f6."FollowerId"
+ORDER BY u0."Id", f4."FollowingId", f4."Id0" DESC, f6."FollowerId", f6."Id0" DESC
+2025-12-25 13:51:21.650 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.Results.Success.SuccessResultWithData`1[[System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.UserRecommendationDto, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:21.655 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API) in 1518.6299ms
+2025-12-25 13:51:21.656 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-25 13:51:21.656 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 200 null application/json; charset=utf-8 1614.7538ms
+2025-12-25 13:51:21.731 +03:00 [INF] Executed DbCommand (75ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+LIMIT @__p_2 OFFSET @__p_1
+2025-12-25 13:51:21.800 +03:00 [INF] Executed DbCommand (150ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."Id", p0."Body", p0."CreatedAt", p0."DeletedAt", p0."IsDeleted", p0."Status", p0."UpdatedAt", p0."UserId", u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", l."Id", l."CreatedAt", l."DeletedAt", l."IsDeleted", l."PostId", l."UpdatedAt", l."UserId", s."Id", s."Body", s."CreatedAt", s."DeletedAt", s."IsDeleted", s."PostId", s."UpdatedAt", s."UserId", s."CommentId", s."Discriminator", p1."Id", p1."CreatedAt", p1."DeletedAt", p1."File", p1."IsDeleted", p1."PostId", p1."UpdatedAt", p2."Id", p2."CreatedAt", p2."DeletedAt", p2."File", p2."IsDeleted", p2."PostId", p2."UpdatedAt"
+FROM (
+    SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+    FROM "Posts" AS p
+    WHERE NOT (p."IsDeleted") AND p."UserId" IN (
+        SELECT f."FollowingId"
+        FROM "Follows" AS f
+        WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0
+    )
+    ORDER BY p."CreatedAt" DESC, p."Id" DESC
+    LIMIT @__p_2 OFFSET @__p_1
+) AS p0
+INNER JOIN "Users" AS u ON p0."UserId" = u."Id"
+LEFT JOIN "Likes" AS l ON p0."Id" = l."PostId"
+LEFT JOIN (
+    SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+        WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+    END AS "Discriminator"
+    FROM "Comments" AS c
+    LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+) AS s ON p0."Id" = s."PostId"
+LEFT JOIN "PostBrutals" AS p1 ON p0."Id" = p1."PostId"
+LEFT JOIN "PostImages" AS p2 ON p0."Id" = p2."PostId"
+ORDER BY p0."CreatedAt" DESC, p0."Id" DESC, u."Id", l."Id", s."Id", p1."Id"
+2025-12-25 13:51:21.809 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+2025-12-25 13:51:21.817 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.Results.Success.SuccessResultWithData`1[[SocialApp.Domain.DTOs.ProfileDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:21.824 +03:00 [INF] Executed action SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API) in 1685.5282ms
+2025-12-25 13:51:21.824 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-25 13:51:21.825 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 1787.6418ms
+2025-12-25 13:51:21.829 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.FeedDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:21.833 +03:00 [INF] Executed action SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API) in 1696.4001ms
+2025-12-25 13:51:21.833 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-25 13:51:21.833 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 1796.09ms
+2025-12-25 13:51:21.840 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/4 - null 0
+2025-12-25 13:51:21.840 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/3 - null 0
+2025-12-25 13:51:21.840 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.840 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.841 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/3 - 204 null null 0.2324ms
+2025-12-25 13:51:21.841 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/4 - 204 null null 0.8117ms
+2025-12-25 13:51:21.841 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/2 - null 0
+2025-12-25 13:51:21.841 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.841 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/2 - 204 null null 0.36ms
+2025-12-25 13:51:21.844 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/4 - null null
+2025-12-25 13:51:21.845 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.845 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/3 - null null
+2025-12-25 13:51:21.850 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.851 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:21.851 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:21.853 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/2 - null null
+2025-12-25 13:51:21.853 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.854 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:51:21.854 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/1 - null 0
+2025-12-25 13:51:21.854 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:21.854 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:51:21.854 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:51:21.855 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.856 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostImage/post-images/1 - 204 null null 1.372ms
+2025-12-25 13:51:21.859 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/1 - null null
+2025-12-25 13:51:21.859 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:21.860 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:21.860 +03:00 [INF] Route matched with {action = "GetPostImages", controller = "PostImage"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostImagesAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostImageController (SocialApp.API).
+2025-12-25 13:51:21.936 +03:00 [INF] Executed DbCommand (64ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:21.937 +03:00 [INF] Executed DbCommand (66ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:21.984 +03:00 [INF] Executed DbCommand (112ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.010 +03:00 [INF] Executed DbCommand (66ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.010 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.011 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 156.3506ms
+2025-12-25 13:51:22.011 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:22.011 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/2 - 400 null application/json; charset=utf-8 158.1759ms
+2025-12-25 13:51:22.015 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/2 - null 0
+2025-12-25 13:51:22.015 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.015 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/2 - 204 null null 0.833ms
+2025-12-25 13:51:22.016 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/2 - null null
+2025-12-25 13:51:22.016 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.017 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.017 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:51:22.023 +03:00 [INF] Executed DbCommand (78ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.024 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.024 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 169.3727ms
+2025-12-25 13:51:22.024 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:22.024 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/3 - 400 null application/json; charset=utf-8 179.1694ms
+2025-12-25 13:51:22.027 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/3 - null 0
+2025-12-25 13:51:22.028 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.031 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/3 - 204 null null 1.1687ms
+2025-12-25 13:51:22.034 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/3 - null null
+2025-12-25 13:51:22.034 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.035 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.035 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:51:22.082 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.104 +03:00 [INF] Executed DbCommand (61ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.120 +03:00 [INF] Executed DbCommand (136ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.120 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.120 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 266.3405ms
+2025-12-25 13:51:22.121 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:22.121 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/4 - 400 null application/json; charset=utf-8 276.1841ms
+2025-12-25 13:51:22.122 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/4 - null 0
+2025-12-25 13:51:22.123 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.123 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/4 - 204 null null 0.2355ms
+2025-12-25 13:51:22.124 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/4 - null null
+2025-12-25 13:51:22.124 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.124 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.124 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:51:22.145 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.145 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.145 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 128.0141ms
+2025-12-25 13:51:22.145 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.145 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/2 - 400 null application/json; charset=utf-8 128.713ms
+2025-12-25 13:51:22.168 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.168 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.168 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 132.6575ms
+2025-12-25 13:51:22.168 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.168 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/3 - 400 null application/json; charset=utf-8 134.6558ms
+2025-12-25 13:51:22.311 +03:00 [INF] Executed DbCommand (185ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.360 +03:00 [INF] Executed DbCommand (58ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.376 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.377 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.377 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 252.556ms
+2025-12-25 13:51:22.377 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.377 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/4 - 400 null application/json; charset=utf-8 252.9723ms
+2025-12-25 13:51:22.421 +03:00 [INF] Executed DbCommand (61ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostImages" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.422 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.422 +03:00 [INF] Executed action SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API) in 561.3182ms
+2025-12-25 13:51:22.423 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostImageController.GetPostImagesAsync (SocialApp.API)'
+2025-12-25 13:51:22.424 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostImage/post-images/1 - 400 null application/json; charset=utf-8 564.911ms
+2025-12-25 13:51:22.428 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/1 - null 0
+2025-12-25 13:51:22.428 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.428 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/PostBrutal/post-brutals/1 - 204 null null 0.283ms
+2025-12-25 13:51:22.429 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/1 - null null
+2025-12-25 13:51:22.429 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.430 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.430 +03:00 [INF] Route matched with {action = "GetPostBrutalsByPostId", controller = "PostBrutal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPostBrutalsByPostIdAsync(Int32, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostBrutalController (SocialApp.API).
+2025-12-25 13:51:22.693 +03:00 [INF] Executed DbCommand (261ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE p."Id" = @__p_0
+LIMIT 1
+2025-12-25 13:51:22.756 +03:00 [INF] Executed DbCommand (57ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."CreatedAt", p."DeletedAt", p."File", p."IsDeleted", p."PostId", p."UpdatedAt"
+FROM "PostBrutals" AS p
+WHERE NOT (p."IsDeleted") AND p."PostId" = @__postId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+2025-12-25 13:51:22.756 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.756 +03:00 [INF] Executed action SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API) in 325.772ms
+2025-12-25 13:51:22.756 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostBrutalController.GetPostBrutalsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.756 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/PostBrutal/post-brutals/1 - 400 null application/json; charset=utf-8 327.08ms
+2025-12-25 13:51:22.822 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:51:22.823 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.823 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - 204 null null 0.8472ms
+2025-12-25 13:51:22.825 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:51:22.826 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.828 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.828 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:51:22.901 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:51:22.904 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:22.904 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 76.2297ms
+2025-12-25 13:51:22.905 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.905 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/4?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 79.8278ms
+2025-12-25 13:51:22.908 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/1/getbyid - null 0
+2025-12-25 13:51:22.908 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.908 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/1/getbyid - 204 null null 0.2604ms
+2025-12-25 13:51:22.910 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:51:22.911 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:22.911 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:22.911 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:51:23.024 +03:00 [INF] Executed DbCommand (61ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" = @__id_0
+LIMIT 1
+2025-12-25 13:51:23.054 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:23.054 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 141.5609ms
+2025-12-25 13:51:23.054 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.054 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 144.3815ms
+2025-12-25 13:51:23.070 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:51:23.070 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.078 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - 204 null null 0.3639ms
+2025-12-25 13:51:23.080 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:51:23.080 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.081 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.081 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:51:23.307 +03:00 [INF] Executed DbCommand (225ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:51:23.308 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:23.310 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 228.7815ms
+2025-12-25 13:51:23.310 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.310 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/3?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 230.1759ms
+2025-12-25 13:51:23.317 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:51:23.317 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.317 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.318 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:51:23.330 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:23.330 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 12.5653ms
+2025-12-25 13:51:23.331 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.331 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 14.1331ms
+2025-12-25 13:51:23.336 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:51:23.336 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.336 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - 204 null null 0.4146ms
+2025-12-25 13:51:23.338 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:51:23.338 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.339 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.339 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:51:23.403 +03:00 [INF] Executed DbCommand (62ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:51:23.404 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:23.404 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 64.967ms
+2025-12-25 13:51:23.404 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.404 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/2?pageSize=50&pageNumber=1 - 404 null application/json; charset=utf-8 65.9751ms
+2025-12-25 13:51:23.407 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - null 0
+2025-12-25 13:51:23.408 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.408 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - 204 null null 0.5905ms
+2025-12-25 13:51:23.409 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - null null
+2025-12-25 13:51:23.410 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.410 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.410 +03:00 [INF] Route matched with {action = "GetCommentsByPostId", controller = "Comment"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCommentsByPostIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.CommentController (SocialApp.API).
+2025-12-25 13:51:23.483 +03:00 [INF] Executed DbCommand (71ms) [Parameters=[@__postId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+    WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+END AS "Discriminator"
+FROM "Comments" AS c
+LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+WHERE NOT (c."IsDeleted") AND c."PostId" = @__postId_0
+2025-12-25 13:51:23.483 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType3`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.IEnumerable`1[[SocialApp.Domain.DTOs.CommentDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-25 13:51:23.483 +03:00 [INF] Executed action SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API) in 72.7942ms
+2025-12-25 13:51:23.483 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.CommentController.GetCommentsByPostIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.484 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Comment/post-comments/1?pageSize=50&pageNumber=1 - 200 null application/json; charset=utf-8 74.1076ms
+2025-12-25 13:51:23.486 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - null null
+2025-12-25 13:51:23.486 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.487 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/2/getbyid - null 0
+2025-12-25 13:51:23.487 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.487 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/2/getbyid - 204 null null 0.2265ms
+2025-12-25 13:51:23.487 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.487 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:51:23.489 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/2/getbyid - null null
+2025-12-25 13:51:23.491 +03:00 [INF] CORS policy execution successful.
+2025-12-25 13:51:23.492 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.493 +03:00 [INF] Route matched with {action = "GetById", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetByIdAsync(Int32, SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-25 13:51:23.514 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:23.514 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 26.7908ms
+2025-12-25 13:51:23.514 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.514 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/1/getbyid - 200 null application/json; charset=utf-8 28.1721ms
+2025-12-25 13:51:23.577 +03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" = @__id_0
+LIMIT 1
+2025-12-25 13:51:23.582 +03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType13`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[SocialApp.Domain.DTOs.List.UserDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-25 13:51:23.582 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API) in 89.1423ms
+2025-12-25 13:51:23.583 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetByIdAsync (SocialApp.API)'
+2025-12-25 13:51:23.583 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/2/getbyid - 200 null application/json; charset=utf-8 94.2372ms

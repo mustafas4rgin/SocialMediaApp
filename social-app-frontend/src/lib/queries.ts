@@ -74,9 +74,9 @@ export const userApi = {
             const detail = await userApi.getUser(String(u.id));
             return {
               ...u,
-              userName: detail.userName ?? detail.UserName ?? detail.username ?? "",
-              firstName: detail.firstName ?? detail.FirstName ?? u.firstName,
-              lastName: detail.lastName ?? detail.LastName ?? u.lastName,
+              userName: detail.username ?? "",
+              firstName: detail.firstName ?? u.firstName,
+              lastName: detail.lastName ?? u.lastName,
             };
           } catch {
             return u;
@@ -329,7 +329,7 @@ export const commentApi = {
       try {
         const { data } = await api.post(endpoint, payload);
         return data?.data ?? data;
-      } catch (err) {
+      } catch (err: any) {
         lastError = err;
         // 404 ise bir sonraki endpoint'i dene
         if (err?.response?.status !== 404) break;

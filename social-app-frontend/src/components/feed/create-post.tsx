@@ -185,10 +185,9 @@ if (userStr && userStr !== "undefined") {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur">
-      <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_20%_20%,rgba(168,85,247,0.12),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(34,211,238,0.1),transparent_25%)] pointer-events-none" />
-      <div className="relative flex items-start gap-3">
-        <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-brand/20 text-brand">
+    <div className="post-card p-6">
+      <div className="flex items-start gap-3">
+        <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand/20 to-brand-dark/20 text-brand shadow-sm">
           <Sparkles className="h-5 w-5" />
         </div>
         <div className="flex-1 space-y-4">
@@ -201,14 +200,14 @@ if (userStr && userStr !== "undefined") {
             placeholder="Bugün aklında ne var?"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="min-h-[120px] resize-none border-white/10 bg-white/10 text-slate-50 placeholder:text-slate-300"
+            className="min-h-[120px] resize-none border-border/50 bg-background focus:border-primary/50 transition-colors"
           />
 
           {files.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {files.map((f) => (
-                <span key={f.name} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-slate-100">
-                  {f.name}
+                <span key={f.name} className="rounded-full border border-border/50 bg-muted px-3 py-1 text-xs text-foreground">
+                  📷 {f.name}
                 </span>
               ))}
             </div>
@@ -216,41 +215,43 @@ if (userStr && userStr !== "undefined") {
           {videos.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {videos.map((f) => (
-                <span key={f.name} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-amber-100">
+                <span key={f.name} className="rounded-full border border-border/50 bg-muted px-3 py-1 text-xs text-foreground">
                   🎬 {f.name}
                 </span>
               ))}
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/15">
-              <ImageIcon className="h-4 w-4" />
-              Görsel ekle
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="hidden"
-                onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
-              />
-            </label>
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/15">
-              <ImageIcon className="h-4 w-4" />
-              Video ekle (≤ 60 sn)
-              <input
-                type="file"
-                accept="video/*"
-                multiple
-                className="hidden"
-                onChange={(e) => setVideos(e.target.files ? Array.from(e.target.files) : [])}
-              />
-            </label>
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-border/50">
+            <div className="flex gap-2">
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border/50 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted hover:border-primary/30">
+                <ImageIcon className="h-4 w-4" />
+                Görsel
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+                />
+              </label>
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border/50 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted hover:border-primary/30">
+                <ImageIcon className="h-4 w-4" />
+                Video (≤ 60s)
+                <input
+                  type="file"
+                  accept="video/*"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => setVideos(e.target.files ? Array.from(e.target.files) : [])}
+                />
+              </label>
+            </div>
 
             <Button
               onClick={submit}
-              disabled={loading}
-              className="bg-gradient-to-r from-brand to-brand-dark text-white shadow-lg shadow-brand/30 hover:from-brand-dark hover:to-brand"
+              disabled={loading || !body.trim()}
+              className="bg-gradient-to-r from-brand to-brand-dark text-white shadow-sm hover:shadow-md hover:from-brand-dark hover:to-brand transition-all"
             >
               {loading ? (
                 <span className="flex items-center gap-2">

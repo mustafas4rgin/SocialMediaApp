@@ -17,6 +17,7 @@ type FeedUserDto = {
   id: number;
   firstName: string;
   lastName: string;
+  userName?: string;
 };
 
 type FeedPostDto = {
@@ -84,9 +85,9 @@ export default function FeedPage() {
             try {
               const u = await userApi.getUser(String(userId));
               const info = {
-                firstName: u.firstName ?? u.FirstName ?? "",
-                lastName: u.lastName ?? u.LastName ?? "",
-                userName: u.userName ?? u.UserName ?? u.username,
+                firstName: u.firstName ?? "",
+                lastName: u.lastName ?? "",
+                userName: u.username ?? "",
               };
               setUserCache((prev) => ({ ...prev, [userId]: info }));
               first = info.firstName || first;
@@ -124,7 +125,7 @@ export default function FeedPage() {
       const data = await postApi.getFeed(pageSize, page);
 
       // Bazı backendler {items: []} döndürebiliyor; ikisini de karşıla
-      const items: FeedPostDto[] = Array.isArray(data) ? data : data.items ?? [];
+      const items: FeedPostDto[] = Array.isArray(data) ? data : (data as any)?.items ?? [];
       const withMedia = await Promise.all(
         items.map(async (p) => {
           const needsImages = !p.postImages || p.postImages.length === 0;
@@ -299,18 +300,17 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-50 transition-colors relative">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.12),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(168,85,247,0.14),transparent_25%),radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.1),transparent_22%)]" />
-      <div className="container relative max-w-7xl mx-auto px-4 py-10">
+    <div className="min-h-screen bg-background transition-colors">
+      <div className="container max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Feed */}
           <div className="lg:col-span-8 space-y-6">
             <CreatePost onCreated={() => fetchFeed(1, false)} />
 
             {isLoading && posts.length === 0 ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="rounded-3xl p-6 space-y-4 bg-white/5 border border-white/10 shadow-2xl backdrop-blur">
+                  <div key={i} className="post-card p-6 space-y-4">
                     <div className="flex items-center gap-3">
                       <Skeleton className="w-12 h-12 rounded-full" />
                       <div className="space-y-2">
@@ -324,7 +324,7 @@ export default function FeedPage() {
                 ))}
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {error && (
                   <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                     {error}
@@ -333,49 +333,45 @@ export default function FeedPage() {
                 {posts.map((post) => (
                   <div
                     key={post.id}
-                    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
+                    className="post-card p-6 space-y-4"
                   >
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-gradient-to-r from-brand/10 via-transparent to-brand-dark/10" />
-                    <div className="relative flex items-start justify-between gap-4">
+                    <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <Avatar className="w-12 h-12 bg-white/10 border border-white/10">
-                          <AvatarFallback className="bg-brand/20 text-brand">{avatarInitials(post.user)}</AvatarFallback>
+                        <Avatar className="w-12 h-12 border-2 border-border ring-2 ring-background">
+                          <AvatarFallback className="bg-gradient-to-br from-brand/20 to-brand-dark/20 text-brand font-semibold">{avatarInitials(post.user)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <Link
                               href={
                                 post.user.userName
                                   ? `/${post.user.userName}`
                                   : `/${post.user.id}`
                               }
-                              className="font-semibold text-lg text-white hover:underline"
+                              className="font-semibold text-base text-foreground hover:text-primary transition-colors"
                             >
                               {post.user.firstName} {post.user.lastName}
                             </Link>
                             {post.user.userName && (
-                              <span className="text-xs text-slate-400">@{post.user.userName}</span>
+                              <span className="text-xs text-muted-foreground">@{post.user.userName}</span>
                             )}
-                            <Badge variant="secondary" className="bg-white/10 text-white border border-white/10">
-                              Elite
-                            </Badge>
                           </div>
-                          <div className="text-xs text-slate-300">
-                            {new Date(post.createdAt).toLocaleString()}
+                          <div className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                           </div>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+                      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground hover:bg-muted">
                         <MoreHorizontal className="w-5 h-5" />
                       </Button>
                     </div>
 
-                    <div className="relative mt-4 rounded-2xl bg-white/5 p-4 text-base leading-relaxed text-slate-100">
+                    <div className="text-base leading-relaxed text-foreground">
                       {post.content}
                     </div>
 
                     {(post.postImages?.length || post.postBrutals?.length) ? (
-                      <div className="mt-3 grid grid-cols-1 gap-3 rounded-2xl overflow-hidden border border-white/10">
+                      <div className="grid grid-cols-1 gap-2 rounded-xl overflow-hidden">
                         {[...(post.postImages ?? []), ...(post.postBrutals ?? [])].map((media, idx) => {
                           const src = typeof media === "string" ? media : media.file ?? media.File ?? "";
                           const isVideo =
@@ -387,7 +383,7 @@ export default function FeedPage() {
                             <video
                               key={idx}
                               controls
-                              className="w-full max-h-[420px] rounded-xl bg-black/30"
+                              className="w-full max-h-[500px] rounded-xl bg-muted"
                               src={src}
                             />
                           ) : (
@@ -395,49 +391,52 @@ export default function FeedPage() {
                               key={idx}
                               src={src}
                               alt="Post media"
-                              className="w-full max-h-[420px] object-cover rounded-xl"
+                              className="w-full max-h-[500px] object-cover rounded-xl"
                             />
                           );
                         })}
                       </div>
                     ) : null}
 
-                    <div className="mt-4 flex items-center justify-between text-sm text-slate-200">
-                      <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                      <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
                           size="sm"
-                          className={`gap-2 ${
+                          className={`gap-2 transition-colors ${
                             likeState[post.id]?.liked
-                              ? "text-red-400"
-                              : "text-slate-200 hover:text-white hover:bg-white/10"
+                              ? "text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
+                              : "text-muted-foreground hover:text-red-500 hover:bg-red-50/50 dark:hover:bg-red-950/10"
                           }`}
                           onClick={() => handleLike(post.id)}
                           disabled={likeState[post.id]?.liked}
                         >
                           <Heart className={`w-5 h-5 ${likeState[post.id]?.liked ? "fill-current" : ""}`} />
-                          <span>{likeState[post.id]?.count ?? post.likeCount}</span>
+                          <span className="font-medium">{likeState[post.id]?.count ?? post.likeCount}</span>
                         </Button>
-                        <button
-                          className="flex items-center gap-2 text-slate-200 hover:text-white transition-colors"
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="gap-2 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                           onClick={() => toggleComments(post.id)}
                         >
                           <MessageCircle className="w-5 h-5" />
-                          <span>{post.commentCount}</span>
+                          <span className="font-medium">{post.commentCount}</span>
                           {openComments[post.id] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                        </button>
+                        </Button>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="text-slate-200 hover:text-white hover:bg-white/10">
+                      <div className="flex items-center gap-1">
+                        <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
                           <Bookmark className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>
-                    <div className="mt-3 flex items-center gap-2">
+                    
+                    <div className="flex items-center gap-2">
                       <input
                         type="text"
-                        placeholder="Yorum ekle"
-                        className="flex-1 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-slate-400"
+                        placeholder="Yorum ekle..."
+                        className="flex-1 rounded-full border border-input bg-background px-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
                         value={commentInputs[post.id] ?? ""}
                         onChange={(e) =>
                           setCommentInputs((prev) => ({ ...prev, [post.id]: e.target.value }))
@@ -446,7 +445,7 @@ export default function FeedPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-white hover:bg-white/10"
+                        className="text-primary hover:bg-primary/10 transition-colors"
                         onClick={() => handleComment(post.id)}
                       >
                         <Send className="w-5 h-5" />
@@ -455,7 +454,7 @@ export default function FeedPage() {
 
                     {/* Yorum önizlemesi (yorumlar kapalıyken ilk yorum) */}
                     {!openComments[post.id] && (comments[post.id]?.length ?? 0) > 0 && (
-                      <div className="mt-3 rounded-2xl border border-white/10 bg-white/5 p-3 text-sm text-slate-200">
+                      <div className="rounded-xl border border-border/50 bg-muted/30 p-3 text-sm">
                         {(() => {
                           const first = comments[post.id][0];
                           const commenter = first.user ?? {};
@@ -473,20 +472,20 @@ export default function FeedPage() {
                             : `${firstName} ${lastName}`.trim() || `User #${userId ?? "-"}`;
                           return (
                             <>
-                              <div className="flex items-center justify-between text-xs text-slate-400">
-                                <span>{displayName}</span>
+                              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span className="font-medium">{displayName}</span>
                                 {first.createdAt && (
                                   <span>
                                     {formatDistanceToNow(new Date(first.createdAt), { addSuffix: true })}
                                   </span>
                                 )}
                               </div>
-                              <p className="mt-1">{first.body ?? first.content ?? ""}</p>
+                              <p className="mt-1 text-foreground">{first.body ?? first.content ?? ""}</p>
                               <button
-                                className="mt-2 text-xs text-brand hover:text-brand-dark"
+                                className="mt-2 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
                                 onClick={() => toggleComments(post.id)}
                               >
-                                Tüm yorumları gör
+                                Tüm yorumları gör ({comments[post.id]?.length ?? 0})
                               </button>
                             </>
                           );
@@ -495,11 +494,11 @@ export default function FeedPage() {
                     )}
 
                     {openComments[post.id] && (
-                      <div className="mt-3 space-y-3 rounded-2xl border border-white/10 bg-white/5 p-3">
+                      <div className="space-y-3 rounded-xl border border-border/50 bg-muted/30 p-4">
                         {commentsLoading[post.id] ? (
-                          <div className="text-slate-300 text-sm">Yorumlar yükleniyor...</div>
+                          <div className="text-muted-foreground text-sm">Yorumlar yükleniyor...</div>
                         ) : (comments[post.id]?.length ?? 0) === 0 ? (
-                          <div className="text-slate-400 text-sm">Hiç yorum yok. İlk yorumu yaz.</div>
+                          <div className="text-muted-foreground text-sm">Hiç yorum yok. İlk yorumu yaz.</div>
                         ) : (
                           comments[post.id]?.map((c: any) => {
                             const commenter = c.user ?? {};
@@ -509,17 +508,16 @@ export default function FeedPage() {
                             const last = commenter.lastName ?? commenter.LastName ?? cached?.lastName ?? "";
                             const userName = commenter.userName ?? commenter.UserName ?? c.userName ?? cached?.userName;
                             const displayName = userName ? `@${userName}` : `${first} ${last}`.trim() || `User #${userId ?? "-"}`;
-                            // Sadece username varsa link ver; id fallback'ını kaldırıyoruz (backend username bekliyor)
                             const profileHref = userName ? `/${userName}` : null;
                             return (
-                              <div key={c.id} className="text-sm text-slate-100">
-                                <div className="flex items-center gap-2 text-xs text-slate-400">
+                              <div key={c.id} className="text-sm space-y-1">
+                                <div className="flex items-center justify-between text-xs text-muted-foreground">
                                   {profileHref ? (
-                                    <Link href={profileHref} className="hover:text-white">
+                                    <Link href={profileHref} className="font-medium hover:text-primary transition-colors">
                                       {displayName}
                                     </Link>
                                   ) : (
-                                    <span>{displayName}</span>
+                                    <span className="font-medium">{displayName}</span>
                                   )}
                                   <span>
                                     {c.createdAt
@@ -527,7 +525,7 @@ export default function FeedPage() {
                                       : ""}
                                   </span>
                                 </div>
-                                <p className="text-slate-100">{c.body ?? c.content ?? ""}</p>
+                                <p className="text-foreground">{c.body ?? c.content ?? ""}</p>
                               </div>
                             );
                           })
@@ -542,27 +540,32 @@ export default function FeedPage() {
 
             {!isLoading && posts.length > 0 && (
               <div className="flex justify-center py-6">
-                <Button variant="outline" size="lg" onClick={handleLoadMore}>
-                  Load More Posts
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={handleLoadMore}
+                  className="border-border/50 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+                >
+                  Daha Fazla Gönderi Yükle
                 </Button>
               </div>
             )}
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-4">
             <RecommendedUsers />
 
-            <div className="rounded-3xl p-6 space-y-4 sticky top-6 border border-white/10 bg-white/5 shadow-2xl backdrop-blur">
-              <h3 className="text-lg font-semibold text-white">Trending Topics</h3>
-              <div className="space-y-3">
-                {["#WebDevelopment", "#Design", "#Technology", "#Startup", "#AI"].map((tag) => (
+            <div className="post-card p-6 space-y-4 sticky top-20">
+              <h3 className="text-lg font-semibold text-heading">Trending Topics</h3>
+              <div className="space-y-2">
+                {["#WebDevelopment", "#Design", "#Technology", "#Startup", "#AI"].map((tag, idx) => (
                   <button
                     key={tag}
-                    className="block w-full text-left px-4 py-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                    className="block w-full text-left px-4 py-3 rounded-xl border border-border/50 bg-muted/30 hover:bg-muted hover:border-primary/30 transition-all group"
                   >
-                    <div className="font-medium text-brand">{tag}</div>
-                    <div className="text-sm text-slate-200">2.5k posts</div>
+                    <div className="font-medium text-primary group-hover:text-primary/80">{tag}</div>
+                    <div className="text-xs text-muted-foreground">{2.5 + idx * 0.3}k posts</div>
                   </button>
                 ))}
               </div>
