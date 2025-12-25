@@ -23,7 +23,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     => await Query(includeDeleted: false, asNoTracking: true)
                 .Where(u => u.Id != userId)
                 .OrderedByNewest()
-                .PagedQuery(pageNumber, 5)
+                .Take(5)
                 .Select(u => new UserRecommendationDto
                 {
                     Id = u.Id,

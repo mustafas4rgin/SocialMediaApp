@@ -46,7 +46,11 @@ public class UserService : GenericService<User>, IUserService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<User>>("Users found (cache)", cached);
 
-                var users = await _userRepository.GetAllAsync(includeDeleted: false, ct: ct);
+                var users = await _userRepository.GetAllAsync(
+                    param,
+                    includeDeleted: false,
+                    ct: ct
+                );
 
                 await CacheHelper.SetTypedAsync(_cache, cacheKey, users, ct);
 

@@ -34,9 +34,9 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetAll")]
-        public virtual async Task<IActionResult> GetAllAsync(CancellationToken ct = default)
+        public virtual async Task<IActionResult> GetAllAsync([FromQuery]QueryParameters param, CancellationToken ct = default)
         {
-            var result = await _service.GetAllAsync(ct);
+            var result = await _service.GetAllAsync(param, ct);
 
             var errorResponse = HandleServiceResult(result);
 

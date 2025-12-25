@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SocialApp.Data.Contexts;
+using SocialApp.Data.Helpers;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
+using SocialApp.Domain.Parameters;
 
 namespace SocialApp.Data.Repositories;
 
@@ -25,8 +27,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
         return query;
     }
 
-    public async Task<List<T>> GetAllAsync(bool includeDeleted = false, CancellationToken ct = default)
+    public async Task<List<T>> GetAllAsync(QueryParameters param, bool includeDeleted = false, CancellationToken ct = default)
         => await Query(includeDeleted, asNoTracking: true)
+            .PagedQuery(param.PageNumber, param.PageSize)
             .ToListAsync(ct);
 
     public async Task<T?> GetByIdAsync(

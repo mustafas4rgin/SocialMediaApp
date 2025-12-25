@@ -1,6 +1,8 @@
+using SocialApp.Domain.Parameters;
+
 public interface IGenericRepository<T> where T : EntityBase
 {
-    Task<List<T>> GetAllAsync(bool includeDeleted = false, CancellationToken ct = default);
+    Task<List<T>> GetAllAsync(QueryParameters param, bool includeDeleted = false, CancellationToken ct = default);
 
     Task<T?> GetByIdAsync(
         int id,

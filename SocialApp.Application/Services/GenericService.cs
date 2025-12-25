@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.Parameters;
 using SocialApp.Domain.Results.Error;
 using SocialApp.Domain.Results.Success;
 
@@ -19,11 +20,15 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
         _validator = validator;
         _repository = repository;
     }
-    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllActiveAsync(CancellationToken ct = default)
+    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllActiveAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
         {
-            var activeEntities = await _repository.GetAllAsync(false, ct);
+            var activeEntities = await _repository.GetAllAsync(
+                param,
+                includeDeleted: false,
+                ct: ct
+            );
 
             if (!activeEntities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no active data.", 404);
@@ -36,11 +41,15 @@ public class GenericService<T> : IGenericService<T> where T : EntityBase
             return new ErrorResultWithData<IEnumerable<T>>("An error occurred while getting entities.");
         }
     }
-    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(CancellationToken ct = default)
+    public async Task<IServiceResultWithData<IEnumerable<T>>> GetAllAsync(QueryParameters param, CancellationToken ct = default)
     {
         try
         {
-            var entities = await _repository.GetAllAsync(true, ct);
+            var entities = await _repository.GetAllAsync(
+                param,
+                includeDeleted: true,
+                ct: ct
+            );
 
             if (!entities.Any())
                 return new ErrorResultWithData<IEnumerable<T>>("There is no data.", 404);

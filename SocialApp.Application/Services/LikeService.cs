@@ -83,7 +83,11 @@ public class LikeService : GenericService<Like>, ILikeService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<Like>>("Likes (cache)", cached);
 
-                var likes = await _likeRepository.GetAllAsync(includeDeleted: false, ct: ct);
+                var likes = await _likeRepository.GetAllAsync(
+                    param,
+                    includeDeleted: false,
+                    ct: ct
+                );
 
                 if (!likes.Any())
                     return new ErrorResultWithData<IEnumerable<Like>>("There is no like.", 404);

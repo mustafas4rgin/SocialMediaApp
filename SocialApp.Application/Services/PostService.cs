@@ -47,7 +47,11 @@ public class PostService : GenericService<Post>, IPostService
                 if (cached is not null && cached.Any())
                     return new SuccessResultWithData<IEnumerable<Post>>("Posts (cache)", cached);
 
-                var posts = await _postRepository.GetAllAsync(includeDeleted: false, ct: ct);
+                var posts = await _postRepository.GetAllAsync(
+                    param,
+                    includeDeleted: false,
+                    ct: ct
+                );
 
                 if (!posts.Any())
                     return new ErrorResultWithData<IEnumerable<Post>>("There is no post.", 404);
