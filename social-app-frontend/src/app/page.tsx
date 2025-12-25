@@ -1,16 +1,27 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    if (token) {
+      router.replace("/feed");
+    }
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand/5 via-background to-accent/20">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDcyQkIiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAgNHYyaDJ2LTJoLTJ6bS0yIDJ2Mmgydi0yaC0yem0wLTR2Mmgydi0yaC0yem0yLTJ2LTJoLTJ2Mmgyem0wLTR2LTJoLTJ2Mmgyem0yIDJ2LTJoLTJ2Mmgyem0wIDR2LTJoLTJ2Mmgyem0yLTJ2Mmgydi0yaC0yem0wLTR2Mmgydi0yaC0yem0tMi0ydjJoMnYtMmgtMnptMC00djJoMnYtMmgtMnptMiAydjJoMnYtMmgtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40"></div>
       
       <div className="relative z-10">
-        {/* Hero Section */}
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto text-center space-y-8">
-            {/* Logo */}
             <div className="flex justify-center mb-8">
               <div className="w-24 h-24 bg-gradient-to-br from-brand to-brand-dark rounded-3xl flex items-center justify-center shadow-2xl">
                 <svg className="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,17 +30,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Heading */}
             <h1 className="text-6xl md:text-7xl font-bold text-heading bg-gradient-to-r from-brand via-brand-dark to-secondary bg-clip-text text-transparent">
               Welcome to SocialApp
             </h1>
 
-            {/* Subheading */}
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Connect with friends, share your moments, and build meaningful relationships in a modern social platform.
             </p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
               <Link href="/register">
                 <Button size="lg" className="h-14 px-8 text-lg bg-gradient-to-r from-brand to-brand-dark hover:from-brand-dark hover:to-brand shadow-lg">
@@ -44,7 +52,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-8 mt-24 max-w-5xl mx-auto">
             <div className="glass-effect rounded-2xl p-8 text-center space-y-4 hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-gradient-to-br from-brand to-brand-light rounded-2xl flex items-center justify-center mx-auto">

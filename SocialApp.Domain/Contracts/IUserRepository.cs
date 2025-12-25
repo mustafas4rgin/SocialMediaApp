@@ -13,4 +13,5 @@ public interface IUserRepository : IGenericRepository<User>
     int pageNumber,
     int pageSize,
     CancellationToken ct = default);
+    Task<ProfileHeaderDTO?> GetProfileByUsernameAsync(string userName, CancellationToken ct = default);
 }

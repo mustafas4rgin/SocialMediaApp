@@ -37,5 +37,17 @@ namespace SocialApp.API.Controllers
             
             return Ok(result);
         }
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> GetProfileInfoWithUsernameAsync([FromQuery]QueryParameters param, string userName, CancellationToken ct = default)
+        {
+            var result = await _profileService.GetProfileWithUsernameAsync(userName, param, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+            
+            return Ok(result);
+        }
     }
 }

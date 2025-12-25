@@ -1399,3 +1399,117 @@ WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
 2025-12-21 23:24:52.661 +03:00 [INF] Executed action SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API) in 349.2272ms
 2025-12-21 23:24:52.662 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
 2025-12-21 23:24:52.662 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 367.7792ms
+2025-12-21 23:25:57.396 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null 0
+2025-12-21 23:25:57.409 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:25:57.411 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null 0
+2025-12-21 23:25:57.411 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 204 null null 16.0426ms
+2025-12-21 23:25:57.415 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:25:57.416 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 204 null null 4.7299ms
+2025-12-21 23:25:57.416 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - null null
+2025-12-21 23:25:57.418 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - null null
+2025-12-21 23:25:57.419 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:25:57.437 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-21 23:25:57.445 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:25:57.445 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-21 23:25:57.551 +03:00 [INF] Route matched with {action = "GetFeed", controller = "Post"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFeedAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.PostController (SocialApp.API).
+2025-12-21 23:25:57.551 +03:00 [INF] Route matched with {action = "GetRecommendedUsers", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRecommendedUsersAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.UserController (SocialApp.API).
+2025-12-21 23:25:57.891 +03:00 [INF] Executed DbCommand (132ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."FirstName", u."LastName", EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0 AND f."FollowingId" = u."Id") AS "IsFollowedByMe"
+FROM "Users" AS u
+WHERE NOT (u."IsDeleted") AND u."Id" <> @__userId_0
+ORDER BY u."Id"
+LIMIT @__p_2 OFFSET @__p_1
+2025-12-21 23:25:57.893 +03:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-12-21 23:25:57.907 +03:00 [INF] Executed action SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API) in 355.9988ms
+2025-12-21 23:25:57.907 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.UserController.GetRecommendedUsersAsync (SocialApp.API)'
+2025-12-21 23:25:57.907 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/User/recommended?pageSize=5&pageNumber=1 - 404 null application/json; charset=utf-8 491.382ms
+2025-12-21 23:25:58.595 +03:00 [INF] Executed DbCommand (110ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Follows" AS f
+    WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0)
+2025-12-21 23:25:58.652 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-12-21 23:25:58.802 +03:00 [INF] Executed DbCommand (134ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."Id", p0."Body", p0."CreatedAt", p0."DeletedAt", p0."IsDeleted", p0."Status", p0."UpdatedAt", p0."UserId", u."Id", u."CreatedAt", u."DeletedAt", u."Email", u."FirstName", u."IsDeleted", u."LastName", u."PasswordHash", u."PasswordSalt", u."RoleId", u."UpdatedAt", u."UserName", l."Id", l."CreatedAt", l."DeletedAt", l."IsDeleted", l."PostId", l."UpdatedAt", l."UserId", s."Id", s."Body", s."CreatedAt", s."DeletedAt", s."IsDeleted", s."PostId", s."UpdatedAt", s."UserId", s."CommentId", s."Discriminator", p1."Id", p1."CreatedAt", p1."DeletedAt", p1."File", p1."IsDeleted", p1."PostId", p1."UpdatedAt", p2."Id", p2."CreatedAt", p2."DeletedAt", p2."File", p2."IsDeleted", p2."PostId", p2."UpdatedAt"
+FROM (
+    SELECT p."Id", p."Body", p."CreatedAt", p."DeletedAt", p."IsDeleted", p."Status", p."UpdatedAt", p."UserId"
+    FROM "Posts" AS p
+    WHERE NOT (p."IsDeleted") AND p."UserId" IN (
+        SELECT f."FollowingId"
+        FROM "Follows" AS f
+        WHERE NOT (f."IsDeleted") AND f."FollowerId" = @__userId_0
+    )
+    ORDER BY p."CreatedAt" DESC, p."Id" DESC
+    LIMIT @__p_2 OFFSET @__p_1
+) AS p0
+INNER JOIN "Users" AS u ON p0."UserId" = u."Id"
+LEFT JOIN "Likes" AS l ON p0."Id" = l."PostId"
+LEFT JOIN (
+    SELECT c."Id", c."Body", c."CreatedAt", c."DeletedAt", c."IsDeleted", c."PostId", c."UpdatedAt", c."UserId", r."CommentId", CASE
+        WHEN r."Id" IS NOT NULL THEN 'CommentResponse'
+    END AS "Discriminator"
+    FROM "Comments" AS c
+    LEFT JOIN "Responses" AS r ON c."Id" = r."Id"
+) AS s ON p0."Id" = s."PostId"
+LEFT JOIN "PostBrutals" AS p1 ON p0."Id" = p1."PostId"
+LEFT JOIN "PostImages" AS p2 ON p0."Id" = p2."PostId"
+ORDER BY p0."CreatedAt" DESC, p0."Id" DESC, u."Id", l."Id", s."Id", p1."Id"
+2025-12-21 23:25:58.851 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[SocialApp.Domain.DTOs.FeedDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-21 23:25:58.862 +03:00 [INF] Executed action SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API) in 1311.4803ms
+2025-12-21 23:25:58.863 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.PostController.GetFeedAsync (SocialApp.API)'
+2025-12-21 23:25:58.863 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Post/feed?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 1444.348ms
+2025-12-21 23:26:06.835 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null 0
+2025-12-21 23:26:06.912 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:26:06.916 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 204 null null 83.9147ms
+2025-12-21 23:26:06.920 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - null null
+2025-12-21 23:26:06.920 +03:00 [INF] CORS policy execution successful.
+2025-12-21 23:26:06.923 +03:00 [INF] Executing endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-21 23:26:06.924 +03:00 [INF] Route matched with {action = "GetProfileInfo", controller = "Profile"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetProfileInfoAsync(SocialApp.Domain.Parameters.QueryParameters, System.Threading.CancellationToken) on controller SocialApp.API.Controllers.ProfileController (SocialApp.API).
+2025-12-21 23:26:07.038 +03:00 [INF] Executed DbCommand (101ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u0."Id", u0."FirstName", u0."LastName", u0."UserName", u0.c, u0.c0, f4."Id", f4."Id0", f6."Id", f6."Id0"
+FROM (
+    SELECT u."Id", u."FirstName", u."LastName", u."UserName", (
+        SELECT count(*)::int
+        FROM "Follows" AS f
+        WHERE u."Id" = f."FollowingId") AS c, (
+        SELECT count(*)::int
+        FROM "Follows" AS f0
+        WHERE u."Id" = f0."FollowerId") AS c0
+    FROM "Users" AS u
+    WHERE NOT (u."IsDeleted") AND u."Id" = @__userId_0
+    LIMIT 1
+) AS u0
+LEFT JOIN (
+    SELECT f3."Id", f3."Id0", f3."FollowingId"
+    FROM (
+        SELECT f1."FollowerId" AS "Id", f1."Id" AS "Id0", f1."FollowingId", ROW_NUMBER() OVER(PARTITION BY f1."FollowingId" ORDER BY f1."Id" DESC) AS row
+        FROM "Follows" AS f1
+    ) AS f3
+    WHERE f3.row <= 10
+) AS f4 ON u0."Id" = f4."FollowingId"
+LEFT JOIN (
+    SELECT f5."Id", f5."Id0", f5."FollowerId"
+    FROM (
+        SELECT f2."FollowingId" AS "Id", f2."Id" AS "Id0", f2."FollowerId", ROW_NUMBER() OVER(PARTITION BY f2."FollowerId" ORDER BY f2."Id" DESC) AS row
+        FROM "Follows" AS f2
+    ) AS f5
+    WHERE f5.row <= 10
+) AS f6 ON u0."Id" = f6."FollowerId"
+ORDER BY u0."Id", f4."FollowingId", f4."Id0" DESC, f6."FollowerId", f6."Id0" DESC
+2025-12-21 23:26:07.132 +03:00 [INF] Executed DbCommand (93ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."Body", p."CreatedAt", p."UserId"
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+ORDER BY p."CreatedAt" DESC, p."Id" DESC
+LIMIT @__p_2 OFFSET @__p_1
+2025-12-21 23:26:07.218 +03:00 [INF] Executed DbCommand (85ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Posts" AS p
+WHERE NOT (p."IsDeleted") AND p."UserId" = @__userId_0
+2025-12-21 23:26:07.218 +03:00 [INF] Executing OkObjectResult, writing value of type 'SocialApp.Domain.Results.Success.SuccessResultWithData`1[[SocialApp.Domain.DTOs.ProfileDTO, SocialApp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-12-21 23:26:07.219 +03:00 [INF] Executed action SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API) in 294.3721ms
+2025-12-21 23:26:07.219 +03:00 [INF] Executed endpoint 'SocialApp.API.Controllers.ProfileController.GetProfileInfoAsync (SocialApp.API)'
+2025-12-21 23:26:07.219 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5084/api/Profile?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 298.8358ms

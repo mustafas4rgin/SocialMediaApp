@@ -45,7 +45,77 @@ export const userApi = {
   getUser: async (userId: string): Promise<User> => {
     const { data } = await api.get(`/User/${userId}/getbyid`);
     const payload = data?.user ?? data?.User ?? data;
+    if (payload) {
+      payload.userName = payload.userName ?? payload.UserName ?? payload.username;
+    }
     return payload;
+  },
+
+  searchUsers: async (query: string, pageSize = 200) => {
+    // Backend'te spesifik bir arama ucu yok; geniş bir liste çekip (pageSize) front-end filtre yapıyoruz.
+    const { data } = await api.get("/User/GetAll", {
+      params: { pageSize, pageNumber: 1 },
+    });
+    const items: any[] = data?.User ?? data?.user ?? data?.data ?? data ?? [];
+    const normalizedQuery = query.trim().toLowerCase();
+
+    const mapped = items.map((u) => ({
+      id: u.id ?? u.Id,
+      firstName: u.firstName ?? u.FirstName ?? "",
+      lastName: u.lastName ?? u.LastName ?? "",
+      userName: u.userName ?? u.UserName ?? u.username ?? "",
+    }));
+
+    // Eksik username'leri detay çağrısıyla tamamla (liste max 8)
+    const enriched = await Promise.all(
+      mapped.map(async (u) => {
+        if (!u.userName && u.id) {
+          try {
+            const detail = await userApi.getUser(String(u.id));
+            return {
+              ...u,
+              userName: detail.userName ?? detail.UserName ?? detail.username ?? "",
+              firstName: detail.firstName ?? detail.FirstName ?? u.firstName,
+              lastName: detail.lastName ?? detail.LastName ?? u.lastName,
+            };
+          } catch {
+            return u;
+          }
+        }
+        return u;
+      })
+    );
+
+    let filtered = enriched
+      .filter((u) => {
+        const full = `${u.firstName} ${u.lastName}`.toLowerCase();
+        return (
+          u.userName.toLowerCase().includes(normalizedQuery) ||
+          full.includes(normalizedQuery)
+        );
+      });
+
+    // Eğer hâlâ sonuç yoksa, doğrudan profile endpoint'iyle username yakalamayı dene
+    if (filtered.length === 0 && normalizedQuery.length >= 2) {
+      try {
+        const prof = await profileApi.getProfile(query);
+        const h = prof.header;
+        if (h?.userName) {
+          filtered = [
+            {
+              id: h.userId,
+              firstName: h.firstName ?? "",
+              lastName: h.lastName ?? "",
+              userName: h.userName,
+            },
+          ];
+        }
+      } catch {
+        // yok say
+      }
+    }
+
+    return filtered.slice(0, 8); // küçük bir sonuç listesi döndür
   },
 
   updateUser: async (userId: string, userData: Partial<User>): Promise<User> => {
@@ -69,8 +139,9 @@ export const userApi = {
 
 // Profile APIs
 export const profileApi = {
-  getProfile: async (userId: string, pageSize = 10, pageNumber = 1) => {
-    const { data } = await api.get('/Profile', {
+  getProfile: async (identifier?: string, pageSize = 10, pageNumber = 1) => {
+    const url = identifier ? `/Profile/${identifier}` : "/Profile";
+    const { data } = await api.get(url, {
       params: { pageSize, pageNumber },
     });
     const result = data?.data ?? data;
@@ -158,6 +229,7 @@ export const postApi = {
         id: p.user?.id ?? p.user?.Id ?? 0,
         firstName: p.user?.firstName ?? p.user?.FirstName ?? "",
         lastName: p.user?.lastName ?? p.user?.LastName ?? "",
+        userName: p.user?.userName ?? p.user?.UserName ?? p.user?.username,
       },
       likeCount: p.likeCount ?? p.LikeCount ?? 0,
       commentCount: p.commentCount ?? p.CommentCount ?? 0,
@@ -182,31 +254,101 @@ export const postApi = {
 export const postImageApi = {
   addImage: async (payload: { file: string; postId: number }) => {
     const { data } = await api.post("/PostImage/add", payload);
+    if (data?.success === false) {
+      throw new Error(data?.message ?? "Post image eklenemedi.");
+    }
     return data;
+  },
+  getImages: async (postId: number) => {
+    try {
+      const { data } = await api.get(`/PostImage/post-images/${postId}`);
+      const list =
+        data?.data?.data ??
+        data?.data ??
+        data?.Data?.data ??
+        data?.Data?.Data ??
+        data?.Data ??
+        data;
+      if (typeof window !== "undefined") {
+        console.info("Post images fetch", { postId, count: (list ?? []).length });
+      }
+      return (list ?? []).map((i: any) => i.file ?? i.File ?? "");
+    } catch (e) {
+      return [];
+    }
+  },
+};
+
+export const postBrutalApi = {
+  addVideo: async (payload: { file: string; postId: number }) => {
+    const { data } = await api.post("/PostBrutal/add", payload);
+    if (data?.success === false) {
+      throw new Error(data?.message ?? "Video eklenemedi.");
+    }
+    return data;
+  },
+  getVideos: async (postId: number) => {
+    try {
+      const { data } = await api.get(`/PostBrutal/post-brutals/${postId}`);
+      const list =
+        data?.data?.data ??
+        data?.data ??
+        data?.Data?.data ??
+        data?.Data?.Data ??
+        data?.Data ??
+        data;
+      return (list ?? []).map((i: any) => i.file ?? i.File ?? "");
+    } catch {
+      return [];
+    }
   },
 };
 
 // Comment APIs
 export const commentApi = {
   getComments: async (postId: string): Promise<Comment[]> => {
-    const { data } = await api.get(`/post/${postId}/comments`);
-    return data;
+    try {
+      const { data } = await api.get(`/Comment/post-comments/${postId}`, {
+        params: { pageSize: 50, pageNumber: 1 },
+      });
+      return data?.comments ?? data?.Comments ?? data?.data ?? data ?? [];
+    } catch (err: any) {
+      // Backend 404 döndürüyorsa "yorum yok" anlamında boş listeyle dönelim
+      if (err?.response?.status === 404) return [];
+      throw err;
+    }
   },
 
-  createComment: async (postId: string, content: string): Promise<Comment> => {
-    const { data } = await api.post(`/post/${postId}/comment`, { content });
-    return data;
+  createComment: async (postId: number, userId: number, body: string): Promise<Comment> => {
+    // Bazı ortamlarda rota isimleri farklı olabildiği için küçük bir fallback zinciri ekliyoruz.
+    const payload = { postId, userId, body };
+    const tryEndpoints = ["/Comment/Add", "/Comment/add", "/Comment"];
+
+    let lastError: any = null;
+    for (const endpoint of tryEndpoints) {
+      try {
+        const { data } = await api.post(endpoint, payload);
+        return data?.data ?? data;
+      } catch (err) {
+        lastError = err;
+        // 404 ise bir sonraki endpoint'i dene
+        if (err?.response?.status !== 404) break;
+      }
+    }
+    throw lastError ?? new Error("Yorum eklenemedi.");
   },
 
   deleteComment: async (commentId: string): Promise<void> => {
-    await api.delete(`/comment/${commentId}`);
+    await api.delete(`/Comment/${commentId}/delete`);
   },
+};
 
-  likeComment: async (commentId: string): Promise<void> => {
-    await api.post(`/comment/${commentId}/like`);
+export const likeApi = {
+  likePost: async (postId: number, userId: number) => {
+    const { data } = await api.post("/Like/Add", { postId, userId });
+    return data;
   },
-
-  unlikeComment: async (commentId: string): Promise<void> => {
-    await api.delete(`/comment/${commentId}/like`);
+  unlikePost: async (likeId: number) => {
+    await api.delete(`/Like/${likeId}/delete`);
   },
 };

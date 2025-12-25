@@ -26,6 +26,32 @@ public class ProfileService : IProfileService
         _logger = logger;
         _userRepository = userRepository;
     }
+    public async Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, CancellationToken ct = default)
+    {
+        var profileHeader = await _userRepository.GetProfileByUsernameAsync(userName, ct);
+
+        if (profileHeader is null)
+            return new ErrorResultWithData<ProfileDTO>("User not found.", 404);
+
+        var usersPosts = await _postRepository.GetUserPostsPagedAsync(profileHeader.UserId, param.PageNumber, param.PageSize, ct);
+        var usersPostsCount = await _postRepository.CountUsersPostsAsync(profileHeader.UserId, ct);
+
+        try
+        {
+            return new SuccessResultWithData<ProfileDTO>("Profile fetched successfully." ,
+            new ProfileDTO
+            {
+                HeaderDTO = profileHeader,
+                Posts = usersPosts,
+                PostsCount = usersPosts.Count()
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unknown error occured while fetching profile.");
+            return new ErrorResultWithData<ProfileDTO>("An error occured while getting user.");
+        }
+    }
     public async Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, CancellationToken ct = default)
     {
         var profileHeader = await _userRepository.GetProfileHeaderAsync(userId, ct);

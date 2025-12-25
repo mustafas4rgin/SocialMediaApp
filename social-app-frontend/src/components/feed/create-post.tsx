@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Image as ImageIcon, Loader2, Sparkles } from "lucide-react";
-import { postApi, postImageApi } from "@/lib/queries";
+import { postApi, postImageApi, postBrutalApi } from "@/lib/queries";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -32,17 +32,70 @@ async function uploadToCloudinary(file: File): Promise<string> {
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data?.error?.message ?? "Görsel yüklenemedi.");
+    throw new Error(
+      data?.error?.message ??
+        `Cloudinary hata: ${res.status} ${res.statusText}. Cloud name/preset kontrol et.`
+    );
   }
 
   const data = await res.json();
+  if (!data?.secure_url) {
+    throw new Error("Cloudinary yükleme yanıtında secure_url bulunamadı.");
+  }
   return data.secure_url as string;
+}
+
+async function uploadToCloudinaryVideo(file: File): Promise<string> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !preset) {
+    throw new Error("Video yüklemek için Cloudinary bilgileri (cloud name + unsigned preset) .env'de tanımlı olmalı.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", preset);
+
+  const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
+
+  const res = await fetch(uploadUrl, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(
+      data?.error?.message ??
+        `Cloudinary video hata: ${res.status} ${res.statusText}. Cloud name/preset/policy kontrol et.`
+    );
+  }
+
+  const data = await res.json();
+  if (!data?.secure_url) {
+    throw new Error("Cloudinary video yükleme yanıtında secure_url bulunamadı.");
+  }
+  return data.secure_url as string;
+}
+
+function getVideoDuration(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.onloadedmetadata = () => {
+      window.URL.revokeObjectURL(video.src);
+      resolve(video.duration);
+    };
+    video.onerror = () => reject(new Error("Video okunamadı"));
+    video.src = URL.createObjectURL(file);
+  });
 }
 
 export function CreatePost({ onCreated }: { onCreated?: () => void }) {
   const [body, setBody] = useState("");
   const [status] = useState<number>(1); // 1 = Approved, feed'de direkt görünsün
   const [files, setFiles] = useState<File[]>([]);
+  const [videos, setVideos] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -80,8 +133,17 @@ if (userStr && userStr !== "undefined") {
         status,
       });
 
-      const postId = res?.data?.id;
-      if (!postId) throw new Error("Post ID alınamadı (res.data.id boş).");
+      const postPayload = res?.data ?? res;
+      if (postPayload?.success === false) {
+        throw new Error(postPayload?.message ?? "Post eklenemedi.");
+      }
+      const postId =
+        postPayload?.data?.id ??
+        postPayload?.data?.Id ??
+        postPayload?.id ??
+        postPayload?.Id;
+
+      if (!postId) throw new Error("Post ID alınamadı (response içeriğini kontrol edin).");
 
       // 2) Resim ekle (varsa)
       for (const f of files) {
@@ -93,9 +155,25 @@ if (userStr && userStr !== "undefined") {
         });
       }
 
+      // 3) Video ekle (varsa) -> PostBrutal
+      for (const v of videos) {
+        const duration = await getVideoDuration(v);
+        if (duration > 60) {
+          throw new Error("Video süresi 60 saniyeyi aşamaz.");
+        }
+
+        const videoUrl = await uploadToCloudinaryVideo(v);
+
+        await postBrutalApi.addVideo({
+          file: videoUrl,
+          postId,
+        });
+      }
+
       // 3) UI temizle + feed yenile
       setBody("");
       setFiles([]);
+      setVideos([]);
       onCreated?.();
     } catch (e: any) {
       console.error(e);
@@ -135,6 +213,15 @@ if (userStr && userStr !== "undefined") {
               ))}
             </div>
           )}
+          {videos.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {videos.map((f) => (
+                <span key={f.name} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-amber-100">
+                  🎬 {f.name}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className="flex flex-wrap items-center justify-between gap-3">
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/15">
@@ -146,6 +233,17 @@ if (userStr && userStr !== "undefined") {
                 multiple
                 className="hidden"
                 onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+              />
+            </label>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/15">
+              <ImageIcon className="h-4 w-4" />
+              Video ekle (≤ 60 sn)
+              <input
+                type="file"
+                accept="video/*"
+                multiple
+                className="hidden"
+                onChange={(e) => setVideos(e.target.files ? Array.from(e.target.files) : [])}
               />
             </label>
 

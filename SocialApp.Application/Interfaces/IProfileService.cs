@@ -7,4 +7,5 @@ namespace SocialApp.Application.Interfaces;
 public interface IProfileService
 {
     Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, CancellationToken ct = default);
+    Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, CancellationToken ct = default);
 }

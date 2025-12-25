@@ -14,12 +14,27 @@ namespace SocialApp.API.Controllers
     [ApiController]
     public class PostImageController : GenericController<PostImage, PostImageDTO, CreatePostImageDTO, UpdatePostImageDTO>
     {
+        private readonly IPostImageService _postImageService;
         public PostImageController(
         IValidator<CreatePostImageDTO> createValidator,
         IValidator<UpdatePostImageDTO> updateValidator,
         IPostImageService postImageService,
         IMapper mapper
         ) : base(createValidator, updateValidator, postImageService, mapper)
-        {}
+        {
+            _postImageService = postImageService;
+        }
+        [HttpGet("post-images/{postId}")]
+        public async Task<IActionResult> GetPostImagesAsync([FromRoute]int postId, CancellationToken ct = default)
+        {
+            var result = await _postImageService.GetPostImages(postId);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+            
+            return Ok(result);
+        }
     }
 }
