@@ -27,6 +27,20 @@ namespace SocialApp.API.Controllers
             _followService = followService;
             _mapper = mapper;
         }
+        public override async Task<IActionResult> DeleteAsync([FromRoute]int id, CancellationToken ct = default)
+        {
+            var result = await _followService.DeleteFollowAsync(
+                followId: id,
+                ct: ct
+            );
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            return Ok(result);
+        }
         [HttpGet("followers/{followingId}")]
         public  async Task<IActionResult> GetFollowersByFollowingIdAsync([FromRoute]int followingId, [FromQuery]QueryParameters param, CancellationToken ct = default)
         {

@@ -117,7 +117,7 @@ namespace SocialApp.API.Controllers
             return Ok(updateEntityResult.Message);
         }
         [HttpDelete("{id:int}/delete")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id, CancellationToken ct)
+        public virtual async Task<IActionResult> DeleteAsync([FromRoute] int id, CancellationToken ct)
         {
 
             var result = await _service.DeleteByIdAsync(id, ct);

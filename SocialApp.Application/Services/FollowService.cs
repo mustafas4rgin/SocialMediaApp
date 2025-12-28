@@ -27,6 +27,31 @@ public class FollowService : GenericService<Follow>, IFollowService
         _validator = validator;
         _followRepository = repository;
     }
+    public async Task<IServiceResult> DeleteFollowAsync(int followId, CancellationToken ct = default)
+    {
+        try
+        {
+            var follow = await _followRepository.GetByIdAsync(
+                id: followId,
+                includeDeleted: true,
+                asNoTracking: false,
+                ct: ct
+            );
+
+            if (follow is null)
+                return new ErrorResult($"There is no follow with ID : {followId}");
+            
+            _followRepository.HardDelete(follow);
+            await _followRepository.SaveChangesAsync(ct);
+
+            return new SuccessResult("Follow deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An error occured while deleting follow.");
+        }
+    }
     public async Task<IServiceResultWithData<IEnumerable<Follow>>> GetFollowsByFollowingId(int followingId, QueryParameters param, CancellationToken ct = default)
     {
         try

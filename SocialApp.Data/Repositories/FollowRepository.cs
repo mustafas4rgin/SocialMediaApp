@@ -22,7 +22,7 @@ public class FollowRepository : GenericRepository<Follow>, IFollowRepository
                     .ToListAsync(ct);
         
     public async Task<Follow?> GetFollowByIdAsync(int id, CancellationToken ct = default)
-    => await Query(includeDeleted: false, asNoTracking: true)
+    => await Query(includeDeleted: false, asNoTracking: false)
                         .FirstOrDefaultAsync(f => f.Id == id, ct);
     public async Task<List<Follow>> GetFollowsByFollowingIdAsync(int followingId, CancellationToken ct = default)
     => await Query(includeDeleted: false, asNoTracking: true)

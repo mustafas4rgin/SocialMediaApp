@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { userApi } from "@/lib/queries";
+import { userApi, followApi } from "@/lib/queries";
 
 type RecommendedUser = {
   id: number;
@@ -18,9 +18,23 @@ type RecommendedUser = {
 export function RecommendedUsers() {
   const [users, setUsers] = useState<RecommendedUser[]>([]);
   const [following, setFollowing] = useState<Set<number>>(new Set());
-   const router = useRouter();
+  const [processing, setProcessing] = useState<Record<number, boolean>>({});
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const raw = localStorage.getItem("user");
+      if (raw && raw !== "undefined") {
+        try {
+          const parsed = JSON.parse(raw);
+          const id = parsed?.id ?? parsed?.userId;
+          if (id) setCurrentUserId(id);
+        } catch {
+          // ignore parse errors
+        }
+      }
+    }
     const fetchRecommended = async () => {
       try {
         const data: RecommendedUser[] = await userApi.getRecommendedUsers(5, 1);
@@ -38,15 +52,40 @@ export function RecommendedUsers() {
   }, []);
 
   const toggleFollow = (userId: number) => {
+    const already = following.has(userId);
+    setProcessing((prev) => ({ ...prev, [userId]: true }));
     setFollowing((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(userId)) {
-        newSet.delete(userId);
-      } else {
-        newSet.add(userId);
-      }
-      return newSet;
+      const next = new Set(prev);
+      if (already) next.delete(userId);
+      else next.add(userId);
+      return next;
     });
+
+    const run = async () => {
+      try {
+        if (!currentUserId) {
+          router.push("/login");
+          throw new Error("Not logged in");
+        }
+        if (already) {
+          await followApi.unfollowUser(currentUserId, userId);
+        } else {
+          await followApi.followUser(currentUserId, userId);
+        }
+      } catch (err) {
+        // revert on failure
+        setFollowing((prev) => {
+          const next = new Set(prev);
+          if (already) next.add(userId);
+          else next.delete(userId);
+          return next;
+        });
+        console.error("Follow toggle failed", err);
+      } finally {
+        setProcessing((prev) => ({ ...prev, [userId]: false }));
+      }
+    };
+    run();
   };
 
   const goToProfile = async (user: RecommendedUser) => {
