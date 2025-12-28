@@ -7,6 +7,10 @@ public class User : EntityBase
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public int RoleId { get; set; }
+    public string Bio { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
+    public string Website { get; set; } = string.Empty;
+    public bool IsPrivate { get; set; } = false;
     public byte[] PasswordHash { get; set; } = null!;
     public byte[] PasswordSalt { get; set; } = null!;
     //Navigation properties

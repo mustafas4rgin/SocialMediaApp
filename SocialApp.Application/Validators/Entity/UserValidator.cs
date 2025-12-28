@@ -22,6 +22,15 @@ public sealed class UserValidator : AbstractValidator<User>
         RuleFor(x => x.LastName)
             .NotEmpty().WithMessage("Last name is required.")
             .MaximumLength(50).WithMessage("Last name must not exceed 50 characters.");
+        
+        RuleFor(x => x.Bio)
+            .MaximumLength(400).WithMessage("Bio maximum can be 400 characters.");
+        
+        RuleFor(x => x.Location)
+            .MaximumLength(70).WithMessage("Location maximum can be 70 characters.");
+        
+        RuleFor(x => x.Website)
+            .MaximumLength(100).WithMessage("Website maximum can be 100 characters.");
 
         RuleFor(x => x.PasswordHash)
             .NotNull().WithMessage("Password hash cannot be null.")

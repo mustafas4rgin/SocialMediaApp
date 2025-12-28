@@ -27,5 +27,14 @@ public class UpdateUserDTOValidator : AbstractValidator<UpdateUserDTO>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is necessary.");
+
+            RuleFor(x => x.Bio)
+            .MaximumLength(400).WithMessage("Bio maximum can be 400 characters.");
+        
+        RuleFor(x => x.Location)
+            .MaximumLength(70).WithMessage("Location maximum can be 70 characters.");
+        
+        RuleFor(x => x.Website)
+            .MaximumLength(100).WithMessage("Website maximum can be 100 characters.");
     }
 }

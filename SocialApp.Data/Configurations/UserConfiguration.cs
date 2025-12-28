@@ -12,7 +12,6 @@ public sealed class UserConfiguration : BaseEntityConfiguration<User>
 
         builder.HasKey(u => u.Id);
 
-        // Temel alan kısıtları
         builder.Property(u => u.Email)
          .IsRequired()
          .HasMaxLength(256);
@@ -26,6 +25,21 @@ public sealed class UserConfiguration : BaseEntityConfiguration<User>
 
         builder.Property(u => u.PasswordHash).IsRequired();
         builder.Property(u => u.PasswordSalt).IsRequired();
+
+        builder.Property(u => u.Bio)
+                .IsRequired()
+                .HasDefaultValue("")
+                .HasMaxLength(400);
+
+        builder.Property(u => u.Location)
+               .IsRequired()
+               .HasDefaultValue("")
+               .HasMaxLength(70);
+
+        builder.Property(u => u.Website)
+                .IsRequired()
+                .HasDefaultValue("")
+                .HasMaxLength(100);
 
         builder.HasIndex(u => u.Email).IsUnique();
         builder.HasIndex(u => u.UserName).IsUnique();
