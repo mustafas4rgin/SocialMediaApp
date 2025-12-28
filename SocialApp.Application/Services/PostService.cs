@@ -141,6 +141,8 @@ public class PostService : GenericService<Post>, IPostService
                     PostImages = post.PostImages?.ToList() ?? new List<PostImage>(),
                     PostBrutals = post.PostBrutals?.ToList() ?? new List<PostBrutal>(),
 
+                    MainImage = post.MainImage,
+
                     User = new UserDTO
                     {
                         Id = post.UserId,

@@ -29,6 +29,7 @@ type FeedPostDto = {
   likeCount: number;
   commentCount: number;
   postImages: any[];
+  mainImageId?: number;
   postBrutals: any[];
   isLikedByMe: boolean;
 };
@@ -44,8 +45,21 @@ export default function FeedPage() {
   const [commentsLoading, setCommentsLoading] = useState<Record<number, boolean>>({});
   const [userCache, setUserCache] = useState<Record<number, { firstName: string; lastName: string; userName?: string }>>({});
   const [error, setError] = useState<string | null>(null);
+  const [mediaIndex, setMediaIndex] = useState<Record<number, number>>({});
   const pageSize = 10;
   const router = useRouter();
+
+  const reorderWithMain = (media: any[], mainId?: number) => {
+    if (!mainId) return media;
+    const idx = media.findIndex((m) => (m?.id ?? m?.Id) === mainId);
+    if (idx > 0) {
+      const copy = [...media];
+      const [item] = copy.splice(idx, 1);
+      copy.unshift(item);
+      return copy;
+    }
+    return media;
+  };
 
   const avatarInitials = (user: FeedUserDto) =>
     `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase();
@@ -132,7 +146,8 @@ export default function FeedPage() {
         items.map(async (p) => {
           const needsImages = !p.postImages || p.postImages.length === 0;
           const needsVideos = !p.postBrutals || p.postBrutals.length === 0;
-          const imgs = needsImages ? await postImageApi.getImages(p.id) : p.postImages;
+          const imgsRaw = needsImages ? await postImageApi.getImages(p.id) : p.postImages ?? [];
+          const imgs = reorderWithMain(imgsRaw, (p as any)?.mainImageId ?? (p as any)?.MainImageId);
           const vids = needsVideos ? await postBrutalApi.getVideos(p.id) : p.postBrutals;
           return { ...p, postImages: imgs, postBrutals: vids };
         })
@@ -185,7 +200,8 @@ export default function FeedPage() {
   };
 
   const handleLike = async (postId: number) => {
-    if (!currentUserId) {
+    const userIdNum = Number(currentUserId || 0);
+    if (!userIdNum || Number.isNaN(userIdNum)) {
       setError("Beğenmek için lütfen giriş yapın.");
       return;
     }
@@ -193,7 +209,11 @@ export default function FeedPage() {
 
     // Unlike
     if (current.liked) {
-      const likeId = getLikeId(postId, currentUserId);
+      let likeId = getLikeId(postId, userIdNum);
+      if (!likeId) {
+        likeId = await likeApi.findLikeId(postId, userIdNum);
+        if (likeId) setLikeId(postId, userIdNum, likeId);
+      }
       if (!likeId) return;
 
       setLikeState((prev) => ({
@@ -221,15 +241,18 @@ export default function FeedPage() {
     }));
 
     try {
-      const res = await likeApi.likePost(postId, currentUserId);
-      const likeId =
+      const res = await likeApi.likePost(postId, userIdNum);
+      let likeId =
         res?.data?.id ??
         res?.data?.Id ??
         res?.data?.data?.id ??
         res?.data?.data?.Id ??
         res?.id ??
         res?.Id;
-      if (likeId) setLikeId(postId, currentUserId, likeId);
+      if (!likeId) {
+        likeId = await likeApi.findLikeId(postId, userIdNum);
+      }
+      if (likeId) setLikeId(postId, userIdNum, likeId);
     } catch (e) {
       setLikeState((prev) => ({
         ...prev,
@@ -363,6 +386,14 @@ export default function FeedPage() {
     }
   };
 
+  const changeMedia = (postId: number, delta: number, total: number) => {
+    setMediaIndex((prev) => {
+      const current = prev[postId] ?? 0;
+      const next = (current + delta + total) % total;
+      return { ...prev, [postId]: next };
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background transition-colors">
       <div className="container max-w-7xl mx-auto px-4 py-6">
@@ -447,33 +478,61 @@ export default function FeedPage() {
                       {post.content}
                     </div>
 
-                    {(post.postImages?.length || post.postBrutals?.length) ? (
-                      <div className="grid grid-cols-1 gap-2 rounded-xl overflow-hidden">
-                        {[...(post.postImages ?? []), ...(post.postBrutals ?? [])].map((media, idx) => {
-                          const src = typeof media === "string" ? media : media.file ?? media.File ?? "";
-                          const isVideo =
-                            src.endsWith(".mp4") ||
-                            src.includes("/video/upload") ||
-                            src.includes(".webm") ||
-                            src.includes(".mov");
-                          return isVideo ? (
-                            <video
-                              key={idx}
-                              controls
-                              className="w-full max-h-[500px] rounded-xl bg-muted"
-                              src={src}
-                            />
+                    {(post.postImages?.length || post.postBrutals?.length) ? (() => {
+                      const media = [...(post.postImages ?? []), ...(post.postBrutals ?? [])];
+                      const total = media.length;
+                      const idx = Math.min(mediaIndex[post.id] ?? 0, total - 1);
+                      const current = media[idx];
+                      const src = typeof current === "string" ? current : current?.file ?? current?.File ?? "";
+                      const isVideo =
+                        src.endsWith(".mp4") ||
+                        src.includes("/video/upload") ||
+                        src.includes(".webm") ||
+                        src.includes(".mov");
+                      return (
+                        <div className="relative rounded-xl overflow-hidden">
+                          {isVideo ? (
+                            <video controls className="w-full max-h-[500px] rounded-xl bg-muted" src={src} />
                           ) : (
                             <img
-                              key={idx}
                               src={src}
                               alt="Post media"
                               className="w-full max-h-[500px] object-cover rounded-xl"
                             />
-                          );
-                        })}
-                      </div>
-                    ) : null}
+                          )}
+                          {total > 1 && (
+                            <div className="absolute inset-0 flex items-center justify-between px-2">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="bg-background/60 hover:bg-background/80"
+                                onClick={() => changeMedia(post.id, -1, total)}
+                              >
+                                ‹
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="bg-background/60 hover:bg-background/80"
+                                onClick={() => changeMedia(post.id, 1, total)}
+                              >
+                                ›
+                              </Button>
+                            </div>
+                          )}
+                          {total > 1 && (
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                              {media.map((_, i) => (
+                                <span
+                                  key={i}
+                                  className={`h-2 w-2 rounded-full ${i === idx ? "bg-primary" : "bg-muted"}`}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })() : null}
 
                     <div className="flex items-center justify-between pt-2 border-t border-border/50">
                       <div className="flex items-center gap-1">

@@ -55,7 +55,7 @@ namespace SocialApp.API.Controllers
             if (userId is null)
                 return Unauthorized("You need to be logged in.");
 
-            var result = await _profileService.GetProfileAsync(userId.Value, param, ct);
+            var result = await _profileService.GetProfileAsync(userId.Value, param, userId.Value, ct);
 
             var errorResult = HandleServiceResult(result);
 
@@ -67,7 +67,7 @@ namespace SocialApp.API.Controllers
         [HttpGet("{userName}")]
         public async Task<IActionResult> GetProfileInfoWithUsernameAsync([FromQuery]QueryParameters param, string userName, CancellationToken ct = default)
         {
-            var result = await _profileService.GetProfileWithUsernameAsync(userName, param, ct);
+            var result = await _profileService.GetProfileWithUsernameAsync(userName, param, CurrentUserId, ct);
 
             var errorResult = HandleServiceResult(result);
 

@@ -170,6 +170,7 @@ export const profileApi = {
         likeCount: p.likeCount ?? p.LikeCount ?? 0,
         commentCount: p.commentCount ?? p.CommentCount ?? 0,
         postImages: p.postImages ?? p.PostImages ?? [],
+        mainImageId: p.mainImageId ?? p.MainImageId,
         isLikedByMe: p.isLikedByMe ?? p.IsLikedByMe ?? false,
       })),
     };
@@ -275,6 +276,7 @@ export const postApi = {
       likeCount: p.likeCount ?? p.LikeCount ?? 0,
       commentCount: p.commentCount ?? p.CommentCount ?? 0,
       postImages: p.postImages ?? p.PostImages ?? [],
+      mainImageId: p.mainImageId ?? p.MainImageId,
       postBrutals: p.postBrutals ?? p.PostBrutals ?? [],
       isLikedByMe: p.isLikedByMe ?? p.IsLikedByMe ?? false,
     }));
@@ -289,6 +291,19 @@ export const postApi = {
   addPost: async (payload: { body: string; userId: number; status: number }) => {
     const { data } = await api.post("/Post/add", payload);
     return data; // { success, message, statusCode, data: { id, ... } }
+  },
+
+  updatePost: async (
+    postId: number,
+    payload: { body: string; userId: number; status: number; mainPostImageId: number }
+  ) => {
+    const { data } = await api.put(`/Post/${postId}/update`, payload);
+    return data;
+  },
+
+  deletePost: async (postId: number) => {
+    const { data } = await api.delete(`/Post/${postId}/delete`);
+    return data;
   },
 };
 
@@ -310,10 +325,10 @@ export const postImageApi = {
         data?.Data?.Data ??
         data?.Data ??
         data;
-      if (typeof window !== "undefined") {
-        console.info("Post images fetch", { postId, count: (list ?? []).length });
-      }
-      return (list ?? []).map((i: any) => i.file ?? i.File ?? "");
+      return (list ?? []).map((i: any) => ({
+        id: i.id ?? i.Id ?? 0,
+        file: i.file ?? i.File ?? "",
+      }));
     } catch (e) {
       return [];
     }
@@ -391,6 +406,28 @@ export const likeApi = {
   },
   unlikePost: async (likeId: number) => {
     await api.delete(`/Like/${likeId}/delete`);
+  },
+  list: async () => {
+    const { data } = await api.get("/Like/GetAll", {
+      params: { pageSize: 500, pageNumber: 1 },
+    });
+    const items: any[] = Array.isArray(data)
+      ? data
+      : data?.data ?? data?.Data ?? data ?? [];
+    return items.map((l) => ({
+      id: l.id ?? l.Id,
+      postId: l.postId ?? l.PostId,
+      userId: l.userId ?? l.UserId,
+    }));
+  },
+  findLikeId: async (postId: number, userId: number): Promise<number | null> => {
+    try {
+      const likes = await likeApi.list();
+      const match = likes.find((l) => l.postId === postId && l.userId === userId);
+      return match ? match.id ?? null : null;
+    } catch {
+      return null;
+    }
   },
 };
 

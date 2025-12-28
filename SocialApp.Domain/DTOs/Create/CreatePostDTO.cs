@@ -6,5 +6,6 @@ public class CreatePostDTO
 {
     public string Body { get; set; } = string.Empty;
     public int UserId { get; set; }
+    public int MainPostImageId { get; set; }
     public PostStatus Status { get; set; }
 }

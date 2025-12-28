@@ -30,6 +30,19 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
             _likeService = likeService;
         }
+        public override async Task<IActionResult> DeleteAsync([FromRoute]int id, CancellationToken ct)
+        {
+            var result = await _likeService.DeleteLikeAsync(
+                likeId: id,
+                ct: ct
+            );
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null) return errorResult;
+
+            return Ok(result);
+        }
         public override async Task<IActionResult> AddAsync([FromBody]CreateLikeDTO dto, CancellationToken ct = default)
         {
             var validationResult = await _createValidator.ValidateAsync(dto);

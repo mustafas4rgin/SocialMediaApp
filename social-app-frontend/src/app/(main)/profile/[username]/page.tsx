@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { profileApi, followApi, likeApi, commentApi, postImageApi, postBrutalApi, userApi, userImageApi } from "@/lib/queries";
-import { Calendar, Link as LinkIcon, MapPin, Sparkles, Heart, MessageCircle, Send, ChevronDown, ChevronUp } from "lucide-react";
+import { profileApi, followApi, likeApi, commentApi, postImageApi, postBrutalApi, userApi, userImageApi, postApi } from "@/lib/queries";
+import { setLikeId, getLikeId, clearLikeId } from "@/lib/like-cache";
+import { Calendar, Link as LinkIcon, MapPin, Sparkles, Heart, MessageCircle, Send, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import type { ProfileData } from "@/types";
 
 function initials(firstName?: string, lastName?: string) {
@@ -32,6 +33,8 @@ export default function ProfilePage() {
   const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
   const [profileBio, setProfileBio] = useState<string>("");
   const [profileLocation, setProfileLocation] = useState<string>("");
+  const [mediaIndex, setMediaIndex] = useState<Record<number, number>>({});
+  const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
 
   const router = useRouter();
   const storedUser = useMemo(() => {
@@ -50,6 +53,17 @@ export default function ProfilePage() {
   const identifier = routeParam ? String(routeParam) : undefined; // username veya id string
   const targetIdentifier = identifier || (currentUserId ? String(currentUserId) : undefined);
   const isOwnProfile = currentUserId && profileData?.header.userId === currentUserId;
+  const reorderWithMain = (media: any[], mainId?: number) => {
+    if (!mainId) return media;
+    const idx = media.findIndex((m) => (m?.id ?? m?.Id) === mainId);
+    if (idx > 0) {
+      const copy = [...media];
+      const [item] = copy.splice(idx, 1);
+      copy.unshift(item);
+      return copy;
+    }
+    return media;
+  };
 
   // Yorumları çekip kullanıcı bilgilerini zenginleştiren yardımcı
   const fetchCommentsForPost = async (postId: number) => {
@@ -133,7 +147,8 @@ export default function ProfilePage() {
           (data.posts ?? []).map(async (p) => {
             const needsImages = !p.postImages || p.postImages.length === 0;
             const needsVideos = !p.postBrutals || p.postBrutals.length === 0;
-            const imgs = needsImages ? await postImageApi.getImages(p.id) : p.postImages;
+            const imgsRaw = needsImages ? await postImageApi.getImages(p.id) : p.postImages ?? [];
+            const imgs = reorderWithMain(imgsRaw, (p as any)?.mainImageId ?? (p as any)?.MainImageId);
             const vids = needsVideos ? await postBrutalApi.getVideos(p.id) : p.postBrutals;
             return { ...p, postImages: imgs, postBrutals: vids };
           })
@@ -223,6 +238,37 @@ export default function ProfilePage() {
     router.push(`/${userId}`);
   };
 
+  const changeMedia = (postId: number, delta: number, total: number) => {
+    setMediaIndex((prev) => {
+      const current = prev[postId] ?? 0;
+      const next = (current + delta + total) % total;
+      return { ...prev, [postId]: next };
+    });
+  };
+
+  const handleDeletePost = async (postId: number) => {
+    if (!isOwnProfile || deletingPostId) return;
+    const ok = typeof window !== "undefined" ? window.confirm("Bu gönderiyi silmek istediğine emin misin?") : false;
+    if (!ok) return;
+    setDeletingPostId(postId);
+    try {
+      await postApi.deletePost(postId);
+      setProfileData((prev) =>
+        prev
+          ? {
+              ...prev,
+              postsCount: Math.max(0, (prev.postsCount ?? 0) - 1),
+              posts: prev.posts.filter((p) => p.id !== postId),
+            }
+          : prev
+      );
+    } catch (err) {
+      console.error("Post delete failed", err);
+    } finally {
+      setDeletingPostId(null);
+    }
+  };
+
   // Yorum önizlemesi için profildeki postların yorumlarını önceden çek
   useEffect(() => {
     if (!profileData?.posts?.length) return;
@@ -288,22 +334,57 @@ export default function ProfilePage() {
   };
 
   const handleLike = async (postId: number) => {
-    if (!currentUserId) {
+    const userIdNum = Number(currentUserId || profileData?.header.userId || 0);
+    if (!userIdNum || Number.isNaN(userIdNum)) {
       setError("Please log in to like posts.");
       return;
     }
     const current = likeState[postId] || { liked: false, count: 0 };
-    if (current.liked) return; // şimdilik unlike yok
+    // Unlike
+    if (current.liked) {
+      let likeId = getLikeId(postId, userIdNum);
+      if (!likeId) {
+        likeId = await likeApi.findLikeId(postId, userIdNum);
+        if (likeId) setLikeId(postId, userIdNum, likeId);
+      }
+      if (!likeId) return;
+      setLikeState((prev) => ({
+        ...prev,
+        [postId]: { liked: false, count: Math.max(0, current.count - 1) },
+      }));
+      try {
+        await likeApi.unlikePost(likeId);
+        clearLikeId(postId, currentUserId);
+      } catch (e) {
+        setLikeState((prev) => ({
+          ...prev,
+          [postId]: { liked: true, count: current.count },
+        }));
+        console.error("Unlike failed:", e);
+      }
+      return;
+    }
 
+    // Like
     setLikeState((prev) => ({
       ...prev,
       [postId]: { liked: true, count: current.count + 1 },
     }));
 
     try {
-      await likeApi.likePost(postId, currentUserId);
+      const res = await likeApi.likePost(postId, userIdNum);
+      let likeId =
+        res?.data?.id ??
+        res?.data?.Id ??
+        res?.data?.data?.id ??
+        res?.data?.data?.Id ??
+        res?.id ??
+        res?.Id;
+      if (!likeId) {
+        likeId = await likeApi.findLikeId(postId, userIdNum);
+      }
+      if (likeId) setLikeId(postId, userIdNum, likeId);
     } catch (e: any) {
-      // geri al
       setLikeState((prev) => ({
         ...prev,
         [postId]: { liked: current.liked, count: current.count },
@@ -597,45 +678,85 @@ export default function ProfilePage() {
                             <span className="text-xs text-slate-400">
                               {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                             </span>
+                            {isOwnProfile && (
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="ml-auto text-destructive hover:text-destructive hover:bg-destructive/10"
+                                onClick={() => handleDeletePost(post.id)}
+                                disabled={deletingPostId === post.id}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            )}
                           </div>
                           <p className="text-sm text-slate-200 mt-2">{post.content}</p>
 
-                          {(post.postImages?.length || post.postBrutals?.length) ? (
-                            <div className="mt-3 grid grid-cols-1 gap-3 rounded-2xl overflow-hidden border border-white/10">
-                              {[...(post.postImages ?? []), ...(post.postBrutals ?? [])].map((media, idx) => {
-                                const src =
-                                  typeof media === "string"
-                                    ? media
-                                    : (media as any)?.file ?? (media as any)?.File ?? "";
-                                const isVideo =
-                                  src.endsWith(".mp4") ||
-                                  src.includes("/video/upload") ||
-                                  src.includes(".webm") ||
-                                  src.includes(".mov");
-                                return isVideo ? (
+                          {(post.postImages?.length || post.postBrutals?.length) ? (() => {
+                            const media = [...(post.postImages ?? []), ...(post.postBrutals ?? [])];
+                            const total = media.length;
+                            const idx = Math.min(mediaIndex[post.id] ?? 0, total - 1);
+                            const current = media[idx];
+                            const src =
+                              typeof current === "string"
+                                ? current
+                                : (current as any)?.file ?? (current as any)?.File ?? "";
+                            const isVideo =
+                              src.endsWith(".mp4") ||
+                              src.includes("/video/upload") ||
+                              src.includes(".webm") ||
+                              src.includes(".mov");
+                            return (
+                              <div className="relative mt-3 rounded-2xl overflow-hidden border border-white/10">
+                                {isVideo ? (
                                   <video
-                                    key={idx}
                                     controls
                                     className="w-full max-h-[420px] rounded-xl bg-black/30"
                                     src={src}
                                   />
                                 ) : (
                                   <img
-                                    key={idx}
                                     src={src}
                                     alt="Post media"
                                     className="w-full max-h-[420px] object-cover rounded-xl"
                                   />
-                                );
-                              })}
-                            </div>
-                          ) : null}
+                                )}
+                                {total > 1 && (
+                                  <>
+                                    <div className="absolute inset-0 flex items-center justify-between px-2">
+                                      <button
+                                        className="h-8 w-8 rounded-full bg-background/70 text-white hover:bg-background/90 transition"
+                                        onClick={() => changeMedia(post.id, -1, total)}
+                                      >
+                                        ‹
+                                      </button>
+                                      <button
+                                        className="h-8 w-8 rounded-full bg-background/70 text-white hover:bg-background/90 transition"
+                                        onClick={() => changeMedia(post.id, 1, total)}
+                                      >
+                                        ›
+                                      </button>
+                                    </div>
+                                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                                      {media.map((_, i) => (
+                                        <span
+                                          key={i}
+                                          className={`h-2 w-2 rounded-full ${i === idx ? "bg-primary" : "bg-white/40"}`}
+                                        />
+                                      ))}
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            );
+                          })() : null}
 
                           <div className="flex items-center gap-4 mt-3 text-slate-400">
                             <button
-                              className={`flex items-center gap-1 transition-colors ${likeState[post.id]?.liked ? "text-red-400" : "hover:text-red-400"}`}
+                              className={`flex items-center gap-1 transition-colors ${
+                                likeState[post.id]?.liked ? "text-red-400" : "hover:text-red-400"
+                              }`}
                               onClick={() => handleLike(post.id)}
-                              disabled={likeState[post.id]?.liked}
                             >
                               <Heart className={`w-4 h-4 ${likeState[post.id]?.liked ? "fill-current" : ""}`} />
                               <span className="text-xs">{likeState[post.id]?.count ?? post.likeCount ?? 0}</span>

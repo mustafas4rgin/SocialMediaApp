@@ -96,8 +96,10 @@ export function CreatePost({ onCreated }: { onCreated?: () => void }) {
   const [status] = useState<number>(1); // 1 = Approved, feed'de direkt görünsün
   const [files, setFiles] = useState<File[]>([]);
   const [videos, setVideos] = useState<File[]>([]);
+  const [mainFileIndex, setMainFileIndex] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const userStr =
   typeof window !== "undefined" ? localStorage.getItem("user") : null;
@@ -125,6 +127,7 @@ if (userStr && userStr !== "undefined") {
 
     setLoading(true);
     setError(null);
+    let successMsg: string | null = null;
     try {
       // 1) Post oluştur
       const res = await postApi.addPost({
@@ -137,6 +140,7 @@ if (userStr && userStr !== "undefined") {
       if (postPayload?.success === false) {
         throw new Error(postPayload?.message ?? "Post eklenemedi.");
       }
+      successMsg = postPayload?.message ?? "Post paylaşıldı.";
       const postId =
         postPayload?.data?.id ??
         postPayload?.data?.Id ??
@@ -146,13 +150,38 @@ if (userStr && userStr !== "undefined") {
       if (!postId) throw new Error("Post ID alınamadı (response içeriğini kontrol edin).");
 
       // 2) Resim ekle (varsa)
+      const uploadedImages: { id: number; file: string }[] = [];
       for (const f of files) {
         const imageUrl = await uploadToCloudinary(f);
 
-        await postImageApi.addImage({
+        const resp = await postImageApi.addImage({
           file: imageUrl, // backend validator uzunluk sınırı URL için de geçerli; Cloudinary URL kısa
           postId,
         });
+        const saved =
+          resp?.data ??
+          resp?.Data ??
+          resp;
+        const savedId =
+          saved?.id ??
+          saved?.Id ??
+          saved?.data?.id ??
+          saved?.data?.Id;
+        uploadedImages.push({ id: savedId ?? 0, file: imageUrl });
+      }
+
+      // 2b) Main image ataması
+      if (uploadedImages.length > 0) {
+        const targetIdx = Math.min(mainFileIndex, uploadedImages.length - 1);
+        const main = uploadedImages[targetIdx] ?? uploadedImages[0];
+        if (main?.id) {
+          await postApi.updatePost(postId, {
+            body: body.trim(),
+            userId: Number(currentUserId),
+            status,
+            mainPostImageId: main.id,
+          });
+        }
       }
 
       // 3) Video ekle (varsa) -> PostBrutal
@@ -173,6 +202,7 @@ if (userStr && userStr !== "undefined") {
       // 3) UI temizle + feed yenile
       setBody("");
       setFiles([]);
+      setMainFileIndex(0);
       setVideos([]);
       onCreated?.();
     } catch (e: any) {
@@ -181,6 +211,10 @@ if (userStr && userStr !== "undefined") {
       setError(msg);
     } finally {
       setLoading(false);
+      if (successMsg) {
+        setSuccess(successMsg);
+        setTimeout(() => setSuccess(null), 3000);
+      }
     }
   };
 
@@ -196,6 +230,11 @@ if (userStr && userStr !== "undefined") {
               {error}
             </div>
           )}
+          {success && (
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+              {success}
+            </div>
+          )}
           <Textarea
             placeholder="Bugün aklında ne var?"
             value={body}
@@ -205,10 +244,22 @@ if (userStr && userStr !== "undefined") {
 
           {files.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {files.map((f) => (
-                <span key={f.name} className="rounded-full border border-border/50 bg-muted px-3 py-1 text-xs text-foreground">
+              {files.map((f, idx) => (
+                <button
+                  key={`${f.name}-${idx}`}
+                  type="button"
+                  onClick={() => setMainFileIndex(idx)}
+                  className={`relative rounded-lg border px-3 py-1 text-xs transition ${
+                    idx === mainFileIndex
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border/50 bg-muted text-foreground hover:border-primary/40"
+                  }`}
+                >
                   📷 {f.name}
-                </span>
+                  {idx === mainFileIndex && (
+                    <span className="ml-1 text-[10px] font-semibold">(Main)</span>
+                  )}
+                </button>
               ))}
             </div>
           )}
@@ -232,7 +283,17 @@ if (userStr && userStr !== "undefined") {
                   accept="image/*"
                   multiple
                   className="hidden"
-                  onChange={(e) => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+                  onChange={(e) => {
+                    const selected = e.target.files ? Array.from(e.target.files) : [];
+                    if (!selected.length) return;
+                    setFiles((prev) => {
+                      const next = [...prev, ...selected];
+                      if (next.length > 0 && mainFileIndex >= next.length) {
+                        setMainFileIndex(0);
+                      }
+                      return next;
+                    });
+                  }}
                 />
               </label>
               <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border/50 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted hover:border-primary/30">
@@ -243,7 +304,11 @@ if (userStr && userStr !== "undefined") {
                   accept="video/*"
                   multiple
                   className="hidden"
-                  onChange={(e) => setVideos(e.target.files ? Array.from(e.target.files) : [])}
+                  onChange={(e) => {
+                    const selected = e.target.files ? Array.from(e.target.files) : [];
+                    if (!selected.length) return;
+                    setVideos((prev) => [...prev, ...selected]);
+                  }}
                 />
               </label>
             </div>

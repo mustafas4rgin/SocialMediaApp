@@ -85,14 +85,14 @@ public class ProfileService : IProfileService
             return new ErrorResult("An unexpected error occurred while updating profile.");
         }
     }
-    public async Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, int? viewerId = null, CancellationToken ct = default)
     {
         var profileHeader = await _userRepository.GetProfileByUsernameAsync(userName, ct);
 
         if (profileHeader is null)
             return new ErrorResultWithData<ProfileDTO>("User not found.", 404);
 
-        var usersPosts = await _postRepository.GetUserPostsPagedAsync(profileHeader.UserId, param.PageNumber, param.PageSize, ct);
+        var usersPosts = await _postRepository.GetUserPostsPagedAsync(profileHeader.UserId, param.PageNumber, param.PageSize, viewerId, ct);
         var usersPostsCount = await _postRepository.CountUsersPostsAsync(profileHeader.UserId, ct);
 
         try
@@ -111,14 +111,14 @@ public class ProfileService : IProfileService
             return new ErrorResultWithData<ProfileDTO>("An error occured while getting user.");
         }
     }
-    public async Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, CancellationToken ct = default)
+    public async Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, int? viewerId = null, CancellationToken ct = default)
     {
         var profileHeader = await _userRepository.GetProfileHeaderAsync(userId, ct);
 
         if (profileHeader is null)
             return new ErrorResultWithData<ProfileDTO>("User not found.", 404);
 
-        var usersPosts = await _postRepository.GetUserPostsPagedAsync(userId, param.PageNumber, param.PageSize, ct);
+        var usersPosts = await _postRepository.GetUserPostsPagedAsync(userId, param.PageNumber, param.PageSize, viewerId, ct);
         var usersPostsCount = await _postRepository.CountUsersPostsAsync(userId, ct);
 
         try
@@ -128,7 +128,7 @@ public class ProfileService : IProfileService
             {
                 HeaderDTO = profileHeader,
                 Posts = usersPosts,
-                PostsCount = usersPosts.Count()
+                PostsCount = usersPostsCount
             });
         }
         catch (Exception ex)

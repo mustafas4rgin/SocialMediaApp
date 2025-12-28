@@ -33,6 +33,30 @@ public class LikeService : GenericService<Like>, ILikeService
         _likeRepository = likeRepository;
         _logger = logger;
     }
+    public async Task<IServiceResult> DeleteLikeAsync(int likeId, CancellationToken ct = default)
+    {
+        try
+        {
+            var like = await _likeRepository.GetByIdAsync(
+                id: likeId,
+                includeDeleted: true,
+                asNoTracking: false,
+                ct: ct
+            );
+
+            if (like is null) return new ErrorResult($"There is no like with ID : {likeId}");
+
+            _likeRepository.HardDelete(like);
+            await _likeRepository.SaveChangesAsync(ct);
+
+            return new SuccessResult("Like deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An unexpected error occured while deleting like.");
+        }
+    }
 
     public async Task<IServiceResultWithData<IEnumerable<Like>>> GetLikesByUserIdAsync(
         int userId,
@@ -131,7 +155,7 @@ public class LikeService : GenericService<Like>, ILikeService
 
             if (existingLike is not null)
             {
-                _likeRepository.Delete(existingLike);
+                _likeRepository.HardDelete(existingLike);
                 await _likeRepository.SaveChangesAsync(ct);
                 await CacheHelper.RemoveByPatternAsync(_cache, LikesCachePrefix, ct);
 
@@ -157,13 +181,13 @@ public class LikeService : GenericService<Like>, ILikeService
         }
         catch (DbUpdateException dbEx)
         {
-            _logger.LogError(dbEx,
-                "DbUpdateException occurred while liking/unliking post {PostId} by user {UserId}.",
-                like.PostId,
-                like.UserId);
+            _logger.LogError(dbEx, "DbUpdateException: {Message} | Inner: {Inner}",
+                dbEx.Message,
+                dbEx.InnerException?.Message);
 
-            return new ErrorResultWithData<Like>("An error occurred while updating like state.");
+            return new ErrorResultWithData<Like>("DB update error: " + dbEx.InnerException?.Message);
         }
+
         catch (Exception ex)
         {
             _logger.LogError(ex,

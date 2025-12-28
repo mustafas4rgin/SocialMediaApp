@@ -6,7 +6,7 @@ namespace SocialApp.Application.Interfaces;
 
 public interface IProfileService
 {
-    Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, CancellationToken ct = default);
-    Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, CancellationToken ct = default);
+    Task<IServiceResultWithData<ProfileDTO>> GetProfileAsync(int userId, QueryParameters param, int? viewerId = null, CancellationToken ct = default);
+    Task<IServiceResultWithData<ProfileDTO>> GetProfileWithUsernameAsync(string userName, QueryParameters param, int? viewerId = null, CancellationToken ct = default);
     Task<IServiceResult> UpdateProfileAsync(int userId, UpdateProfileDTO dTO, CancellationToken ct = default);
 }

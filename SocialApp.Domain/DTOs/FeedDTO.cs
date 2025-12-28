@@ -11,6 +11,7 @@ public class FeedDTO
     public UserDTO User { get; set; } = new UserDTO();
     public int LikeCount { get; set; }
     public int CommentCount { get; set; }
+    public PostImage? MainImage { get; set; }
     public List<PostImage>? PostImages { get; set; }
     public List<PostBrutal>? PostBrutals { get; set; }
     public bool IsLikedByMe { get; set; } = false;

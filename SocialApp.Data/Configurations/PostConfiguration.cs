@@ -37,5 +37,15 @@ public sealed class PostConfiguration : BaseEntityConfiguration<Post>
             .WithOne(l => l.Post)
             .HasForeignKey(l => l.PostId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Property(p => p.MainPostImageId).IsRequired(false);
+
+        builder.HasOne(p => p.MainImage)
+            .WithOne(pi => pi.MainPost)
+            .HasForeignKey<Post>(p => p.MainPostImageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(p => p.MainPostImageId).IsUnique();
+
     }
 }

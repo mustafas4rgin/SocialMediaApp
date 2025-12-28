@@ -35,6 +35,7 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
                     .Include(p => p.Comments)
                     .Include(p => p.PostBrutals)
                     .Include(p => p.PostImages)
+                    .Include(p => p.MainImage)
                     .ToListAsync(ct);
     }
     public async Task<int> CountUsersPostsAsync(int userId, CancellationToken ct = default)
@@ -42,7 +43,7 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
             .Where(p => p.UserId == userId)
             .CountAsync();
 
-    public async Task<List<PostDTO>> GetUserPostsPagedAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
+    public async Task<List<PostDTO>> GetUserPostsPagedAsync(int userId, int pageNumber, int pageSize, int? viewerId = null, CancellationToken ct = default)
     => await Query(includeDeleted: false, asNoTracking: true)
                 .Where(p => p.UserId == userId)
                 .OrderedByNewest()
@@ -52,7 +53,11 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
                     Id = p.Id,
                     Body = p.Body,
                     CreatedAt = p.CreatedAt,
-                    UserId = p.UserId
+                    UserId = p.UserId,
+                    MainPostImageId = p.MainPostImageId,
+                    LikeCount = p.Likes.Where(l => !l.IsDeleted).Count(),
+                    CommentCount = p.Comments.Where(c => !c.IsDeleted).Count(),
+                    IsLikedByMe = viewerId.HasValue && p.Likes.Any(l => !l.IsDeleted && l.UserId == viewerId.Value),
                 })
                 .ToListAsync(ct);
 }

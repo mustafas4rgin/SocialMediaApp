@@ -6,4 +6,5 @@ public sealed class PostImage : EntityBase
     public int PostId { get; set; }
     //Navigation properties
     public Post Post { get; set; } = null!;
+    public Post? MainPost { get; set; } 
 }
