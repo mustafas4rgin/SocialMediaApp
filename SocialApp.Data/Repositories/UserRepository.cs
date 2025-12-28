@@ -15,8 +15,12 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         _context = context;
     }
+    public async Task<User?> GetUserByUserNameAsync(string userName, CancellationToken ct = default)
+    => await Query(
+        includeDeleted: false,
+        asNoTracking: true).Where(u => u.UserName == userName).FirstOrDefaultAsync(ct);
     public async Task<bool> UserExistsByUsernameAsync(string userName, CancellationToken ct = default)
-        =>  await Query(
+        => await Query(
             includeDeleted: false,
             asNoTracking: true
         ).AnyAsync(u => u.UserName == userName, ct);
@@ -66,6 +70,10 @@ public class UserRepository : GenericRepository<User>, IUserRepository
                     LastName = u.LastName,
                     UserName = u.UserName,
 
+                    Bio = u.Bio,
+                    Location = u.Location,
+                    Website = u.Website,
+
                     FollowersCount = u.Followers.Count,
                     FollowingsCount = u.Followings.Count,
 
@@ -97,6 +105,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
                 LastName = u.LastName,
                 UserName = u.UserName,
 
+                Bio = u.Bio,
+                Location = u.Location,
+                Website = u.Website,
                 FollowersCount = u.Followers.Count,
                 FollowingsCount = u.Followings.Count,
 

@@ -153,6 +153,9 @@ export const profileApi = {
         followersCount: result.headerDTO?.followersCount ?? result.headerDTO?.FollowersCount ?? result.HeaderDTO?.FollowersCount ?? 0,
         followingsCount: result.headerDTO?.followingsCount ?? result.headerDTO?.FollowingsCount ?? result.HeaderDTO?.FollowingsCount ?? 0,
       },
+      bio: result.headerDTO?.bio ?? result.headerDTO?.Bio ?? result.HeaderDTO?.Bio ?? "",
+      location: result.headerDTO?.location ?? result.headerDTO?.Location ?? result.HeaderDTO?.Location ?? "",
+      website: result.headerDTO?.website ?? result.headerDTO?.Website ?? result.HeaderDTO?.Website ?? "",
       postsCount: result.postsCount ?? result.PostsCount ?? 0,
       posts: (result.posts ?? result.Posts ?? []).map((p: any) => ({
         id: p.id ?? p.Id,
@@ -176,11 +179,17 @@ export const profileApi = {
     userName?: string;
     firstName?: string;
     lastName?: string;
+    bio?: string;
+    location?: string;
+    website?: string;
   }) => {
     const body: any = {};
     if (payload.userName) body.userName = payload.userName;
     if (payload.firstName) body.firstName = payload.firstName;
     if (payload.lastName) body.lastName = payload.lastName;
+    if (payload.bio) body.bio = payload.bio;
+    if (payload.location) body.location = payload.location;
+    if (payload.website) body.website = payload.website;
     const { data } = await api.post("/Profile/update", body);
     return data;
   },

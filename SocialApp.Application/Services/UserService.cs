@@ -6,6 +6,7 @@ using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.DTOs;
+using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Parameters;
 using SocialApp.Domain.Results.Error;
@@ -29,6 +30,33 @@ public class UserService : GenericService<User>, IUserService
         _userRepository = userRepository;
         _logger = logger;
     }
+    public async Task<IServiceResultWithData<UserDTO>> GetUserInfoByUserNameAsync(string userName, CancellationToken ct = default)
+    {
+        try
+        {
+            var user = await _userRepository.GetUserByUserNameAsync(userName, ct);
+
+            if (user is null) return new ErrorResultWithData<UserDTO>($"There is no user with user name : {userName}.");
+
+            return new SuccessResultWithData<UserDTO>(
+                "User found.", new UserDTO
+                {
+                    Bio = user.Bio,
+                    FirstName = user.FirstName,
+                    Location = user.Location,
+                    LastName = user.LastName,
+                    UserName = user.LastName,
+                    Website = user.Website,
+                    Id = user.Id
+                }
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResultWithData<UserDTO>("An unexpected error occurred while getting user.");
+        }
+    }
     public async Task<IServiceResultWithData<List<UserRecommendationDto>>> GetRecommendedUsersAsync(int userId, int pageNumber, int pageSize, CancellationToken ct = default)
     {
         try
@@ -37,7 +65,7 @@ public class UserService : GenericService<User>, IUserService
 
             if (!recommendedUsers.Any())
                 return new ErrorResultWithData<List<UserRecommendationDto>>("There is no recommendation.", 404);
-            
+
             return new SuccessResultWithData<List<UserRecommendationDto>>("Recommendations: ", recommendedUsers);
         }
         catch (Exception ex)

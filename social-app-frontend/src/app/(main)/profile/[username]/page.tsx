@@ -30,6 +30,8 @@ export default function ProfilePage() {
   const [commentsLoading, setCommentsLoading] = useState<Record<number, boolean>>({});
   const [userCache, setUserCache] = useState<Record<number, { firstName: string; lastName: string; userName?: string }>>({});
   const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
+  const [profileBio, setProfileBio] = useState<string>("");
+  const [profileLocation, setProfileLocation] = useState<string>("");
 
   const router = useRouter();
   const storedUser = useMemo(() => {
@@ -137,6 +139,8 @@ export default function ProfilePage() {
           })
         );
         setProfileData({ ...data, posts: postsWithMedia });
+        setProfileBio(data.bio ?? "");
+        setProfileLocation(data.location ?? "");
 
         if (currentUserId && data.header.userId !== currentUserId) {
           try {
@@ -407,6 +411,8 @@ export default function ProfilePage() {
   };
 
   const fullName = profileData ? `${profileData.header.firstName} ${profileData.header.lastName}` : "—";
+  const bioText = profileBio.trim();
+  const locationText = profileLocation.trim();
 
   if (loading && !profileData) {
     return (
@@ -500,9 +506,21 @@ export default function ProfilePage() {
                   </div>
                 )}
 
-                <p className="text-sm leading-relaxed text-slate-200">
-                  Welcome to my profile! 🚀
-                </p>
+                {locationText && (
+                  <p className="text-xs uppercase tracking-wide text-slate-400">
+                    {locationText}
+                  </p>
+                )}
+
+                {bioText ? (
+                  <p className="text-sm leading-relaxed text-slate-200">
+                    {bioText}
+                  </p>
+                ) : (
+                  <p className="text-sm leading-relaxed text-slate-200">
+                    Welcome to my profile! 🚀
+                  </p>
+                )}
 
                 <div className="grid grid-cols-3 gap-3 text-center">
                   <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">

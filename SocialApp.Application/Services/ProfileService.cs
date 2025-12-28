@@ -57,6 +57,12 @@ public class ProfileService : IProfileService
 
             if (dTO.LastName != null) user.LastName = dTO.LastName;
 
+            if (dTO.Bio != null) user.Bio = dTO.Bio;
+
+            if (dTO.Location != null) user.Location = dTO.Location;
+
+            if (dTO.Website != null) user.Website = dTO.Website;
+
             await _userRepository.UpdateAsync(user);
             await _userRepository.SaveChangesAsync(ct);
 
@@ -96,7 +102,7 @@ public class ProfileService : IProfileService
             {
                 HeaderDTO = profileHeader,
                 Posts = usersPosts,
-                PostsCount = usersPosts.Count()
+                PostsCount = usersPostsCount
             });
         }
         catch (Exception ex)

@@ -64,6 +64,9 @@ export default function SettingsPage() {
           firstName: header.firstName ?? "",
           lastName: header.lastName ?? "",
           userName: header.userName ?? "",
+          bio: data.bio ?? prev.bio,
+          location: data.location ?? prev.location,
+          website: data.website ?? prev.website,
         }));
       } catch (e: any) {
         // silently ignore; keep empty form
@@ -137,6 +140,9 @@ export default function SettingsPage() {
             if (profile.userName.trim()) payload.userName = profile.userName.trim();
             if (profile.firstName.trim()) payload.firstName = profile.firstName.trim();
             if (profile.lastName.trim()) payload.lastName = profile.lastName.trim();
+            if (profile.bio.trim()) payload.bio = profile.bio.trim();
+            if (profile.location.trim()) payload.location = profile.location.trim();
+            if (profile.website.trim()) payload.website = profile.website.trim();
 
             const submit = async () => {
               setLoading(true);
