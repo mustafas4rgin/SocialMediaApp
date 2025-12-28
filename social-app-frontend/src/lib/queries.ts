@@ -186,6 +186,27 @@ export const profileApi = {
   },
 };
 
+export const userImageApi = {
+  upload: async (userId: number, file: string) => {
+    const payload = { userId, file };
+    const { data } = await api.post("/UserImage/Add", payload);
+    return data;
+  },
+  list: async () => {
+    const { data } = await api.get("/UserImage/GetAll");
+    const items: any[] = Array.isArray(data)
+      ? data
+      : data?.data ?? data?.Data ?? data ?? [];
+    return items.map((i) => ({
+      id: i.id ?? i.Id,
+      userId: i.userId ?? i.UserId,
+      file: i.file ?? i.File,
+      isDeleted: i.isDeleted ?? i.IsDeleted ?? false,
+      createdAt: i.createdAt ?? i.CreatedAt ?? null,
+    }));
+  },
+};
+
 // Follow APIs
 export const followApi = {
   followUser: async (followerId: number, followingId: number): Promise<void> => {

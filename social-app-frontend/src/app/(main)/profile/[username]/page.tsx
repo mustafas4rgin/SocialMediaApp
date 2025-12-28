@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { profileApi, followApi, likeApi, commentApi, postImageApi, postBrutalApi, userApi } from "@/lib/queries";
+import { profileApi, followApi, likeApi, commentApi, postImageApi, postBrutalApi, userApi, userImageApi } from "@/lib/queries";
 import { Calendar, Link as LinkIcon, MapPin, Sparkles, Heart, MessageCircle, Send, ChevronDown, ChevronUp } from "lucide-react";
 import type { ProfileData } from "@/types";
 
@@ -29,6 +29,7 @@ export default function ProfilePage() {
   const [openComments, setOpenComments] = useState<Record<number, boolean>>({});
   const [commentsLoading, setCommentsLoading] = useState<Record<number, boolean>>({});
   const [userCache, setUserCache] = useState<Record<number, { firstName: string; lastName: string; userName?: string }>>({});
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
 
   const router = useRouter();
   const storedUser = useMemo(() => {
@@ -112,6 +113,19 @@ export default function ProfilePage() {
       setError(null);
       try {
         const data = await profileApi.getProfile(targetIdentifier, 10, 1);
+        try {
+          const images = await userImageApi.list();
+          const match = images
+            .filter((img) => img.userId === data.header.userId && !img.isDeleted)
+            .sort((a, b) => {
+              const da = new Date(a.createdAt ?? 0).getTime();
+              const db = new Date(b.createdAt ?? 0).getTime();
+              return db - da;
+            })[0];
+          if (match?.file) setProfileAvatar(match.file);
+        } catch {
+          // ignore
+        }
         // Fetch images per post
         const postsWithMedia = await Promise.all(
           (data.posts ?? []).map(async (p) => {
@@ -426,7 +440,15 @@ export default function ProfilePage() {
               <div className="relative">
                 <Avatar className="w-28 h-28 md:w-32 md:h-32 border-4 border-slate-900">
                   <AvatarImage
-                    src={`https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(fullName)}`}
+                    src={
+                      profileAvatar
+                        ? profileAvatar.startsWith("data:")
+                          ? profileAvatar
+                          : profileAvatar.startsWith("http")
+                          ? profileAvatar
+                          : `data:image/jpeg;base64,${profileAvatar}`
+                        : `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(fullName)}`
+                    }
                     alt={fullName}
                   />
                   <AvatarFallback className="bg-brand/20 text-brand text-2xl">
@@ -527,6 +549,13 @@ export default function ProfilePage() {
                 const displayLast = post.user.lastName || profileData.header.lastName;
                 const displayUserName = post.user.userName || profileData.header.userName;
                 const displayName = `${displayFirst} ${displayLast}`.trim();
+                const avatarSrc = profileAvatar
+                  ? profileAvatar.startsWith("data:")
+                    ? profileAvatar
+                    : profileAvatar.startsWith("http")
+                    ? profileAvatar
+                    : `data:image/jpeg;base64,${profileAvatar}`
+                  : `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(displayName || "User")}`;
 
                 return (
                   <Card key={post.id} className="border-white/10 bg-white/5 backdrop-blur">
@@ -534,7 +563,7 @@ export default function ProfilePage() {
                       <div className="flex items-start gap-3">
                         <Avatar className="w-10 h-10">
                           <AvatarImage
-                            src={`https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(displayName || "User")}`}
+                            src={avatarSrc}
                             alt={displayName || "User"}
                           />
                           <AvatarFallback className="bg-brand/20 text-brand text-sm">

@@ -5,4 +5,6 @@ public class UserImageDTO
     public int Id { get; set; }
     public int UserId { get; set; }
     public string File { get; set; } = string.Empty;
+    public bool IsDeleted { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 }

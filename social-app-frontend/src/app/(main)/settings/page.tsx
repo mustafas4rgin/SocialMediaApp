@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Check, Mail, Shield, Bell, Globe, Upload, ArrowLeft, Loader2 } from "lucide-react";
-import { profileApi } from "@/lib/queries";
+import { profileApi, userImageApi } from "@/lib/queries";
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState({
@@ -21,9 +21,13 @@ export default function SettingsPage() {
     location: "",
     website: "",
   });
+  const [userId, setUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [prefs, setPrefs] = useState({
     notifyComments: true,
@@ -34,14 +38,27 @@ export default function SettingsPage() {
   });
 
   const isComplete = useMemo(() => {
-    return Object.values(profile).some((v) => v.trim());
-  }, [profile]);
+    return avatarFile !== null || Object.values(profile).some((v) => v.trim());
+  }, [profile, avatarFile]);
 
   useEffect(() => {
     const load = async () => {
+      if (typeof window !== "undefined") {
+        const raw = localStorage.getItem("user");
+        if (raw && raw !== "undefined") {
+          try {
+            const parsed = JSON.parse(raw);
+            const id = parsed?.id ?? parsed?.userId;
+            if (id) setUserId(id);
+          } catch {
+            // ignore
+          }
+        }
+      }
       try {
         const data = await profileApi.getProfile();
         const header = data.header;
+        setUserId(header.userId ?? null);
         setProfile((prev) => ({
           ...prev,
           firstName: header.firstName ?? "",
@@ -55,6 +72,45 @@ export default function SettingsPage() {
     };
     load();
   }, []);
+
+  const readPreview = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === "string") resolve(reader.result);
+        else reject(new Error("File read failed"));
+      };
+      reader.onerror = () => reject(new Error("File read failed"));
+      reader.readAsDataURL(file);
+    });
+
+  const uploadAvatarToCloudinary = async (file: File): Promise<string> => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    if (!cloudName || !preset) {
+      throw new Error("Cloudinary config eksik (NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME / NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET)");
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", preset);
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    const res = await fetch(uploadUrl, {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(
+        data?.error?.message ??
+          `Cloudinary hata: ${res.status} ${res.statusText}`
+      );
+    }
+    const data = await res.json();
+    if (!data?.secure_url) {
+      throw new Error("Cloudinary yanıtında secure_url bulunamadı.");
+    }
+    return data.secure_url;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-50">
@@ -87,7 +143,16 @@ export default function SettingsPage() {
               setMessage(null);
               setError(null);
               try {
-                await profileApi.updateProfile(payload);
+                const jobs: Promise<any>[] = [];
+                if (Object.keys(payload).length > 0) {
+                  jobs.push(profileApi.updateProfile(payload));
+                }
+                if (avatarFile && userId) {
+                  const url = await uploadAvatarToCloudinary(avatarFile);
+                  jobs.push(userImageApi.upload(userId, url));
+                }
+                if (jobs.length === 0) return;
+                await Promise.all(jobs);
                 setMessage("Profile updated.");
               } catch (err: any) {
                 const msg =
@@ -124,13 +189,57 @@ export default function SettingsPage() {
                   )}
                   <div className="flex items-center gap-4">
                     <Avatar className="w-16 h-16 border-2 border-white/20">
-                      <AvatarImage src={`https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(profile.firstName || "User")}`} alt="Avatar" />
+                      <AvatarImage
+                        src={
+                          avatarPreview ||
+                          `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(profile.firstName || "User")}`
+                        }
+                        alt="Avatar"
+                      />
                       <AvatarFallback className="bg-brand/20 text-brand text-xl">U</AvatarFallback>
                     </Avatar>
-                    <Button variant="outline" className="flex items-center gap-2 border-white/20 text-white">
-                      <Upload className="w-4 h-4" />
-                      Upload new photo
-                    </Button>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        ref={fileInputRef}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const dataUrl = await readPreview(file);
+                            setAvatarPreview(dataUrl);
+                            setAvatarFile(file);
+                            setError(null);
+                          } catch (err: any) {
+                            setError("Image could not be processed.");
+                          }
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="flex items-center gap-2 border-white/20 text-white"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <Upload className="w-4 h-4" />
+                        Upload new photo
+                      </Button>
+                      {avatarPreview && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="text-xs text-muted-foreground hover:text-white"
+                          onClick={() => {
+                            setAvatarFile(null);
+                            setAvatarPreview(null);
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">

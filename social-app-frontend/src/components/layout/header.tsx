@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { profileApi, userApi, authApi, notificationApi } from "@/lib/queries";
+import { profileApi, userApi, authApi, notificationApi, userImageApi } from "@/lib/queries";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,11 +44,21 @@ function getStoredUserId(): number | null {
   }
 }
 
+const initials = (full: string | undefined | null) => {
+  if (!full) return "JD";
+  const parts = full.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const second = parts[1]?.[0] ?? parts[0]?.[1] ?? "";
+  const res = `${first}${second}`.toUpperCase() || "JD";
+  return res;
+};
+
 export function Header() {
   const router = useRouter();
   const [profilePath, setProfilePath] = useState<string | null>(null);
   const [userFullName, setUserFullName] = useState<string>("John Doe");
   const [userHandle, setUserHandle] = useState<string>("@johndoe");
+  const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searching, setSearching] = useState(false);
   const [results, setResults] = useState<
@@ -77,6 +87,19 @@ export function Header() {
         if (userName) setProfilePath(`/${userName}`);
         else if (userId) setProfilePath(`/${userId}`);
         else if (id) setProfilePath(`/${id}`);
+        try {
+          const images = await userImageApi.list();
+          const match = images
+            .filter((img) => img.userId === userId && !img.isDeleted)
+            .sort((a, b) => {
+              const da = new Date(a.createdAt ?? 0).getTime();
+              const db = new Date(b.createdAt ?? 0).getTime();
+              return db - da;
+            })[0];
+          if (match?.file) setAvatarSrc(match.file);
+        } catch {
+          // ignore
+        }
       } catch {
         if (id) setProfilePath(`/${id}`);
       }
@@ -257,6 +280,13 @@ export function Header() {
       setResolvingProfile(false);
     }
   };
+
+  const avatarSrcWithPrefix = useMemo(() => {
+    if (!avatarSrc) return "";
+    if (avatarSrc.startsWith("data:")) return avatarSrc;
+    if (avatarSrc.startsWith("http")) return avatarSrc;
+    return `data:image/jpeg;base64,${avatarSrc}`;
+  }, [avatarSrc]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
@@ -469,8 +499,10 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full hover:bg-transparent">
                   <Avatar className="w-9 h-9 border-2 border-border hover:border-primary transition-all cursor-pointer ring-offset-background">
-                    <AvatarImage src="https://i.pravatar.cc/150?u=currentuser" alt="User" />
-                    <AvatarFallback className="bg-gradient-to-br from-brand to-brand-dark text-white">JD</AvatarFallback>
+                    <AvatarImage src={avatarSrcWithPrefix} alt="User" />
+                    <AvatarFallback className="bg-gradient-to-br from-brand to-brand-dark text-white">
+                      {initials(userFullName)}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
