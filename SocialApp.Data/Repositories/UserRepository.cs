@@ -15,6 +15,17 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
         _context = context;
     }
+    public async Task<bool> UserExistsByUsernameAsync(string userName, CancellationToken ct = default)
+        =>  await Query(
+            includeDeleted: false,
+            asNoTracking: true
+        ).AnyAsync(u => u.UserName == userName, ct);
+
+    public async Task<bool> UserExistsByEmailAsync(string email, CancellationToken ct = default)
+    => await Query(
+        includeDeleted: false,
+        asNoTracking: true
+    ).AnyAsync(u => u.Email == email, ct);
     public async Task<List<UserRecommendationDto>> GetRecommendedUsersAsync(
     int userId,
     int pageNumber,

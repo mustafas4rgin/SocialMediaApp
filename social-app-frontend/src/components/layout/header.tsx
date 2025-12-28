@@ -61,6 +61,7 @@ export function Header() {
   const [loadingNotifications, setLoadingNotifications] = useState(false);
   const [notificationError, setNotificationError] = useState<string | null>(null);
   const [markingAll, setMarkingAll] = useState(false);
+  const [resolvingProfile, setResolvingProfile] = useState(false);
 
   useEffect(() => {
     const id = getStoredUserId();
@@ -234,6 +235,26 @@ export function Header() {
         localStorage.removeItem("user");
       }
       router.push("/login");
+    }
+  };
+
+  const goToProfile = async () => {
+    setResolvingProfile(true);
+    try {
+      const profile = await profileApi.getProfile();
+      const userName = profile.header.userName;
+      const userId = profile.header.userId ?? getStoredUserId();
+      const path = userName ? `/${userName}` : userId ? `/${userId}` : "/profile";
+      setProfilePath(path);
+      if (userName) setUserHandle(`@${userName}`);
+      const fullName = `${profile.header.firstName ?? ""} ${profile.header.lastName ?? ""}`.trim();
+      if (fullName) setUserFullName(fullName);
+      router.push(path);
+    } catch {
+      if (profilePath) router.push(profilePath);
+      else router.push("/feed");
+    } finally {
+      setResolvingProfile(false);
     }
   };
 
@@ -461,22 +482,20 @@ export function Header() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {profilePath ? (
-                  <DropdownMenuItem asChild>
-                    <Link href={profilePath}>
-                      <User className="w-4 h-4 mr-2" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem disabled>
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
+                <DropdownMenuItem
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    if (!resolvingProfile) goToProfile();
+                  }}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  {resolvingProfile ? "Opening..." : "Profile"}
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-destructive" onSelect={(e) => { e.preventDefault(); handleLogout(); }}>

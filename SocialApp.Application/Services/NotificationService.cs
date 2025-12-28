@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using SocialApp.Application.Interfaces;
 using SocialApp.Domain.Contracts;
+using SocialApp.Domain.DTOs.Create;
 using SocialApp.Domain.DTOs.List;
 using SocialApp.Domain.Entities;
 using SocialApp.Domain.Results.Error;
@@ -9,21 +10,47 @@ using SocialApp.Domain.Results.Success;
 
 namespace SocialApp.Application.Services;
 
-public class NotificationService : GenericService<Notification>, INotificationService
+public class NotificationService : INotificationService
 {
+    private readonly IValidator<Notification> _validator;
     private readonly ILogger<NotificationService> _logger;
     private readonly INotificationRepository _notificationRepository;
     private readonly IUserRepository _userRepository;
     public NotificationService(
-        IValidator<Notification> validator,
         INotificationRepository notificationRepository,
         ILogger<NotificationService> logger,
+        IValidator<Notification> validator,
         IUserRepository userRepository
-    ) : base(validator, notificationRepository, logger)
+    )
     {
+        _validator = validator;
         _logger = logger;
         _notificationRepository = notificationRepository;
         _userRepository = userRepository;
+    }
+    public async Task<IServiceResult> CreateNotificationAsync(
+        Notification notification,
+        CancellationToken ct = default
+    )
+    {
+        try
+        {
+            var validationResult = await _validator.ValidateAsync(notification, ct);
+
+            if (!validationResult.IsValid)
+                return new ErrorResult(string.Join(" | ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)));
+            
+            await _notificationRepository.AddAsync(notification, ct);
+            await _notificationRepository.SaveChangesAsync(ct);
+
+            return new SuccessResult("Notification created successfully.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred.");
+            return new ErrorResult("An error occurred while creating notification.");
+        }
     }
     public async Task<IServiceResult> MarkAsSeenAsync(int notificationId, CancellationToken ct = default)
     {

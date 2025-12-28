@@ -170,7 +170,9 @@ public class AuthService : IAuthService
 
             if (userExists)
                 return new ErrorResult("There is user with this email or user name");
-
+            
+            user.RoleId = 4;
+            
             await _authRepository.RegisterUserAsync(user, ct);
             await _authRepository.SaveChangesAsync(ct);
 

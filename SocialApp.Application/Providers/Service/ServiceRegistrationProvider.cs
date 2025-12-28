@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SocialApp.Application.Interfaces;
 using SocialApp.Application.Registrations;
@@ -25,7 +26,7 @@ public class ServiceRegistrationProvider
             (typeof(IUserImageService),typeof(UserImageService)),
             (typeof(IAuthService), typeof(AuthService)),
             (typeof(IProfileService), typeof(ProfileService)),
-            (typeof(INotificationService), typeof(NotificationService))
+            (typeof(INotificationService), typeof(NotificationService)),
         };
 
         foreach (var service in servicesToRegister)

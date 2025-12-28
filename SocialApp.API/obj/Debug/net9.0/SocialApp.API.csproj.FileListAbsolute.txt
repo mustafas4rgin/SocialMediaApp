@@ -67,6 +67,14 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.pdb
 C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.genruntimeconfig.cache
 C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/ref/SocialApp.API.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.csproj.AssemblyReference.cache
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.AssemblyInfoInputs.cache
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.AssemblyInfo.cs
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.csproj.CoreCompileInputs.cache
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.MvcApplicationPartsAssemblyInfo.cs
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.MvcApplicationPartsAssemblyInfo.cache
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.sourcelink.json
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/appsettings.Development.json
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/appsettings.json
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.API.staticwebassets.endpoints.json
@@ -78,6 +86,8 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/AutoMapper.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/FluentValidation.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/FluentValidation.DependencyInjectionExtensions.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/MediatR.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/MediatR.Contracts.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.dll
@@ -119,6 +129,7 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/System.Diagnostics.DiagnosticSource.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialAPp.Application.dll
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Data.dll
@@ -126,14 +137,6 @@ C:/Users/Gaming/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/r
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Data.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialAPp.Application.pdb
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/bin/Debug/net9.0/SocialApp.Domain.pdb
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.csproj.AssemblyReference.cache
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.GeneratedMSBuildEditorConfig.editorconfig
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.AssemblyInfoInputs.cache
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.AssemblyInfo.cs
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.csproj.CoreCompileInputs.cache
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.MvcApplicationPartsAssemblyInfo.cs
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.MvcApplicationPartsAssemblyInfo.cache
-/Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/SocialApp.API.sourcelink.json
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/scopedcss/bundle/SocialApp.API.styles.css
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/staticwebassets.build.json
 /Users/s4rgin/Desktop/Projects/SocialMediaApp/SocialApp.API/obj/Debug/net9.0/staticwebassets.development.json

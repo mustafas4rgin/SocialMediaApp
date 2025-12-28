@@ -1,15 +1,10 @@
-using System.Security.Cryptography.X509Certificates;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using SocialApp.Application.Helpers;
 using SocialApp.Application.Interfaces;
-using SocialApp.Application.Validators;
 using SocialApp.Domain.Contracts;
 using SocialApp.Domain.Entities;
-using SocialApp.Domain.Parameters;
+using SocialApp.Domain.Events;
 using SocialApp.Domain.Results.Error;
 using SocialApp.Domain.Results.Success;
 
@@ -22,21 +17,29 @@ public class CommentService : GenericService<Comment>, ICommentService
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
     private readonly ILogger<CommentService> _logger;
+    private readonly IMediator _mediator;
+
     public CommentService(
-    ICommentRepository commentRepository,
-    IValidator<Comment> validator,
-    ILogger<CommentService> logger,
-    IPostRepository postRepository,
-    IUserRepository userRepository
+        IMediator mediator,
+        ICommentRepository commentRepository,
+        IValidator<Comment> validator,
+        ILogger<CommentService> logger,
+        IPostRepository postRepository,
+        IUserRepository userRepository
     ) : base(validator, commentRepository, logger)
     {
+        _mediator = mediator;
         _userRepository = userRepository;
         _postRepository = postRepository;
         _validator = validator;
         _commentRepository = commentRepository;
         _logger = logger;
     }
-    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(int postId, QueryParameters param, CancellationToken ct = default)
+
+    public async Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(
+        int postId,
+        CancellationToken ct = default
+    )
     {
         try
         {
@@ -49,10 +52,11 @@ public class CommentService : GenericService<Comment>, ICommentService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occured while getting commentsç");
+            _logger.LogError(ex, "An error occured while getting comments.");
             return new ErrorResultWithData<IEnumerable<Comment>>("An unexpected error occured.");
         }
     }
+
     public override async Task<IServiceResultWithData<Comment>> AddAsync(Comment comment, CancellationToken ct = default)
     {
         if (comment is null)
@@ -61,17 +65,26 @@ public class CommentService : GenericService<Comment>, ICommentService
         var validationResult = await _validator.ValidateAsync(comment, ct);
 
         if (!validationResult.IsValid)
-            return new ErrorResultWithData<Comment>(string.Join(" | ",
-                validationResult.Errors.Select(e => e.ErrorMessage)));
+            return new ErrorResultWithData<Comment>(
+                string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage))
+            );
 
         try
         {
-            var existingPost = await _postRepository.GetByIdAsync(id: comment.PostId, includeDeleted: false, ct: ct);
+            var existingPost = await _postRepository.GetByIdAsync(
+                id: comment.PostId,
+                includeDeleted: false,
+                ct: ct
+            );
 
             if (existingPost is null)
                 return new ErrorResultWithData<Comment>($"There is no post with ID : {comment.PostId}", 404);
 
-            var existingUser = await _userRepository.GetByIdAsync(id: comment.UserId, includeDeleted: false, ct: ct);
+            var existingUser = await _userRepository.GetByIdAsync(
+                id: comment.UserId,
+                includeDeleted: false,
+                ct: ct
+            );
 
             if (existingUser is null)
                 return new ErrorResultWithData<Comment>($"There is no user with ID : {comment.UserId}", 404);
@@ -79,14 +92,24 @@ public class CommentService : GenericService<Comment>, ICommentService
             await _commentRepository.AddAsync(comment, ct);
             await _commentRepository.SaveChangesAsync(ct);
 
-            
+            try
+            {
+                await _mediator.Publish(
+                    new CommentEvent(existingPost.UserId, comment.UserId),
+                    ct
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Comment created but CommentEvent publish failed.");
+            }
 
             return new SuccessResultWithData<Comment>("Comment added successfully.", comment);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occured while adding comment.");
-            return new ErrorResultWithData<Comment>(ex.Message);
+            return new ErrorResultWithData<Comment>("An unexpected error occured while adding comment.");
         }
     }
 }

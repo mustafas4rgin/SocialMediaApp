@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ export default function ProfilePage() {
   const [commentsLoading, setCommentsLoading] = useState<Record<number, boolean>>({});
   const [userCache, setUserCache] = useState<Record<number, { firstName: string; lastName: string; userName?: string }>>({});
 
+  const router = useRouter();
   const storedUser = useMemo(() => {
     if (typeof window === "undefined") return null;
     const raw = localStorage.getItem("user");
@@ -74,7 +75,7 @@ export default function ProfilePage() {
               const info = {
                 firstName: u.firstName ?? u.FirstName ?? "",
                 lastName: u.lastName ?? u.LastName ?? "",
-                userName: u.userName ?? u.UserName ?? u.username,
+                userName: u.userName ?? u.UserName ?? u.username ?? "",
               };
               setUserCache((prev) => ({ ...prev, [userId]: info }));
               first = info.firstName || first;
@@ -124,12 +125,27 @@ export default function ProfilePage() {
         setProfileData({ ...data, posts: postsWithMedia });
 
         if (currentUserId && data.header.userId !== currentUserId) {
-          const following = await followApi.checkFollowStatus(currentUserId, data.header.userId);
-          setIsFollowing(following);
+          try {
+            const following = await followApi.checkFollowStatus(currentUserId, data.header.userId);
+            setIsFollowing(following);
+          } catch (err: any) {
+            // "there is no follow" gibi cevapları sessizce yoksay ve takip durumunu false kabul et
+            const msg = err?.response?.data?.message ?? err?.message ?? "";
+            if (typeof msg === "string" && msg.toLowerCase().includes("no follow")) {
+              setIsFollowing(false);
+            } else {
+              throw err;
+            }
+          }
         }
       } catch (e: any) {
         const msg = e?.response?.data?.message ?? e?.message ?? "Failed to load profile.";
-        setError(msg);
+        // "there is no follow" mesajını hata olarak göstermeyelim; sayaçları zaten 0'a düşürüyoruz
+        if (typeof msg === "string" && msg.toLowerCase().includes("no follow")) {
+          setError(null);
+        } else {
+          setError(msg);
+        }
       } finally {
         setLoading(false);
       }
@@ -154,6 +170,40 @@ export default function ProfilePage() {
     });
     setLikeState(next);
   }, [profileData]);
+
+  // Username garantile ve profile yönlendir
+  const goToProfile = async (userId?: number, handle?: string) => {
+    if (handle) {
+      router.push(`/${handle}`);
+      return;
+    }
+    if (!userId) return;
+    const cached = userCache[userId];
+    if (cached?.userName) {
+      router.push(`/${cached.userName}`);
+      return;
+    }
+    try {
+      const detail = await userApi.getUser(String(userId));
+      const resolved =
+        detail.userName ?? (detail as any)?.UserName ?? (detail as any)?.username;
+      if (resolved) {
+        setUserCache((prev) => ({
+          ...prev,
+          [userId]: {
+            firstName: detail.firstName ?? (detail as any)?.FirstName ?? cached?.firstName ?? "",
+            lastName: detail.lastName ?? (detail as any)?.LastName ?? cached?.lastName ?? "",
+            userName: resolved,
+          },
+        }));
+        router.push(`/${resolved}`);
+        return;
+      }
+    } catch {
+      // ignore
+    }
+    router.push(`/${userId}`);
+  };
 
   // Yorum önizlemesi için profildeki postların yorumlarını önceden çek
   useEffect(() => {
@@ -255,7 +305,7 @@ export default function ProfilePage() {
     setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
 
     try {
-      await commentApi.createComment(postId, currentUserId, body);
+      const created = await commentApi.createComment(postId, currentUserId, body);
       // Yorum sayısını artır
       setProfileData((prev) =>
         prev
@@ -267,26 +317,56 @@ export default function ProfilePage() {
             }
           : prev
       );
-      setComments((prev) => ({
-        ...prev,
-        [postId]: [
-          ...(prev[postId] ?? []),
-          {
-            id: Math.random(),
-            content: body,
-            body,
-            createdAt: new Date().toISOString(),
-            userId: currentUserId,
-            userName: storedUser?.userName ?? storedUser?.name,
-            user: {
-              id: currentUserId,
+      // Listeyi en üste ekleyerek güncelle ki anlık görünsün
+      const normalized =
+        created && typeof created === "object"
+          ? {
+              id: created.id ?? created.Id ?? Math.random(),
+              content: created.body ?? created.Body ?? body,
+              body: created.body ?? created.Body ?? body,
+              createdAt: created.createdAt ?? created.CreatedAt ?? new Date().toISOString(),
+              userId: created.userId ?? created.UserId ?? currentUserId,
+              userName:
+                created.userName ??
+                created.UserName ??
+                storedUser?.userName ??
+                storedUser?.name,
+              user: {
+                id: created.user?.id ?? created.user?.Id ?? currentUserId,
+                userId: created.user?.userId ?? created.user?.UserId ?? currentUserId,
+                userName:
+                  created.user?.userName ??
+                  created.user?.UserName ??
+                  storedUser?.userName ??
+                  storedUser?.name,
+                firstName:
+                  created.user?.firstName ??
+                  created.user?.FirstName ??
+                  storedUser?.firstName ??
+                  storedUser?.name ??
+                  "You",
+                lastName: created.user?.lastName ?? created.user?.LastName ?? storedUser?.lastName ?? "",
+              },
+            }
+          : {
+              id: Math.random(),
+              content: body,
+              body,
+              createdAt: new Date().toISOString(),
               userId: currentUserId,
               userName: storedUser?.userName ?? storedUser?.name,
-              firstName: storedUser?.firstName ?? storedUser?.name ?? "You",
-              lastName: storedUser?.lastName ?? "",
-            },
-          },
-        ],
+              user: {
+                id: currentUserId,
+                userId: currentUserId,
+                userName: storedUser?.userName ?? storedUser?.name,
+                firstName: storedUser?.firstName ?? storedUser?.name ?? "You",
+                lastName: storedUser?.lastName ?? "",
+              },
+            };
+
+      setComments((prev) => ({
+        ...prev,
+        [postId]: [normalized, ...(prev[postId] ?? [])],
       }));
     } catch (e: any) {
       console.error("Comment failed:", e);
@@ -525,7 +605,7 @@ export default function ProfilePage() {
 
                           {/* Yorum önizlemesi */}
                           {!openComments[post.id] && (comments[post.id]?.length ?? 0) > 0 && (
-                            <div className="space-y-1 rounded-2xl border border-white/10 bg-white/5 p-3 mt-3 text-sm text-slate-200">
+                            <div className="space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3 mt-3 text-sm text-slate-200">
                               {(() => {
                                 const firstComment = comments[post.id][0];
                                 const commenter = firstComment.user ?? {};
@@ -551,28 +631,53 @@ export default function ProfilePage() {
                                   commenter.UserName ??
                                   firstComment.userName ??
                                   cached?.userName;
-                                const displayName = userName
-                                  ? `@${userName}`
+                                const handle = userName || cached?.userName;
+                                const displayName = handle
+                                  ? `@${handle}`
                                   : `${first} ${last}`.trim() || `User #${userId ?? "-"}`;
+                                const initials = `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase() || (handle?.[0] ?? "U");
+                                const profileHref = handle ? `/${handle}` : "#";
 
                                 return (
-                                  <>
-                                    <div className="flex items-center justify-between text-xs text-slate-400">
-                                      <span>{displayName}</span>
-                                      {firstComment.createdAt && (
-                                        <span>
-                                          {formatDistanceToNow(new Date(firstComment.createdAt), { addSuffix: true })}
-                                        </span>
-                                      )}
+                                  <div className="flex items-start gap-3">
+                                    <Avatar className="w-9 h-9 border border-white/20">
+                                      <AvatarFallback className="bg-brand/20 text-brand text-xs">
+                                        {initials}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1 space-y-1">
+                                      <div className="flex items-center justify-between text-xs text-slate-400">
+                                        {profileHref ? (
+                                          <a
+                                            href={profileHref}
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              goToProfile(userId, handle);
+                                            }}
+                                            className="font-semibold text-slate-100 hover:text-white"
+                                          >
+                                            {displayName}
+                                          </a>
+                                        ) : (
+                                          <span className="font-semibold text-slate-100">{displayName}</span>
+                                        )}
+                                        {firstComment.createdAt && (
+                                          <span>
+                                            {formatDistanceToNow(new Date(firstComment.createdAt), { addSuffix: true })}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className="text-slate-100 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+                                        {firstComment.body ?? firstComment.content ?? ""}
+                                      </p>
+                                      <button
+                                        className="text-xs text-brand hover:text-brand-dark"
+                                        onClick={() => toggleComments(post.id)}
+                                      >
+                                        Tüm yorumları gör ({comments[post.id]?.length ?? 0})
+                                      </button>
                                     </div>
-                                    <p>{firstComment.body ?? firstComment.content ?? ""}</p>
-                                    <button
-                                      className="mt-1 text-xs text-brand hover:text-brand-dark"
-                                      onClick={() => toggleComments(post.id)}
-                                    >
-                                      Tüm yorumları gör
-                                    </button>
-                                  </>
+                                  </div>
                                 );
                               })()}
                             </div>
@@ -592,27 +697,47 @@ export default function ProfilePage() {
                                   const first = commenter.firstName ?? commenter.FirstName ?? cached?.firstName ?? "";
                                   const last = commenter.lastName ?? commenter.LastName ?? cached?.lastName ?? "";
                                   const userName = commenter.userName ?? commenter.UserName ?? c.userName ?? cached?.userName;
-                                  const displayName = userName
-                                    ? `@${userName}`
+                                  const handle = userName || cached?.userName;
+                                  const displayName = handle
+                                    ? `@${handle}`
                                     : `${first} ${last}`.trim() || `User #${userId ?? "-"}`;
-                                  const profileHref = userName ? `/${userName}` : null;
+                                  const profileHref = handle ? `/${handle}` : "#";
+                                  const initials = `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase() || (handle?.[0] ?? "U");
                                   return (
                                     <div key={c.id} className="text-sm text-slate-100">
-                                      <div className="flex items-center gap-2 text-xs text-slate-400">
-                                        {profileHref ? (
-                                          <a href={profileHref} className="hover:text-white">
-                                            {displayName}
-                                          </a>
-                                        ) : (
-                                          <span>{displayName}</span>
-                                        )}
-                                        <span>
-                                          {c.createdAt
-                                            ? new Date(c.createdAt).toLocaleString()
-                                            : ""}
-                                        </span>
+                                      <div className="flex items-start gap-3">
+                                        <Avatar className="w-9 h-9 border border-white/15">
+                                          <AvatarFallback className="bg-brand/20 text-brand text-xs">
+                                            {initials}
+                                          </AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1 space-y-1">
+                                          <div className="flex items-center justify-between text-xs text-slate-400">
+                                            {profileHref ? (
+                                              <a
+                                                href={profileHref}
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  goToProfile(userId, handle);
+                                                }}
+                                                className="font-semibold text-slate-100 hover:text-white"
+                                              >
+                                                {displayName}
+                                              </a>
+                                            ) : (
+                                              <span className="font-semibold text-slate-100">{displayName}</span>
+                                            )}
+                                            <span>
+                                              {c.createdAt
+                                                ? formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })
+                                                : ""}
+                                            </span>
+                                          </div>
+                                          <p className="text-slate-100 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+                                            {c.body ?? c.content ?? ""}
+                                          </p>
+                                        </div>
                                       </div>
-                                      <p className="text-slate-100">{c.body ?? c.content ?? ""}</p>
                                     </div>
                                   );
                                 })
@@ -646,7 +771,7 @@ export default function ProfilePage() {
             </div>
           ) : (
             <div className="text-slate-400 text-sm text-center py-8">
-              No posts yet. Start sharing your thoughts!
+              No posts yet. 
             </div>
           )}
         </div>

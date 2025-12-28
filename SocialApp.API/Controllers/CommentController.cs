@@ -27,9 +27,9 @@ namespace SocialApp.API.Controllers
             _mapper = mapper;
         }
         [HttpGet("post-comments/{postId}")]
-        public async Task<IActionResult> GetCommentsByPostIdAsync([FromRoute]int postId, [FromQuery]QueryParameters param, CancellationToken ct = default)
+        public async Task<IActionResult> GetCommentsByPostIdAsync([FromRoute]int postId, CancellationToken ct = default)
         {
-            var result = await _commentService.GetPostCommentsByPostId(postId, param, ct);
+            var result = await _commentService.GetPostCommentsByPostId(postId, ct);
 
             var errorResult = HandleServiceResult(result);
 

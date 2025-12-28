@@ -6,5 +6,8 @@ namespace SocialApp.Application.Interfaces;
 
 public interface ICommentService : IGenericService<Comment>
 {
-    Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(int postId, QueryParameters param, CancellationToken ct = default);
+    Task<IServiceResultWithData<IEnumerable<Comment>>> GetPostCommentsByPostId(
+        int postId,
+        CancellationToken ct = default
+    );
 }

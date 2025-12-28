@@ -12,6 +12,16 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 
+type AnyObj = Record<string, any>;
+
+function pickHandle(obj: AnyObj | null | undefined) {
+  const raw = String(obj?.userName ?? obj?.username ?? "").trim();
+  if (!raw) return "";
+  // sadece rakamsa handle değildir -> "/14" bug'ını engeller
+  if (/^\d+$/.test(raw)) return "";
+  return raw;
+}
+
 export default function SearchPage() {
   const params = useSearchParams();
   const initial = params.get("query") ?? "";
@@ -21,51 +31,49 @@ export default function SearchPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setQuery(initial);
-  }, [initial]);
+  useEffect(() => setQuery(initial), [initial]);
 
   const normalized = useMemo(() => query.trim().toLowerCase(), [query]);
 
   const runSearch = async () => {
     const term = query.trim();
     if (!term) return;
+
     setLoading(true);
     setError(null);
+
     try {
+      // ---- USERS ----
       const userResults = await userApi.searchUsers(term);
 
-      // Posts search (front filter)
-      const feed = await postApi.getFeed(200, 1);
-      const filteredPosts = feed.filter((p) =>
-        (p.content ?? "").toLowerCase().includes(term.toLowerCase()) ||
-        (p.user?.userName ?? "").toLowerCase().includes(term.toLowerCase())
-      );
-      const withMedia = await Promise.all(
-        filteredPosts.map(async (p) => {
-          const imgs = !p.postImages?.length ? await postImageApi.getImages(p.id) : p.postImages;
-          const vids = !p.postBrutals?.length ? await postBrutalApi.getVideos(p.id) : p.postBrutals;
-          return { ...p, postImages: imgs, postBrutals: vids };
-        })
-      );
+      // Username exact match üste (ama sayısal username'i de ele)
+      const exactUsers = userResults.filter((u: AnyObj) => {
+        const h = pickHandle(u);
+        return h && h.toLowerCase() === term.toLowerCase();
+      });
 
-      // Username exact match üste
-      const exactUsers = userResults.filter((u) => u.userName.toLowerCase() === term.toLowerCase());
-      const otherUsers = userResults.filter((u) => u.userName.toLowerCase() !== term.toLowerCase());
+      const otherUsers = userResults.filter((u: AnyObj) => {
+        const h = pickHandle(u);
+        return h && h.toLowerCase() !== term.toLowerCase();
+      });
+
+      // combined: önce exact, sonra diğerleri
+      let combined: AnyObj[] = [...exactUsers, ...otherUsers];
 
       // Hiç user bulamazsak username ile profil endpoint'i dene
-      let combined = [...exactUsers, ...otherUsers];
       if (combined.length === 0 && term.length >= 2) {
         try {
           const prof = await profileApi.getProfile(term);
-          const h = prof.header;
-          if (h?.userName) {
+          const h = prof?.header;
+          const handleFromProfile = pickHandle(h);
+
+          if (handleFromProfile) {
             combined = [
               {
-                id: h.userId,
-                firstName: h.firstName ?? "",
-                lastName: h.lastName ?? "",
-                userName: h.userName,
+                id: h?.userId,
+                firstName: h?.firstName ?? "",
+                lastName: h?.lastName ?? "",
+                userName: handleFromProfile,
               },
             ];
           }
@@ -74,7 +82,85 @@ export default function SearchPage() {
         }
       }
 
-      setUsers(combined);
+      // Kullanıcı adını (handle) olmayan / sayısal gelen sonuçlar için handle'ı düzelt
+      const enriched = await Promise.all(
+        combined.map(async (u: AnyObj) => {
+          // eğer u üzerinde geçerli handle varsa direkt dön
+          const direct = pickHandle(u);
+          if (direct) return { ...u, userName: direct };
+
+          // id yoksa bir şey yapamayız
+          if (!u?.id) return u;
+
+          // 1) Profil endpointinden (id ile) dene (bazı backendler id kabul ediyor)
+          try {
+            const prof = await profileApi.getProfile(String(u.id));
+            const h = prof?.header;
+            const handleFromProfile = pickHandle(h);
+
+            if (handleFromProfile) {
+              return {
+                ...u,
+                userName: handleFromProfile,
+                firstName: u.firstName || h?.firstName || "",
+                lastName: u.lastName || h?.lastName || "",
+              };
+            }
+          } catch {
+            // ignore
+          }
+
+          // 2) user/getbyid ile gerçek username'i çek
+          try {
+            const detail = await userApi.getUser(String(u.id));
+            const handleFromDetail =
+              pickHandle(detail) || pickHandle((detail as AnyObj)?.user) || String((detail as AnyObj)?.UserName ?? "").trim();
+
+            if (handleFromDetail) {
+              return {
+                ...u,
+                userName: handleFromDetail,
+                firstName:
+                  u.firstName ||
+                  (detail as AnyObj)?.firstName ||
+                  (detail as AnyObj)?.FirstName ||
+                  "",
+                lastName:
+                  u.lastName ||
+                  (detail as AnyObj)?.lastName ||
+                  (detail as AnyObj)?.LastName ||
+                  "",
+              };
+            }
+          } catch {
+            // ignore
+          }
+
+          return u;
+        })
+      );
+
+      // username'i olmayan (veya sayısal) kullanıcıları düşür — route username bekliyor
+      const withHandle = enriched.filter((u: AnyObj) => pickHandle(u));
+
+      // ---- POSTS ----
+      const feed = await postApi.getFeed(200, 1);
+
+      const filteredPosts = feed.filter((p: AnyObj) => {
+        const contentOk = String(p.content ?? "").toLowerCase().includes(term.toLowerCase());
+        const handleOk = String(p.user?.userName ?? p.user?.username ?? "").toLowerCase().includes(term.toLowerCase());
+        return contentOk || handleOk;
+      });
+
+      const withMedia = await Promise.all(
+        filteredPosts.map(async (p: AnyObj) => {
+          const imgs = !p.postImages?.length ? await postImageApi.getImages(p.id) : p.postImages;
+          const vids = !p.postBrutals?.length ? await postBrutalApi.getVideos(p.id) : p.postBrutals;
+          return { ...p, postImages: imgs, postBrutals: vids };
+        })
+      );
+
+      setUsers(withHandle);
       setPosts(withMedia);
     } catch (e: any) {
       setError(e?.message ?? "Arama başarısız oldu.");
@@ -84,15 +170,14 @@ export default function SearchPage() {
   };
 
   useEffect(() => {
-    if (normalized) {
-      runSearch();
-    }
+    if (normalized) runSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [normalized]);
 
-  const renderPostMedia = (post: any) => {
+  const renderPostMedia = (post: AnyObj) => {
     const media = [...(post.postImages ?? []), ...(post.postBrutals ?? [])];
     if (!media.length) return null;
+
     return (
       <div className="mt-3 grid grid-cols-1 gap-3 rounded-2xl overflow-hidden border border-white/10">
         {media.map((m: any, idx: number) => {
@@ -102,6 +187,7 @@ export default function SearchPage() {
             src.includes("/video/upload") ||
             src.includes(".webm") ||
             src.includes(".mov");
+
           return isVideo ? (
             <video key={idx} controls className="w-full max-h-[320px] rounded-xl bg-black/30" src={src} />
           ) : (
@@ -119,7 +205,7 @@ export default function SearchPage() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search users or posts..."
+              placeholder="Search users or posts."
               className="pl-10 bg-white/5 border-white/10"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -145,17 +231,26 @@ export default function SearchPage() {
             <h2 className="text-lg font-semibold text-white">Users</h2>
             {loading && <span className="text-xs text-slate-400">Loading...</span>}
           </div>
+
           {users.length === 0 ? (
             <div className="text-sm text-slate-400">No users found.</div>
           ) : (
             <div className="space-y-2">
               {users.map((u) => {
-                const name = `${u.firstName} ${u.lastName}`.trim() || u.userName;
-                const initials = `${u.firstName?.[0] ?? ""}${u.lastName?.[0] ?? ""}`.toUpperCase() || u.userName?.[0]?.toUpperCase();
-                const href = u.userName ? `/${u.userName}` : `/${u.id}`;
+                 console.log("USER OBJ:", u); // ✅ burada u var
+                const handle = pickHandle(u); // ✅ sayısal gelmez
+                console.log("HANDLE:", handle, "ID:", u.id); // ✅ burada da var
+                const name = `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim() || handle || "User";
+                const initials =
+                  (`${u.firstName?.[0] ?? ""}${u.lastName?.[0] ?? ""}`.toUpperCase() ||
+                    handle?.[0]?.toUpperCase() ||
+                    "U");
+
+                const href = `/${encodeURIComponent(handle)}`; // ✅ her zaman /username
+
                 return (
                   <Link
-                    key={`${u.id}-${u.userName}`}
+                    key={`${u.id}-${handle}`}
                     href={href}
                     className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition"
                   >
@@ -163,8 +258,8 @@ export default function SearchPage() {
                       <AvatarFallback className="bg-brand/20 text-brand">{initials}</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-white">{name || "User"}</span>
-                      {u.userName && <span className="text-xs text-slate-400">@{u.userName}</span>}
+                      <span className="text-sm font-semibold text-white">{name}</span>
+                      {handle && <span className="text-xs text-slate-400">@{handle}</span>}
                     </div>
                   </Link>
                 );
@@ -179,6 +274,7 @@ export default function SearchPage() {
             <h2 className="text-lg font-semibold text-white">Posts</h2>
             {loading && <span className="text-xs text-slate-400">Loading...</span>}
           </div>
+
           {posts.length === 0 ? (
             <div className="text-sm text-slate-400">No posts found.</div>
           ) : (
@@ -186,7 +282,12 @@ export default function SearchPage() {
               {posts.map((post) => {
                 const displayName = `${post.user?.firstName ?? ""} ${post.user?.lastName ?? ""}`.trim();
                 const initials = `${post.user?.firstName?.[0] ?? ""}${post.user?.lastName?.[0] ?? ""}`.toUpperCase();
-                const href = post.user?.userName ? `/${post.user.userName}` : `/${post.user?.id ?? post.user?.userId ?? ""}`;
+
+                const postHandle = pickHandle(post.user);
+                const postHref = postHandle
+                  ? `/${encodeURIComponent(postHandle)}`
+                  : "#"; // handle yoksa profil linki vermeyelim
+
                 return (
                   <Card key={post.id} className="border-white/10 bg-white/5 backdrop-blur">
                     <CardContent className="p-4 space-y-3">
@@ -194,25 +295,30 @@ export default function SearchPage() {
                         <Avatar className="w-10 h-10">
                           <AvatarFallback className="bg-brand/20 text-brand">{initials || "U"}</AvatarFallback>
                         </Avatar>
+
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <Link href={href} className="text-sm font-semibold text-white hover:underline">
-                              {displayName || "User"}
-                            </Link>
-                            {post.user?.userName && (
-                              <span className="text-xs text-slate-400">@{post.user.userName}</span>
+                            {postHandle ? (
+                              <Link href={postHref} className="text-sm font-semibold text-white hover:underline">
+                                {displayName || "User"}
+                              </Link>
+                            ) : (
+                              <span className="text-sm font-semibold text-white">{displayName || "User"}</span>
                             )}
-                            <Badge variant="secondary" className="bg-white/10 text-white border border-white/10">
-                              Match
+
+                            {postHandle && <span className="text-xs text-slate-400">@{postHandle}</span>}
+
+                            <Badge variant="secondary" className="ml-auto">
+                              {formatDistanceToNow(new Date(post.createdAt ?? post.created_at ?? Date.now()), {
+                                addSuffix: true,
+                              })}
                             </Badge>
                           </div>
-                          <div className="text-xs text-slate-400">
-                            {post.createdAt && formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
-                          </div>
+
+                          {post.content && <p className="mt-2 text-sm text-slate-200 whitespace-pre-wrap">{post.content}</p>}
+                          {renderPostMedia(post)}
                         </div>
                       </div>
-                      <p className="text-sm text-slate-100 leading-relaxed">{post.content}</p>
-                      {renderPostMedia(post)}
                     </CardContent>
                   </Card>
                 );

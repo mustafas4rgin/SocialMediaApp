@@ -12,4 +12,7 @@ public interface IUserRepository : IGenericRepository<User>
     int pageSize,
     CancellationToken ct = default);
     Task<ProfileHeaderDTO?> GetProfileByUsernameAsync(string userName, CancellationToken ct = default);
+    Task<bool> UserExistsByUsernameAsync(string userName, CancellationToken ct = default);
+    Task<bool> UserExistsByEmailAsync(string email, CancellationToken ct = default);
+
 }

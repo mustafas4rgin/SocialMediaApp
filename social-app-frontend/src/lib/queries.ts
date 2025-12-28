@@ -53,71 +53,67 @@ export const userApi = {
   },
 
   searchUsers: async (query: string, pageSize = 200) => {
-    // Backend'te spesifik bir arama ucu yok; geniş bir liste çekip (pageSize) front-end filtre yapıyoruz.
-    const { data } = await api.get("/User/GetAll", {
-      params: { pageSize, pageNumber: 1 },
-    });
-    const items: any[] = data?.User ?? data?.user ?? data?.data ?? data ?? [];
-    const normalizedQuery = query.trim().toLowerCase();
+  const { data } = await api.get("/User/GetAll", {
+    params: { pageSize, pageNumber: 1 },
+  });
 
-    const mapped = items.map((u) => ({
-      id: u.id ?? u.Id,
-      firstName: u.firstName ?? u.FirstName ?? "",
-      lastName: u.lastName ?? u.LastName ?? "",
-      userName: u.userName ?? u.UserName ?? u.username ?? "",
-    }));
+  const items: any[] = data?.User ?? data?.user ?? data?.data ?? data ?? [];
+  const normalizedQuery = query.trim().toLowerCase();
 
-    // Eksik username'leri detay çağrısıyla tamamla (liste max 8)
-    const enriched = await Promise.all(
-      mapped.map(async (u) => {
-        if (!u.userName && u.id) {
-          try {
-            const detail = await userApi.getUser(String(u.id));
-            return {
-              ...u,
-              userName: detail.username ?? "",
-              firstName: detail.firstName ?? u.firstName,
-              lastName: detail.lastName ?? u.lastName,
-            };
-          } catch {
-            return u;
-          }
-        }
-        return u;
-      })
-    );
+  const isValidUsername = (v: any) =>
+    typeof v === "string" && v.trim() !== "" && !/^\d+$/.test(v);
 
-    let filtered = enriched
-      .filter((u) => {
-        const full = `${u.firstName} ${u.lastName}`.toLowerCase();
-        return (
-          u.userName.toLowerCase().includes(normalizedQuery) ||
-          full.includes(normalizedQuery)
-        );
-      });
+  const mapped = items.map((u) => ({
+    id: u.id ?? u.Id,
+    firstName: u.firstName ?? u.FirstName ?? "",
+    lastName: u.lastName ?? u.LastName ?? "",
+    userName: isValidUsername(u.userName)
+      ? u.userName
+      : isValidUsername(u.UserName)
+      ? u.UserName
+      : isValidUsername(u.username)
+      ? u.username
+      : "", // ❗ numeric olanları SIFIRLA
+  }));
 
-    // Eğer hâlâ sonuç yoksa, doğrudan profile endpoint'iyle username yakalamayı dene
-    if (filtered.length === 0 && normalizedQuery.length >= 2) {
+  // username boş olanları ID ile resolve et
+  const enriched = await Promise.all(
+    mapped.map(async (u) => {
+      if (u.userName || !u.id) return u;
+
       try {
-        const prof = await profileApi.getProfile(query);
-        const h = prof.header;
-        if (h?.userName) {
-          filtered = [
-            {
-              id: h.userId,
-              firstName: h.firstName ?? "",
-              lastName: h.lastName ?? "",
-              userName: h.userName,
-            },
-          ];
-        }
-      } catch {
-        // yok say
-      }
-    }
+        const detail = await userApi.getUser(String(u.id));
+        const resolved =
+          detail.userName ??
+          (detail as any)?.UserName ??
+          detail.username;
 
-    return filtered.slice(0, 8); // küçük bir sonuç listesi döndür
-  },
+        if (isValidUsername(resolved)) {
+          return {
+            ...u,
+            userName: resolved,
+            firstName: detail.firstName ?? u.firstName,
+            lastName: detail.lastName ?? u.lastName,
+          };
+        }
+      } catch {}
+
+      return u;
+    })
+  );
+
+  const filtered = enriched.filter((u) => {
+    if (!u.userName) return false;
+    const full = `${u.firstName} ${u.lastName}`.toLowerCase();
+    return (
+      u.userName.toLowerCase().includes(normalizedQuery) ||
+      full.includes(normalizedQuery)
+    );
+  });
+
+  return filtered.slice(0, 8);
+},
+
 
   updateUser: async (userId: string, userData: Partial<User>): Promise<User> => {
     const { data } = await api.put(`/User/${userId}/update`, userData);
@@ -133,6 +129,7 @@ export const userApi = {
       id: u.id ?? u.Id,
       firstName: u.firstName ?? u.FirstName ?? "",
       lastName: u.lastName ?? u.LastName ?? "",
+      userName: u.userName ?? u.UserName ?? u.username ?? "",
       isFollowedByMe: u.isFollowedByMe ?? u.IsFollowedByMe ?? false,
     }));
   },
@@ -173,6 +170,19 @@ export const profileApi = {
         isLikedByMe: p.isLikedByMe ?? p.IsLikedByMe ?? false,
       })),
     };
+  },
+
+  updateProfile: async (payload: {
+    userName?: string;
+    firstName?: string;
+    lastName?: string;
+  }) => {
+    const body: any = {};
+    if (payload.userName) body.userName = payload.userName;
+    if (payload.firstName) body.firstName = payload.firstName;
+    if (payload.lastName) body.lastName = payload.lastName;
+    const { data } = await api.post("/Profile/update", body);
+    return data;
   },
 };
 

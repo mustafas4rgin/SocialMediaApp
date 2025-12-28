@@ -15,6 +15,13 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
     {
         _context = context;
     }
+    public async Task<Notification?> AddNotificationAsync(Notification notification)
+    {
+        if (notification is null) return null;
+
+        await _context.Notifications.AddAsync(notification);
+        return notification;
+    }
     public async Task<List<Notification>> GetNotificationsByUserIdAsync(int userId, CancellationToken ct = default)
     {
         var cutOff = DateTimeOffset.UtcNow.AddDays(-30);

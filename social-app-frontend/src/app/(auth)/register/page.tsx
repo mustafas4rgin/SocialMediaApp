@@ -34,6 +34,7 @@ export default function RegisterPage() {
     }
 
     try {
+      // Önce backend'e kayıt isteğini gönder
       await authApi.register({
         email: formData.email,
         userName: formData.userName,
@@ -43,7 +44,30 @@ export default function RegisterPage() {
         passwordMatch: formData.confirmPassword,
       });
 
-      router.push("/login");
+      // Kayıt sonrası otomatik giriş yapıp token + kullanıcıyı sakla
+      const tokens = await authApi.login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      localStorage.setItem("accessToken", tokens.accessToken);
+      if (tokens.refreshToken) localStorage.setItem("refreshToken", tokens.refreshToken);
+
+      // Kimliği doğrulanmış kullanıcı bilgilerini al
+      const me = await authApi.getCurrentUser();
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: me.userId,
+          userId: me.userId,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          userName: formData.userName,
+          role: me.role,
+        })
+      );
+
+      router.push("/feed");
     } catch (err: any) {
       const msg =
         err?.response?.data?.message ||

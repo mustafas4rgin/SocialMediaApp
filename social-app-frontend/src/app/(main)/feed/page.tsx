@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { CreatePost } from "@/components/feed/create-post";
@@ -44,6 +45,7 @@ export default function FeedPage() {
   const [userCache, setUserCache] = useState<Record<number, { firstName: string; lastName: string; userName?: string }>>({});
   const [error, setError] = useState<string | null>(null);
   const pageSize = 10;
+  const router = useRouter();
 
   const avatarInitials = (user: FeedUserDto) =>
     `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase();
@@ -85,9 +87,9 @@ export default function FeedPage() {
             try {
               const u = await userApi.getUser(String(userId));
               const info = {
-                firstName: u.firstName ?? "",
-                lastName: u.lastName ?? "",
-                userName: u.username ?? "",
+                firstName: u.firstName ?? u.FirstName ?? "",
+                lastName: u.lastName ?? u.LastName ?? "",
+                userName: u.userName ?? u.UserName ?? u.username ?? "",
               };
               setUserCache((prev) => ({ ...prev, [userId]: info }));
               first = info.firstName || first;
@@ -247,38 +249,100 @@ export default function FeedPage() {
 
     setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
     try {
-      await commentApi.createComment(postId, currentUserId, body);
+      const created = await commentApi.createComment(postId, currentUserId, body);
       setPosts((prev) =>
         prev.map((p) =>
           p.id === postId ? { ...p, commentCount: (p.commentCount ?? 0) + 1 } : p
         )
       );
-      // yorum listesini varsa güncelle
-      setComments((prev) => ({
-        ...prev,
-        [postId]: [
-          ...(prev[postId] ?? []),
-          {
-            id: Math.random(),
-            content: body,
-            body,
-            createdAt: new Date().toISOString(),
-            userId: currentUserId,
-            userName: storedUser?.userName ?? storedUser?.name,
-            user: {
-              id: currentUserId,
+      // yorum listesini varsa güncelle (en üste ekleyerek önizlemede hemen görünsün)
+      const normalized =
+        created && typeof created === "object"
+          ? {
+              id: created.id ?? created.Id ?? Math.random(),
+              content: created.body ?? created.Body ?? body,
+              body: created.body ?? created.Body ?? body,
+              createdAt: created.createdAt ?? created.CreatedAt ?? new Date().toISOString(),
+              userId: created.userId ?? created.UserId ?? currentUserId,
+              userName:
+                created.userName ??
+                created.UserName ??
+                storedUser?.userName ??
+                storedUser?.name,
+              user: {
+                id: created.user?.id ?? created.user?.Id ?? currentUserId,
+                userId: created.user?.userId ?? created.user?.UserId ?? currentUserId,
+                userName:
+                  created.user?.userName ??
+                  created.user?.UserName ??
+                  storedUser?.userName ??
+                  storedUser?.name,
+                firstName:
+                  created.user?.firstName ??
+                  created.user?.FirstName ??
+                  storedUser?.firstName ??
+                  storedUser?.name ??
+                  "You",
+                lastName: created.user?.lastName ?? created.user?.LastName ?? storedUser?.lastName ?? "",
+              },
+            }
+          : {
+              id: Math.random(),
+              content: body,
+              body,
+              createdAt: new Date().toISOString(),
               userId: currentUserId,
               userName: storedUser?.userName ?? storedUser?.name,
-              firstName: storedUser?.firstName ?? storedUser?.name ?? "You",
-              lastName: storedUser?.lastName ?? "",
-            },
-          },
-        ],
+              user: {
+                id: currentUserId,
+                userId: currentUserId,
+                userName: storedUser?.userName ?? storedUser?.name,
+                firstName: storedUser?.firstName ?? storedUser?.name ?? "You",
+                lastName: storedUser?.lastName ?? "",
+              },
+            };
+      setComments((prev) => ({
+        ...prev,
+        [postId]: [normalized, ...(prev[postId] ?? [])],
       }));
     } catch (e) {
       console.error("Comment failed:", e);
       setError("Yorum eklenemedi. Lütfen tekrar deneyin.");
     }
+  };
+
+  // Username garantili profile yönlendirme
+  const goToProfile = async (userId?: number, handle?: string) => {
+    if (handle) {
+      router.push(`/${handle}`);
+      return;
+    }
+    if (!userId) return;
+    const cached = userCache[userId];
+    if (cached?.userName) {
+      router.push(`/${cached.userName}`);
+      return;
+    }
+    try {
+      const detail = await userApi.getUser(String(userId));
+      const resolved =
+        detail.userName ?? (detail as any)?.UserName ?? (detail as any)?.username;
+      if (resolved) {
+        setUserCache((prev) => ({
+          ...prev,
+          [userId]: {
+            firstName: detail.firstName ?? (detail as any)?.FirstName ?? cached?.firstName ?? "",
+            lastName: detail.lastName ?? (detail as any)?.LastName ?? cached?.lastName ?? "",
+            userName: resolved,
+          },
+        }));
+        router.push(`/${resolved}`);
+        return;
+      }
+    } catch {
+      // ignore fetch error, fall back to id navigation
+    }
+    router.push(`/${userId}`);
   };
 
   const toggleComments = async (postId: number) => {
@@ -342,18 +406,31 @@ export default function FeedPage() {
                         </Avatar>
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
-                            <Link
-                              href={
-                                post.user.userName
-                                  ? `/${post.user.userName}`
-                                  : `/${post.user.id}`
-                              }
-                              className="font-semibold text-base text-foreground hover:text-primary transition-colors"
-                            >
-                              {post.user.firstName} {post.user.lastName}
-                            </Link>
-                            {post.user.userName && (
-                              <span className="text-xs text-muted-foreground">@{post.user.userName}</span>
+                            {(() => {
+                          const handle =
+                                post.user.userName ??
+                                userCache[post.user.id ?? post.user.userId]?.userName;
+                              const profileHref = handle ? `/${handle}` : "#";
+                              return (
+                                <Link
+                                  href={profileHref}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    goToProfile(post.user.id ?? post.user.userId, handle);
+                                  }}
+                                  className="font-semibold text-base text-foreground hover:text-primary transition-colors"
+                                >
+                                  {post.user.firstName} {post.user.lastName}
+                                </Link>
+                              );
+                            })()}
+                            {(post.user.userName ??
+                              userCache[post.user.id ?? post.user.userId]?.userName) && (
+                              <span className="text-xs text-muted-foreground">
+                                @
+                                {post.user.userName ??
+                                  userCache[post.user.id ?? post.user.userId]?.userName}
+                              </span>
                             )}
                           </div>
                           <div className="text-xs text-muted-foreground">
@@ -467,26 +544,49 @@ export default function FeedPage() {
                             commenter.lastName ?? commenter.LastName ?? cached?.lastName ?? "";
                           const userName =
                             commenter.userName ?? commenter.UserName ?? first.userName ?? cached?.userName;
-                          const displayName = userName
-                            ? `@${userName}`
+                          const handle = userName || cached?.userName;
+                          const displayName = handle
+                            ? `@${handle}`
                             : `${firstName} ${lastName}`.trim() || `User #${userId ?? "-"}`;
+                          const initials = `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase() || (handle?.[0] ?? "U");
+                          const profileHref = handle ? `/${handle}` : "#";
                           return (
                             <>
-                              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                <span className="font-medium">{displayName}</span>
-                                {first.createdAt && (
-                                  <span>
-                                    {formatDistanceToNow(new Date(first.createdAt), { addSuffix: true })}
-                                  </span>
-                                )}
+                              <div className="flex items-start gap-3">
+                                <Avatar className="w-8 h-8 border border-border">
+                                  <AvatarFallback className="bg-brand/10 text-brand text-xs">{initials}</AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1 space-y-1">
+                                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                    {profileHref ? (
+                                      <Link
+                                        href={profileHref}
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          goToProfile(userId, handle);
+                                        }}
+                                        className="font-semibold text-foreground hover:text-primary transition-colors"
+                                      >
+                                        {displayName}
+                                      </Link>
+                                    ) : (
+                                      <span className="font-semibold text-foreground">{displayName}</span>
+                                    )}
+                                    {first.createdAt && (
+                                      <span>
+                                        {formatDistanceToNow(new Date(first.createdAt), { addSuffix: true })}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-foreground">{first.body ?? first.content ?? ""}</p>
+                                  <button
+                                    className="text-xs text-primary hover:text-primary/80 font-medium transition-colors"
+                                    onClick={() => toggleComments(post.id)}
+                                  >
+                                    Tüm yorumları gör ({comments[post.id]?.length ?? 0})
+                                  </button>
+                                </div>
                               </div>
-                              <p className="mt-1 text-foreground">{first.body ?? first.content ?? ""}</p>
-                              <button
-                                className="mt-2 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
-                                onClick={() => toggleComments(post.id)}
-                              >
-                                Tüm yorumları gör ({comments[post.id]?.length ?? 0})
-                              </button>
                             </>
                           );
                         })()}
@@ -507,25 +607,43 @@ export default function FeedPage() {
                             const first = commenter.firstName ?? commenter.FirstName ?? cached?.firstName ?? "";
                             const last = commenter.lastName ?? commenter.LastName ?? cached?.lastName ?? "";
                             const userName = commenter.userName ?? commenter.UserName ?? c.userName ?? cached?.userName;
-                            const displayName = userName ? `@${userName}` : `${first} ${last}`.trim() || `User #${userId ?? "-"}`;
-                            const profileHref = userName ? `/${userName}` : null;
+                            const handle = userName || cached?.userName;
+                            const displayName = handle ? `@${handle}` : `${first} ${last}`.trim() || `User #${userId ?? "-"}`;
+                            const profileHref = handle ? `/${handle}` : "#";
+                            const initials = `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase() || (handle?.[0] ?? "U");
                             return (
                               <div key={c.id} className="text-sm space-y-1">
-                                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                  {profileHref ? (
-                                    <Link href={profileHref} className="font-medium hover:text-primary transition-colors">
-                                      {displayName}
-                                    </Link>
-                                  ) : (
-                                    <span className="font-medium">{displayName}</span>
-                                  )}
-                                  <span>
-                                    {c.createdAt
-                                      ? formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })
-                                      : ""}
-                                  </span>
+                                <div className="flex items-start gap-3">
+                                  <Avatar className="w-8 h-8 border border-border">
+                                    <AvatarFallback className="bg-brand/10 text-brand text-xs">{initials}</AvatarFallback>
+                                  </Avatar>
+                                  <div className="flex-1 space-y-1">
+                                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                      {profileHref ? (
+                                        <Link
+                                          href={profileHref}
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            goToProfile(userId, handle);
+                                          }}
+                                          className="font-semibold text-foreground hover:text-primary transition-colors"
+                                        >
+                                          {displayName}
+                                        </Link>
+                                      ) : (
+                                        <span className="font-semibold text-foreground">{displayName}</span>
+                                      )}
+                                      <span>
+                                        {c.createdAt
+                                          ? formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })
+                                          : ""}
+                                      </span>
+                                    </div>
+                                    <p className="text-foreground bg-background/60 border border-border/60 rounded-xl px-3 py-2">
+                                      {c.body ?? c.content ?? ""}
+                                    </p>
+                                  </div>
                                 </div>
-                                <p className="text-foreground">{c.body ?? c.content ?? ""}</p>
                               </div>
                             );
                           })

@@ -12,21 +12,39 @@ namespace SocialApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NotificationController : GenericController<
-    Notification,
-    NotificationDTO,
-    CreateNotificationDTO,
-    UpdateNotificationDTO>
+    public class NotificationController : BaseApiController
     {
+        private readonly IMapper _mapper;
+        private readonly IValidator<CreateNotificationDTO> _createValidator;
         private readonly INotificationService _notificationService;
         public NotificationController(
             IValidator<CreateNotificationDTO> createValidator,
-            IValidator<UpdateNotificationDTO> updateValidator,
-            IMapper mapper,
-            INotificationService notificationService
-        ) : base(createValidator, updateValidator, notificationService, mapper)
+            INotificationService notificationService,
+            IMapper mapper
+        )
         {
+            _createValidator = createValidator;
             _notificationService = notificationService;
+            _mapper = mapper;
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateNotificationAsync([FromBody]CreateNotificationDTO dto, CancellationToken ct = default)
+        {
+            var validationResult = await _createValidator.ValidateAsync(dto, ct);
+
+            if (!validationResult.IsValid)
+                return HandleValidationErrors(validationResult.Errors);
+
+            var notification = _mapper.Map<Notification>(dto);
+
+            var result = await _notificationService.CreateNotificationAsync(notification, ct);
+
+            var errorResult = HandleServiceResult(result);
+
+            if (errorResult != null)
+                return errorResult;
+
+            return Ok(result);
         }
         [HttpGet("notifications")]
         public async Task<IActionResult> GetNotificationsByUserIdAsync(CancellationToken ct = default)
